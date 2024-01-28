@@ -1,6 +1,7 @@
 .meal-flex{
     display: flex;
     flex-wrap: wrap;
+    padding-left: 80px;
 }
 .meal-flex .one-item-card{
     min-width: 300px;
