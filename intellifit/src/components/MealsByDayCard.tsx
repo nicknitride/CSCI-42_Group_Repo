@@ -6,7 +6,7 @@ interface props {
   deleteHandler: (date : string) => void;
 }
 
-function OneItemCard({
+function MealsByDayCard({
   title = "Err. No Title",
   content = "Err. No Content",
   infolabel, deleteHandler
@@ -26,4 +26,4 @@ function OneItemCard({
   );
 }
 
-export default OneItemCard;
+export default MealsByDayCard;

@@ -2,7 +2,7 @@ import axios from "axios";
 import "./Meals.css"
 import Minigreeter from "../components/Minigreeter";
 import { useEffect, useState } from "react";
-import OneItemCard from "../components/MealsByDayCard";
+import MealsByDayCard from "../components/MealsByDayCard";
 
 function convertISOStringToDate(isoString: string) {
   const date = new Date(isoString);
@@ -50,7 +50,7 @@ function Meals() {
       {data &&
         data.map((meal) => {
           return (
-            <OneItemCard
+            <MealsByDayCard
               title={convertISOStringToDate(String(meal["day"]))}
               content={meal["Total Calories"]}
               infolabel="Total Calories:"
