@@ -1,0 +1,71 @@
+.list-card h1{
+    font-size: 30px;
+    margin: 0;
+    /* padding-left: 15px; */
+    padding-bottom: 20px;
+    text-align: center;
+}
+.list-card{
+    width: 350px;
+    margin-left: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    background-color: black;
+    color: white;
+    overflow: hidden;
+
+    padding: 10px 0px;
+    /* padding-left: 10px; */
+    box-shadow: black 5px 2px 15px;
+
+}
+.list-card ul{
+    margin: 0;
+    padding: 0;
+}
+.list-card li{
+    list-style-type: none;
+    width: 100%;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    border: 1px solid #888888; /* Add a thin border to each list item */
+    margin-top: -1px; /* Prevent double borders */
+    padding: 15px;
+}
+.list-card li:hover{
+    /* background-color: white;
+    color: black; */
+    cursor:pointer;
+}
+
+button{
+    background-color: white;
+    outline: none;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    transition: box-shadow 0.2s ease-in;
+}
+button:hover{
+    cursor: pointer;
+    box-shadow: white 2px 4px 10px;
+}
+button:active{
+    background-color: rgba(255, 255, 255, 0.8);
+    color: white;
+}
+.card-li-flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.card-button-flex{
+    display: flex;
+    justify-content: space-between;
+    width: 140px;
+    margin-right: 29px;
+}

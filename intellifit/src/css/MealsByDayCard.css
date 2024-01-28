@@ -1,0 +1,26 @@
+.one-item-card{
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    width: 350px;
+    margin: 30px 20px;
+    padding: 40px 20px;
+    border-radius: 15px;
+    box-shadow: black 5px 2px 15px;
+}
+.one-item-card h1{
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+}
+.one-item-card p{
+    font-size: 20px;
+    margin: 15px 0px 5px 0px;
+    padding: 0;
+}
+.one-item-card span{
+    padding-right: 10px;
+}

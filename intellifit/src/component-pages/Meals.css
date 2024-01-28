@@ -1,0 +1,13 @@
+.meal-flex{
+    display: flex;
+    flex-wrap: wrap;
+}
+.meal-flex .one-item-card{
+    min-width: 300px;
+}
+@media (max-width:500px) {
+    .meal-flex{
+        display: flex;
+        flex-direction: column;
+    }
+}
