@@ -25,3 +25,10 @@
 .one-item-card span{
     padding-right: 10px;
 }
+.one-item-card .two-button-flex{
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+}
+

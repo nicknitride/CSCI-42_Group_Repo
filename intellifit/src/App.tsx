@@ -4,6 +4,7 @@ import "./App.css";
 import Home from "./component-pages/Homepage";
 import Workouts from "./component-pages/Workouts";
 import Meals from "./component-pages/Meals"
+import MealList from "./component-pages/MealList";
 function App() {
   return (
     <>
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/workouts" element={<Workouts/>} />
         <Route path="/mealprep" element={<Meals />} />
+        <Route path="/mealprep/editlist" element={<MealList />} />
       </Routes>
     </>
   );

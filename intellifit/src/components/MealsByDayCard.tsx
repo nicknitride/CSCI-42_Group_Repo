@@ -3,14 +3,20 @@ interface props {
   title: string;
   content: string;
   infolabel: string;
-  deleteHandler: (date : string) => void;
+  deleteHandler: (date: string) => void;
+  editHandler: (msg: string) => void;
 }
 
-function MealsByDayCard({
-  title = "Err. No Title",
-  content = "Err. No Content",
-  infolabel, deleteHandler
-}: props, passedKey? :React.Key) {
+function MealsByDayCard(
+  {
+    title = "Err. No Title",
+    content = "Err. No Content",
+    infolabel,
+    deleteHandler,
+    editHandler
+  }: props,
+  passedKey?: React.Key
+) {
   return (
     <>
       <div className="one-item-card">
@@ -18,9 +24,17 @@ function MealsByDayCard({
         <p key={passedKey}>
           {infolabel && <span>{infolabel}</span>}
           {content}
-        </p> <button onClick={()=>{
-          deleteHandler(infolabel)
-        }}>Delete</button>
+        </p>
+        <div className="two-button-flex">
+          <button onClick={()=> {editHandler("edit clicked")}}> Edit </button>
+          <button
+            onClick={() => {
+              deleteHandler(infolabel);
+            }}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </>
   );
