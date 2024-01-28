@@ -28,18 +28,14 @@ function deleteEntriesMatchingDate(date: string) {
   });
 }
 
-function HandleEdit(value :string){
-  const history = useNavigate();
-  axios.get(`http://localhost:3003/mealsbyday/${value}`).then((response)=>{
-    console.log(response.data);
-    history("/mealprep/editlist",{state: value});
-  });
-}
+
 
 // !? TODO - Finish the edit handler, use for inspo: https://stackoverflow.com/questions/71777921/reat-js-navigate-with-json-object-to-another-page
 
 function Meals() {
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
+
   useEffect(() => {
     console.log("Page has requested meals by day");
     axios
@@ -69,7 +65,11 @@ function Meals() {
                 }}
                 editHandler={(msg) => {
                   console.log(msg+" for "+String(meal["day"]));
-                  HandleEdit(String(meal["day"]));
+                  const value=String(meal["day"]);
+                  axios.get(`http://localhost:3003/mealsbyday/${value}`).then((response)=>{
+                    console.log(response.data);
+                    navigate("/mealprep/editlist",{state: value});
+                  });
                 }}
                 key={String(meal["day"])}
               />

@@ -1,8 +1,10 @@
 import { useLocation } from "react-router-dom";
 
 function MealList (){
-    const historyState = useLocation();
-    const data = historyState.state.value;
+    const location = useLocation();
+    const data = location.state;
+    console.log(data);
+    // Construct an SQL Query for the specific date provided here
     return (
     <>
     <p>Test Meal</p>
