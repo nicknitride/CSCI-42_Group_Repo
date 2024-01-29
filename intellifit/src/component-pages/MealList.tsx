@@ -8,7 +8,7 @@ function MealList (){
     return (
     <>
     <p>Test Meal</p>
-    <p>{data}</p>
+    <p>{JSON.stringify(data)}</p>
     </>
     );
 }
