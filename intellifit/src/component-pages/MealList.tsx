@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import Minigreeter from "../components/Minigreeter";
-import "./MealList.css"
+import "./MealList.css";
 
 type mealDataQuery = {
   Calories: number;
@@ -9,6 +9,8 @@ type mealDataQuery = {
   food_name: string;
   meal_name: string;
   mealfood_id: number;
+  serving_size: number;
+  cal_per_gram: number;
 }[];
 
 function processDate(value: string) {
@@ -47,9 +49,11 @@ function MealList() {
   return (
     <>
       <Minigreeter
-        label={processDate(
-          JSON.stringify(Object.values(data)[0]["creation_date_mealfood"])
-        )}
+        label={
+          `Meal Breakdown for ${processDate(
+            JSON.stringify(Object.values(data)[0]["creation_date_mealfood"])
+          )}`
+        }
       />
       {data.map((dataitem) => {
         return (
@@ -58,6 +62,8 @@ function MealList() {
               <h1>{`${dataitem["food_name"]} for Meal: ${dataitem["meal_name"]}`}</h1>
               <p>Brand: {dataitem["food_brand"]}</p>
               <p>Calories: {dataitem["Calories"]}</p>
+              <p>Serving Size: {dataitem["serving_size"]}</p>
+              <p>Calories/Gram: {dataitem["cal_per_gram"]}</p>
             </div>
           </>
         );

@@ -8,4 +8,12 @@
     margin: 10px;
     padding: 15px;
     border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
+}
+.single-meal-card p{
+    margin: 0;
+    margin-bottom: 4px;
+}
+.single-meal-card:hover{
+    box-shadow: black 4px 5px 15px;
 }
