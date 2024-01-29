@@ -8,6 +8,7 @@ const db = mysql.createConnection({
   user: "root",
   password: "nickwuzhere",
   database: "intellifit_test",
+  timezone: 'utc'  // set timezone to UTC
 });
 const app = express();
 const PORT = 3003;
