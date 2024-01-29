@@ -51,7 +51,7 @@ app.delete("/mealsbyday/:date", (req, res) => {
   const deleteBYDateSQL = `
   DELETE FROM meal_food_entity 
   WHERE meal_food_entity.creation_date_mealfood = "${processedDate}"
-  `;
+  ;`
   db.query(deleteBYDateSQL, (err, result) => {
     if (err) {
       console.log(err);
@@ -74,7 +74,11 @@ app.get("/mealsbyday/:date", (req, res) => {
     processedDate += parsedDate[i];
   }
   const grabIndividualMealsWithMatchingDates = `
-  Select * From meal_food_entity mfe WHERE mfe.creation_date_mealfood = "${processedDate}";
+  SELECT mfe.mealfood_id, f.food_name, f.food_brand, m.meal_name, (f.cal_per_gram * mfe.serving_size) AS "Calories", mfe.creation_date_mealfood
+  FROM meal_food_entity mfe 
+  JOIN food f ON f.food_id = mfe.food_id
+  JOIN meal m ON m.meal_id = mfe.meal_id
+  WHERE mfe.creation_date_mealfood = "${processedDate}";
   `;
   db.query(grabIndividualMealsWithMatchingDates, (err, result) => {
     if (err) {

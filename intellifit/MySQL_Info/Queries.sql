@@ -42,12 +42,12 @@ Join Types: https://commons.wikimedia.org/wiki/File:SQL_Joins.svg
     GROUP BY
         mfe.creation_date_mealfood;
     
-# Display all food associated to a meal given a date
-SELECT *
+# Display all meals and food associated to a meal given a date, with calorie count, in index.js adjust as needed
+SELECT mfe.mealfood_id, f.food_name, f.food_brand, m.meal_name, (f.cal_per_gram * mfe.serving_size) AS "Calories", mfe.creation_date_mealfood
 FROM meal_food_entity mfe 
 JOIN food f ON f.food_id = mfe.food_id
 JOIN meal m ON m.meal_id = mfe.meal_id
-WHERE mfe.creation_date_mealfood = "2024-01-26";
+WHERE mfe.creation_date_mealfood = "2024-01-30";
 
 
 
