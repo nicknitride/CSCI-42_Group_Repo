@@ -4,6 +4,9 @@
 - `create database <db name>`
 ## Selecting the database:
 - `use <db name>`
+## Show currently selected database
+- `SELECT DATABASE();`
+
 # Database Listing and Misc.
 ## List all databases or all tables
 - SHOW DATABASES;
