@@ -5,6 +5,7 @@ import Home from "./component-pages/Homepage";
 import Workouts from "./component-pages/Workouts";
 import Meals from "./component-pages/Meals"
 import MealList from "./component-pages/MealList";
+import MealEditPage from "./component-pages/MealEditPage";
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
         <Route path="/workouts" element={<Workouts/>} />
         <Route path="/mealprep" element={<Meals />} />
         <Route path="/mealprep/editlist" element={<MealList />} />
+        <Route path="/meal/edit/" element={<MealEditPage />} />
       </Routes>
     </>
   );

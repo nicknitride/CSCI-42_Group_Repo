@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Minigreeter from "../components/Minigreeter";
 import "./MealList.css";
 
@@ -41,7 +42,10 @@ function processDate(value: string) {
   return processedDate;
 }
 
+
 function MealList() {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const data = location.state as mealDataQuery;
   console.log(data);
@@ -49,16 +53,21 @@ function MealList() {
   return (
     <>
       <Minigreeter
-        label={
-          `Meal Breakdown for ${processDate(
-            JSON.stringify(Object.values(data)[0]["creation_date_mealfood"])
-          )}`
-        }
+        label={`Meal Breakdown for ${processDate(
+          JSON.stringify(Object.values(data)[0]["creation_date_mealfood"])
+        )}`}
       />
       {data.map((dataitem) => {
         return (
           <>
-            <div className="single-meal-card" key={dataitem["mealfood_id"]}>
+            <div
+              className="single-meal-card"
+              key={dataitem["mealfood_id"]}
+              onClick={() => {
+                console.log("Triggered Click");
+                navigate("/meal/edit", { state: dataitem });
+              }}
+            >
               <h1>{`${dataitem["food_name"]} for Meal: ${dataitem["meal_name"]}`}</h1>
               <p>Brand: {dataitem["food_brand"]}</p>
               <p>Calories: {dataitem["Calories"]}</p>
