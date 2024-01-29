@@ -1,4 +1,4 @@
-# Total Calories Per Meal (Cumulative, doesn't separate by date)
+-- # Total Calories Per Meal (Cumulative, doesn't separate by date)
 SELECT
     m.meal_id,
     m.meal_name,
@@ -29,7 +29,7 @@ Join Types: https://commons.wikimedia.org/wiki/File:SQL_Joins.svg
 - Both of these use inner joins
 
 # Daily Calorie Total (ISO Date and used for the Meal Dashboard)
-`
+
     SELECT
     DATE_FORMAT(mfe.creation_date_mealfood, '%Y-%m-%d') AS day,
     SUM(f.cal_per_gram * mfe.serving_size) AS "Total Calories"
@@ -41,4 +41,13 @@ Join Types: https://commons.wikimedia.org/wiki/File:SQL_Joins.svg
         food f ON mfe.food_id = f.food_id
     GROUP BY
         mfe.creation_date_mealfood;
-    `
+    
+# Display all food associated to a meal given a date
+SELECT *
+FROM meal_food_entity mfe 
+JOIN food f ON f.food_id = mfe.food_id
+JOIN meal m ON m.meal_id = mfe.meal_id
+WHERE mfe.creation_date_mealfood = "2024-01-26";
+
+
+

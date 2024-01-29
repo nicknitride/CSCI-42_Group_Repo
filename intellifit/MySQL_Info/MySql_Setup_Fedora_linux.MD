@@ -9,7 +9,7 @@
 - `sudo dnf install <path to downloaded rpm>`
 - `sudo dnf install mysql-community-server`
 2. Or Skip ahead and Install regularly (Default Package Available):
-- `sudo dnf install mysql-community-server`
+- `sudo dnf install community-mysql-server`
 3. Start the MySQL Service and Enable at Log-In:
 
 - `sudo systemctl enable mysqld`

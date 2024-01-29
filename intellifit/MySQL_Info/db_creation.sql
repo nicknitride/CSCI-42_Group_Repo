@@ -6,7 +6,7 @@ CREATE TABLE food(
   cal_per_gram decimal(5,2) NOT NULL,
   PRIMARY KEY(food_id)
 );
-# Insert Statements
+-- # Insert Statements
 INSERT INTO food (food_name, food_brand, cal_per_gram) values ('Apples', 'Sunkist', 1.00);
 INSERT INTO food (food_name, food_brand, cal_per_gram)
 VALUES 
@@ -29,21 +29,16 @@ CREATE TABLE meal(
   meal_name varchar(80) NOT NULL,
   PRIMARY KEY(meal_id)
 );
-source: https://www.mysqltutorial.org/mysql-basics/mysql-insert-date/
-https://prahladyeri.github.io/blog/2022/10/mysql-setting-default-date-to-current-date.html
-# Insert
--- Inserting a meal with specified creation_date
-INSERT INTO meal (meal_name, creation_date) VALUES ('Breakfast', '2024-01-27');
-
--- Inserting a meal without specifying creation_date (it will use the default value curdate())
+-- source: https://www.mysqltutorial.org/mysql-basics/mysql-insert-date/
+-- https://prahladyeri.github.io/blog/2022/10/mysql-setting-default-date-to-current-date.html
+-- Inserting a meal
+INSERT INTO meal (meal_name) VALUES ('Breakfast');
 INSERT INTO meal (meal_name) VALUES ('Lunch');
-
--- Inserting another meal with a different creation_date
-INSERT INTO meal (meal_name, creation_date) VALUES ('Dinner', '2024-01-28');
+INSERT INTO meal (meal_name) VALUES ('Dinner');
 
 
 
-#Meal-Food Associative Entity
+-- ! #Meal-Food Associative Entity
 CREATE TABLE meal_food_entity(
   mealfood_id INT AUTO_INCREMENT,
   meal_id int,
@@ -63,5 +58,19 @@ INSERT INTO meal_food_entity (meal_id, food_id) VALUES (2, 13);
 
 -- Inserting an entry with specified meal_id, food_id, creation_date_mealfood, and serving_size
 INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size) 
-VALUES (3, 6, '2024-01-27', 200.75);
+VALUES (3, 6, '2024-01-27', 200.75),
+(1, 2, '2024-01-28', 150.50),
+(2, 8, '2024-01-28', 300.25),
+(3, 4, '2024-01-28', 180.00),
+(1, 10, '2024-01-29', 250.75),
+(2, 1, '2024-01-29', 120.50);
+INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size)
+VALUES 
+    (1, 3, '2024-01-30', 175.25),
+    (2, 9, '2024-01-30', 220.00),
+    (3, 5, '2024-01-31', 190.75),
+    (1, 7, '2024-01-31', 280.50),
+    (2, 2, '2024-02-01', 150.25),
+    (3, 8, '2024-02-01', 300.00);
+
 
