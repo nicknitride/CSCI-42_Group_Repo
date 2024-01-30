@@ -111,6 +111,12 @@ function processDate(value: string) {
     return processedDate;
   }
 
+  function fixDateforRedirect(date: string): string{
+    const shortenedDateArray = date.split("",10);
+    const fixedDate = shortenedDateArray.splice(0.10).toString().replace(/[,]/g,"");
+    console.log(shortenedDateArray,fixedDate);
+    return fixedDate;
+  }
 
 function MealEditPage() {
   const location = useLocation();
@@ -130,9 +136,11 @@ function MealEditPage() {
   };
   const handleSubmit = ()=>{
     const value = JSON.stringify(editedData);
+    const dateForRedirect = String(editedData.creation_date_mealfood);
+    console.log("Date sent by handlesubmit"+dateForRedirect)
     axios.post(`http://localhost:3003/meal/edit/${value}`).then((response)=>{
         console.log(response.data);
-        navigate("/mealprep/editlist/");
+        navigate(`/mealprep/editlist/${fixDateforRedirect(dateForRedirect)}`);
     }).catch((error) =>{
       console.log("Axios error:"+error);
     });
