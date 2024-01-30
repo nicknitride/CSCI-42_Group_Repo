@@ -4,6 +4,9 @@ CREATE TABLE food(
   food_name varchar(80) NOT NULL,
   food_brand varchar(80) NOT NULL,
   cal_per_gram decimal(5,2) NOT NULL,
+  protein_per_gram decimal(5,2) NOT NULL,
+  carb_per_gram decimal(5,2) NOT NULL,
+  fat_per_gram decimal(5,2) NOT NULL
   PRIMARY KEY(food_id)
 );
 -- # Insert Statements
