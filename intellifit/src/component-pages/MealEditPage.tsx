@@ -140,9 +140,13 @@ function MealEditPage() {
     console.log("Date sent by handlesubmit"+dateForRedirect)
     axios.post(`http://localhost:3003/meal/edit/${value}`).then((response)=>{
         console.log(response.data);
-        navigate(`/mealprep/editlist/${fixDateforRedirect(dateForRedirect)}`);
+        // navigate(`/mealprep/editlist/${fixDateforRedirect(dateForRedirect)}`);
     }).catch((error) =>{
       console.log("Axios error:"+error);
+    });
+    axios.get(`http://localhost:3003/mealsbyday/${fixDateforRedirect(dateForRedirect)}`).then((response)=>{
+      console.log(response.data);
+      navigate("/mealprep/editlist",{state: response.data});
     });
   }
 
@@ -153,7 +157,8 @@ function MealEditPage() {
           JSON.stringify(editedData.creation_date_mealfood)
         )} `}
       />
-      <p>{JSON.stringify(editedData)}</p>
+      {/* <p>{JSON.stringify(editedData)}</p> */}
+      {/* Uncomment for debugging purposes */}
       <div className="edit-container">
         <div className="button-and-edit-container">
         <form className="edit-meal" onSubmit={handleSubmit} >
