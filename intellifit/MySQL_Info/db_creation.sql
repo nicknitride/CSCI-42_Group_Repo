@@ -10,21 +10,22 @@ CREATE TABLE food(
   PRIMARY KEY(food_id)
 );
 -- # Insert Statements
-INSERT INTO food (food_name, food_brand, cal_per_gram) values ('Apples', 'Sunkist', 1.00);
-INSERT INTO food (food_name, food_brand, cal_per_gram)
+INSERT INTO food (food_name, food_brand, cal_per_gram, protein_per_gram,carb_per_gram,fat_per_gram) values ('Apples', 'Sunkist', 1.00);
+INSERT INTO food (food_name, food_brand, cal_per_gram, protein_per_gram,carb_per_gram,fat_per_gram) 
 VALUES 
-    ('Chicken Breast', 'Protein Foods', 2.5),
-    ('Broccoli', 'Vegetable Farms', 0.55),
-    ('Brown Rice', 'Grain Mills', 1.1),
-    ('Salmon', 'Seafood Delight', 2.06),
-    ('Almonds', 'Nutty Nuts', 5.7),
-    ('Spinach', 'Green Fields', 0.23),
-    ('Olive Oil', 'Healthy Oils', 8.8),
-    ('Greek Yogurt', 'Dairy Delights', 0.59),
-    ('Eggs', 'Farm Fresh', 1.5),
-    ('Banana', 'Fruit Co.', 0.89),
-    ('Quinoa', 'Grain Mills', 3.2),
-    ('Avocado', 'Fresh Greens', 1.6);
+    ('Apples', 'Sunkist', 1.00, 0.00, 0.00, 0.00),
+    ('Chicken Breast', 'Protein Foods', 2.5, 31.0, 0.00, 3.6),
+    ('Broccoli', 'Vegetable Farms', 0.55, 2.8, 5.2, 0.6),
+    ('Brown Rice', 'Grain Mills', 1.1, 2.6, 22.96, 0.9),
+    ('Salmon', 'Seafood Delight', 2.06, 25.4, 0.00, 13.42),
+    ('Almonds', 'Nutty Nuts', 5.7, 21.15, 21.55, 49.42),
+    ('Spinach', 'Green Fields', 0.23, 2.9, 3.6, 0.4),
+    ('Olive Oil', 'Healthy Oils', 8.8, 0.00, 0.00, 99.6),
+    ('Greek Yogurt', 'Dairy Delights', 0.59, 10.0, 3.6, 6.0),
+    ('Eggs', 'Farm Fresh', 1.5, 12.56, 0.00, 10.6),
+    ('Banana', 'Fruit Co.', 0.89, 1.09, 27.0, 0.33),
+    ('Quinoa', 'Grain Mills', 3.2, 4.0, 21.3, 1.6),
+    ('Avocado', 'Fresh Greens', 1.6, 2.0, 8.5, 14.66);
 
 # Meal Entity
 CREATE TABLE meal(
