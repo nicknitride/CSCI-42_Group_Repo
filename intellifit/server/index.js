@@ -79,7 +79,8 @@ app.get("/mealsbyday/:date", (req, res) => {
   FROM meal_food_entity mfe 
   JOIN food f ON f.food_id = mfe.food_id
   JOIN meal m ON m.meal_id = mfe.meal_id
-  WHERE mfe.creation_date_mealfood = "${processedDate}";
+  WHERE mfe.creation_date_mealfood = "${processedDate}"
+  ORDER by mfe.meal_id ASC;
   `;
   db.query(grabIndividualMealsWithMatchingDates, (err, result) => {
     if (err) {
