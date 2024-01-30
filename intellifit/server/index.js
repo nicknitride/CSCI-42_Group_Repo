@@ -90,6 +90,26 @@ app.get("/mealsbyday/:date", (req, res) => {
   });
 });
 
+app.get("/meal/edit/:jsonstring",(req,res)=>{
+  const data = JSON.parse(req.params.jsonstring);
+  console.log("Called edit");
+  const sendEditedMealFood = `
+  UPDATE meal_food_entity
+  SET serving_size = ${data["serving_size"]}
+  WHERE meal_food_entity.mealfood_id = ${data["mealfood_id"]};
+  `;
+  res.send(sendEditedMealFood);
+  db.query(sendEditedMealFood,(err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    res.send(result);
+    console.log("Edited item");
+  });
+
+  // !? TODO Finish this Function
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });

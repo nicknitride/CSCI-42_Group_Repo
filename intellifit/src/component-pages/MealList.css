@@ -29,7 +29,7 @@
     background-color: black;
     color: white;
     min-height: min-content;
-    max-height: 30vh;
+    max-height: 60vh;
     width: 500px;
     margin: 10px;
     padding: 15px;
@@ -53,9 +53,15 @@
     font-size: 20px;
 }
 .input-flex input{
-    font-size: 15px;
+    font-size: 18px;
     width: 200px;
     text-align: end;
+    border: 0px;
+    background-color: white;
+    outline: 1px solid white;
+    color: black;
+    padding-right: 2px ;
+    /* border-radius: 5px; */
 }
 .nutrition-info{
     display: flex;
@@ -69,4 +75,20 @@
     padding: 15px;
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
+}
+.button-and-edit-container{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    align-items: center;
+}
+.button-and-edit-container button{
+    background-color: white;
+    width: 90%;
+    box-shadow: rgba(0, 0, 0, 0.3) 5px 6px 20px;
+}
+.button-and-edit-container button:hover{
+    background-color: white;
+    width: 90%;
+    box-shadow: rgba(0, 0, 0, 0.6) 5px 6px 20px;
 }

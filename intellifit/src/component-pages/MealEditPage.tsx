@@ -71,6 +71,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Minigreeter from '../components/Minigreeter';
 import './MealList.css';
+import axios from 'axios';
 
 type MealDataQueryItem = {
   Calories: number;
@@ -85,11 +86,11 @@ type MealDataQueryItem = {
 
 function processDate(value: string) {
   const dateToParse = value;
-  const parsedDate = dateToParse.split("", 10);
+  const parsedDate = dateToParse.split("", 11);
   let processedDate: string = "";
   const year = parsedDate.slice(1, 5).toString().replace(/[,]/g, "");
   const month = parsedDate.slice(6, 8).toString().replace(/[,]/g, "");
-  const day = parsedDate.slice(9, 10).toString().replace(/[,]/g, "");
+  const day = parsedDate.slice(9, 11).toString().replace(/[,]/g, "");
   const monthsMap: { [key: string]: string } = {
     "01": "January",
     "02": "February",
@@ -126,7 +127,13 @@ function MealEditPage() {
       [name]: value,
     }));
   };
-
+  const handleSubmit = ()=>{
+    const value = JSON.stringify(editedData);
+    axios.post(`http://localhost:3003/meal/edit/${value}`).then((response)=>{
+        console.log(response.data);
+    });
+    window.location.reload();
+  }
 
   return (
     <>
@@ -137,10 +144,11 @@ function MealEditPage() {
       />
       <p>{JSON.stringify(editedData)}</p>
       <div className="edit-container">
-        <form className="edit-meal">
+        <div className="button-and-edit-container">
+        <form className="edit-meal" onSubmit={handleSubmit} >
           <label>{editedData.food_name} : {editedData.food_brand}</label>
           <div className="input-flex">
-            <span>Serving Size</span>
+            <span>Serving Size in Grams</span>
             <input
               type="text"
               name="serving_size"
@@ -153,9 +161,13 @@ function MealEditPage() {
             <span>{editedData.cal_per_gram}</span>
           </div>
           <h3>Current Calorie Count: {editedData.cal_per_gram*editedData.serving_size}</h3>
-         
         </form>
+        <button onClick={handleSubmit}>Submit</button>
+        </div>
+
         <div className="nutrition-info">
+            <h1>Output protein, calories, carbohydrates, and fat.</h1>
+            <h1>But we need to edit the food entries to support these macros.</h1>
             </div>
       </div>
     </>
