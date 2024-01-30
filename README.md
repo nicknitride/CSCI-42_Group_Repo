@@ -3,7 +3,7 @@
 `npm install` to install all the needed packages (make sure you have node)
 2. Head into intellifit/server
 `npm install` again to install the server files
-3. terminal 1: `npm run dev` (from intellifit)(This is the actual file
+3. terminal 1: `npm run dev` (from intellifit)(This is the actual webpage code)
 4. terminal 2: `npm run test` (from intellifit/server)(This is the mysql server) 
 # MySQL Setup
 1. Install MySQL (on WSL preferably)
