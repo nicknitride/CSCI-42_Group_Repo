@@ -9,7 +9,10 @@
 1. Install MySQL (on WSL preferably)
 2. Head into the MySQL_Info folder
 - db_creation contains all the info needed to recreate the database I have on my machine (for testing, I'll upload an ER diagram of the meal stuff later)
-- Queries.txt are the queries I used for the backend of the project (working as of now is the delete button on the meal dashboard)
+- Queries.sql are the queries I used for the backend of the project
+    - Working:
+    - Meal Page:
+        - Edit, Delete, and Day View (Weekly View and Search are a little harder to implement)
 # Misc. (inside the src folder)
 ## index.js (server code)
 ## components folder (where the reusable components are)
