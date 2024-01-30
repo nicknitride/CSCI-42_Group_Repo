@@ -25,6 +25,8 @@ function deleteEntriesMatchingDate(date: string) {
     console.log(response.data);
     console.log("Deleted entry successfully");
     window.location.reload(); //Reload webpage after deletion
+  }).catch((error)=>{
+    console.log("Delete failed, axios error: "+error);
   });
 }
 
@@ -45,7 +47,7 @@ function Meals() {
         console.log("Data received", JSON.stringify(res.data));
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data, axios fetch meals by day failed: ", error);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

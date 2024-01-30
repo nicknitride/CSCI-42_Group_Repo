@@ -86,25 +86,24 @@ app.get("/mealsbyday/:date", (req, res) => {
       console.log(err);
     }
     res.send(result);
-    console.log("Sent back matching items by date")
+    console.log("Sent back matching items by date");
   });
 });
 
-app.get("/meal/edit/:jsonstring",(req,res)=>{
+app.post("/meal/edit/:jsonstring",(req,res)=>{
   const data = JSON.parse(req.params.jsonstring);
-  console.log("Called edit");
   const sendEditedMealFood = `
   UPDATE meal_food_entity
   SET serving_size = ${data["serving_size"]}
   WHERE meal_food_entity.mealfood_id = ${data["mealfood_id"]};
   `;
-  res.send(sendEditedMealFood);
+  console.log("In meal/edit/:jsonstring post function", data,sendEditedMealFood);
   db.query(sendEditedMealFood,(err, result) => {
     if (err) {
+      console.log("Edit has failed, check if database supports the number size, currently it supports xxxx.xx as a value max");
       console.log(err);
     }
     res.send(result);
-    console.log("Edited item");
   });
 
   // !? TODO Finish this Function

@@ -16,11 +16,11 @@ type mealDataQuery = {
 
 function processDate(value: string) {
   const dateToParse = value;
-  const parsedDate = dateToParse.split("", 10);
+  const parsedDate = dateToParse.split("", 11);
   let processedDate: string = "";
   const year = parsedDate.slice(1, 5).toString().replace(/[,]/g, "");
   const month = parsedDate.slice(6, 8).toString().replace(/[,]/g, "");
-  const day = parsedDate.slice(9, 10).toString().replace(/[,]/g, "");
+  const day = parsedDate.slice(9, 11).toString().replace(/[,]/g, "");
   const monthsMap: { [key: string]: string } = {
     "01": "January",
     "02": "February",

@@ -68,7 +68,7 @@
 // export default MealEditPage;
 
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Minigreeter from '../components/Minigreeter';
 import './MealList.css';
 import axios from 'axios';
@@ -115,6 +115,7 @@ function processDate(value: string) {
 function MealEditPage() {
   const location = useLocation();
   const initialData: MealDataQueryItem = location.state;
+  const navigate = useNavigate();
 
   // Use state to manage editable values
   const [editedData, setEditedData] = useState(initialData);
@@ -131,8 +132,10 @@ function MealEditPage() {
     const value = JSON.stringify(editedData);
     axios.post(`http://localhost:3003/meal/edit/${value}`).then((response)=>{
         console.log(response.data);
+        navigate("/mealprep/editlist/");
+    }).catch((error) =>{
+      console.log("Axios error:"+error);
     });
-    window.location.reload();
   }
 
   return (
@@ -162,7 +165,9 @@ function MealEditPage() {
           </div>
           <h3>Current Calorie Count: {editedData.cal_per_gram*editedData.serving_size}</h3>
         </form>
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={
+          handleSubmit
+          } type='button'>Submit</button>
         </div>
 
         <div className="nutrition-info">
