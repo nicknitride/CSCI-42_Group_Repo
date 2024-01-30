@@ -18,3 +18,5 @@
 ## components folder (where the reusable components are)
 ## css folder (css for the components)
 ## component-pages folder (these are the components that are the actual webpages, they call on the re-usable components to render the webpage)(I've also kept the css for these pages in this folder)
+# TO-DO:
+1. Edit the food entity to contain protein, carbohydrates, and fat (this requires a semi-difficult rewrite of the Meal infrastructure pages)
