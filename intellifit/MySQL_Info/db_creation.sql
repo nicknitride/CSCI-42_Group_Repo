@@ -1,4 +1,4 @@
-# Food Entity
+-- # Food Entity
 CREATE TABLE food(
   food_id int AUTO_INCREMENT,
   food_name varchar(80) NOT NULL,
@@ -27,7 +27,7 @@ VALUES
     ('Quinoa', 'Grain Mills', 3.2, 4.0, 21.3, 1.6),
     ('Avocado', 'Fresh Greens', 1.6, 2.0, 8.5, 14.66);
 
-# Meal Entity
+-- # Meal Entity
 CREATE TABLE meal(
   meal_id int AUTO_INCREMENT,
   meal_name varchar(80) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE meal_food_entity(
   FOREIGN KEY (meal_id) REFERENCES meal(meal_id),
   FOREIGN KEY (food_id) REFERENCES food(food_id)
 );
-#Insert Statements
+-- #Insert Statements
 -- Inserting a meal_food_entity entry with specified meal_id and food_id
 INSERT INTO meal_food_entity (meal_id, food_id, serving_size) VALUES (1, 5, 150.50);
 
