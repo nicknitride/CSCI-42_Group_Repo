@@ -4,7 +4,7 @@ interface props {
   listProper: string[];
   listTitle: string;
 }
-function DynamicList({ listProper, listTitle }: props) {
+function DynamicList({ listProper = ["Err. No Content Provided"], listTitle = "Err. No Title Provided" }: props) {
   return (
     <>
       <div className="list-card">
