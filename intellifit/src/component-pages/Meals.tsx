@@ -5,6 +5,15 @@ import { useEffect, useState } from "react";
 import MealsByDayCard from "../components/MealsByDayCard";
 import { useNavigate } from "react-router-dom";
 import TodayMeal from "../components/TodayMeal";
+import formatFloat from "../formatting_functions/formatFloat";
+
+interface DailyTotals {
+  total_calories: number;
+  total_protein: number;
+  total_fat: number;
+  total_carbs: number;
+}
+[];
 
 function convertISOStringToDate(isoString: string) {
   const date = new Date(isoString);
@@ -35,6 +44,7 @@ function deleteEntriesMatchingDate(date: string) {
 
 function Meals() {
   const [data, setData] = useState([]);
+  const [dailyTotals, setTotals] = useState<DailyTotals[]>();
   const [mode, setMode] = useState("Today");
   const navigate = useNavigate();
 
@@ -64,6 +74,14 @@ function Meals() {
           error
         );
       });
+    const dailyTotalEndpoint = "http://localhost:3003/meals/today/totalcal";
+    axios
+      .get(dailyTotalEndpoint)
+      .then((res) => {
+        setTotals(res.data);
+        console.log("Received daily totals", res.data);
+      })
+      .catch((err) => console.log("failed at daily total: " + err));
   }, [mode]);
   if (mode === "Today") {
     return (
@@ -91,13 +109,26 @@ function Meals() {
 
         {/* <p>{JSON.stringify(data)}</p> */}
         <div className="meal-flex">
-        {data && 
-        data.map((item)=>{
-          return (<TodayMeal data={item} />);
-        })
-        }
+          {data &&
+            data.map((item) => {
+              return <TodayMeal data={item} />;
+            })}
+            <div className="totals">
+          <h3>Total Calories: {dailyTotals && formatFloat(dailyTotals[0].total_calories)}</h3>
+          <h3>
+            Total Protein:{"  "}
+            {dailyTotals && formatFloat(dailyTotals[0].total_protein)}
+          </h3>
+          <h3>
+            Total Fat:  {dailyTotals && formatFloat(dailyTotals[0].total_fat)}
+          </h3>
+          <h3>
+            Total Carbs:  {dailyTotals && formatFloat(dailyTotals[0].total_carbs)}
+          </h3>
         </div>
-      
+        </div>
+        
+
       </>
     );
   } else {
@@ -129,7 +160,7 @@ function Meals() {
               return (
                 <MealsByDayCard
                   title={convertISOStringToDate(String(meal["day"]))}
-                  content={(meal["Total Calories"])}
+                  content={meal["Total Calories"]}
                   infolabel="Total Calories:"
                   deleteHandler={() => {
                     deleteEntriesMatchingDate(String(meal["day"]));
