@@ -21,7 +21,7 @@ function convertISOStringToDate(isoString: string) {
 
 function deleteEntriesMatchingDate(date: string) {
   console.log("Triggered delete handler for " + date);
-  axios.delete(`http://localhost:3003/mealsbyday/${date}`).then((response) => {
+  axios.delete(`http://localhost:3003/meals/day/${date}`).then((response) => {
     console.log(response.data);
     console.log("Deleted entry successfully");
     window.location.reload(); //Reload webpage after deletion
@@ -41,7 +41,7 @@ function Meals() {
   useEffect(() => {
     console.log("Page has requested meals by day");
     axios
-      .get("http://localhost:3003/mealsbyday")
+      .get("http://localhost:3003/meals/day/")
       .then((res) => {
         setData(res.data);
         console.log("Data received", JSON.stringify(res.data));
@@ -68,7 +68,7 @@ function Meals() {
                 editHandler={(msg) => {
                   console.log(msg+" for "+String(meal["day"]));
                   const value=String(meal["day"]);
-                  axios.get(`http://localhost:3003/mealsbyday/${value}`).then((response)=>{
+                  axios.get(`http://localhost:3003/meals/day/${value}`).then((response)=>{
                     console.log(response.data);
                     navigate("/mealprep/editlist",{state: response.data});
                   });

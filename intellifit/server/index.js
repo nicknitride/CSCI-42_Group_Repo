@@ -14,7 +14,7 @@ const app = express();
 const PORT = 3003;
 app.use(cors());
 app.use(express.json());
-app.get("/mealsbyday", (req, res) => {
+app.get("/meals/day", (req, res) => {
   db.query(
     `
     SELECT
@@ -40,7 +40,7 @@ app.get("/mealsbyday", (req, res) => {
   );
 });
 
-app.delete("/mealsbyday/:date", (req, res) => {
+app.delete("/meals/day/:date", (req, res) => {
   const dateToDelete = req.params.date;
   const parsedDate = dateToDelete.split("", 10);
   let processedDate = "";
@@ -66,7 +66,7 @@ app.delete("/mealsbyday/:date", (req, res) => {
 });
 // NodeJS MySQL Delete https://www.w3schools.com/nodejs/nodejs_mysql_delete.asp
 
-app.get("/mealsbyday/:date", (req, res) => {
+app.get("/meals/day/:date", (req, res) => {
   const dateToParse = req.params.date;
   const parsedDate = dateToParse.split("", 10);
   let processedDate = "";

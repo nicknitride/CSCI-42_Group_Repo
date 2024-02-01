@@ -144,7 +144,7 @@ function MealEditPage() {
     }).catch((error) =>{
       console.log("Axios error:"+error);
     });
-    axios.get(`http://localhost:3003/mealsbyday/${fixDateforRedirect(dateForRedirect)}`).then((response)=>{
+    axios.get(`http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}`).then((response)=>{
       console.log(response.data);
       navigate("/mealprep/editlist",{state: response.data});
     });

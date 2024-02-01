@@ -12,7 +12,7 @@ function Navbar() {
             <a href="/workouts">Workouts</a>
           </div>
           <div className="rounded-button">
-            <a href="/mealprep">Meal Tracking</a>
+            <a href="/meals">Meal Tracking</a>
           </div>
         </div>
         <div className="nav-logo">
