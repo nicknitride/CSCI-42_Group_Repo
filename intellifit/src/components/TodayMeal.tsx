@@ -1,4 +1,5 @@
 import "../component-pages/Meals.css"
+import formatFloat from "../formatting_functions/formatFloat" 
 type dailyMeal = {
     mealfood_id: number;
     food_name: string;
@@ -14,11 +15,7 @@ interface props{
     data : dailyMeal;
 }
 
-function formatFloat(num : number){
-    const originalVal = num;
-    const formattedVal = parseFloat(originalVal.toFixed(2));
-    return formattedVal;
-}
+
 
 function TodayMeal({data} : props){
 return(

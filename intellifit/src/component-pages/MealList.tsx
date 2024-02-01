@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Minigreeter from "../components/Minigreeter";
 import "./MealList.css";
+import formatFloat from "../formatting_functions/formatFloat";
 
 type mealDataQuery = {
   Calories: number;
@@ -70,9 +71,9 @@ function MealList() {
             >
               <h1>{`${dataitem["food_name"]} for Meal: ${dataitem["meal_name"]}`}</h1>
               <p>Brand: {dataitem["food_brand"]}</p>
-              <p>Calories: {dataitem["Calories"]}</p>
-              <p>Serving Size: {dataitem["serving_size"]}</p>
-              <p>Calories/Gram: {dataitem["cal_per_gram"]}</p>
+              <p>Calories: {formatFloat(dataitem["Calories"])}</p>
+              <p>Serving Size: {formatFloat(dataitem["serving_size"])}</p>
+              <p>Calories/Gram: {formatFloat(dataitem["cal_per_gram"])}</p>
             </div>
           </>
         );

@@ -1,4 +1,5 @@
 import "../css/MealsByDayCard.css";
+import formatFloat from "../formatting_functions/formatFloat";
 interface props {
   title: string;
   content: string;
@@ -22,8 +23,8 @@ function MealsByDayCard(
       <div className="one-item-card">
         <h1>{title}</h1>
         <p key={passedKey}>
-          {infolabel && <span>{infolabel}</span>}
-          {content}
+          {infolabel && <span>{(infolabel)}</span>}
+          {formatFloat(parseFloat(content))}
         </p>
         <div className="two-button-flex">
           <button onClick={()=> {editHandler("edit clicked")}}> Edit </button>

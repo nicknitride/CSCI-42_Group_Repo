@@ -129,7 +129,7 @@ function Meals() {
               return (
                 <MealsByDayCard
                   title={convertISOStringToDate(String(meal["day"]))}
-                  content={meal["Total Calories"]}
+                  content={(meal["Total Calories"])}
                   infolabel="Total Calories:"
                   deleteHandler={() => {
                     deleteEntriesMatchingDate(String(meal["day"]));
