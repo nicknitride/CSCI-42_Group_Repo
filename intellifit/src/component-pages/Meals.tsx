@@ -36,8 +36,8 @@ function deleteEntriesMatchingDate(date: string) {
 
 function Meals() {
   const [data, setData] = useState([]);
+  const[mode,setMode] = useState(true);
   const navigate = useNavigate();
-
   useEffect(() => {
     console.log("Page has requested meals by day");
     axios
@@ -51,35 +51,43 @@ function Meals() {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
-    <>
-      <Minigreeter label="Meal Dashboard: "></Minigreeter>
-      <div className="meal-flex">
-        {data &&
-          data.map((meal) => {
-            return (
-              <MealsByDayCard
-                title={convertISOStringToDate(String(meal["day"]))}
-                content={meal["Total Calories"]}
-                infolabel="Total Calories:"
-                deleteHandler={() => {
-                  deleteEntriesMatchingDate(String(meal["day"]));
-                }}
-                editHandler={(msg) => {
-                  console.log(msg+" for "+String(meal["day"]));
-                  const value=String(meal["day"]);
-                  axios.get(`http://localhost:3003/meals/day/${value}`).then((response)=>{
-                    console.log(response.data);
-                    navigate("/meals/editlist",{state: response.data});
-                  });
-                }}
-                key={String(meal["day"])}
-              />
-            );
-          })}
-      </div>
-    </>
-  );
+  {if (mode===true){
+    return(
+      <>
+        <Minigreeter label="Meal Dashboard: "></Minigreeter>
+       <button onClick={()=>{setMode(!mode)}}>Toggle Display</button>
+        <div className="meal-flex">
+          {data &&
+            data.map((meal) => {
+              return (
+                <MealsByDayCard
+                  title={convertISOStringToDate(String(meal["day"]))}
+                  content={meal["Total Calories"]}
+                  infolabel="Total Calories:"
+                  deleteHandler={() => {
+                    deleteEntriesMatchingDate(String(meal["day"]));
+                  }}
+                  editHandler={(msg) => {
+                    console.log(msg+" for "+String(meal["day"]));
+                    const value=String(meal["day"]);
+                    axios.get(`http://localhost:3003/meals/day/${value}`).then((response)=>{
+                      console.log(response.data);
+                      navigate("/meals/editlist",{state: response.data});
+                    });
+                  }}
+                  key={String(meal["day"])}
+                />
+              );
+            })}
+        </div>
+      </>
+    );
+  }else{
+    return (<>
+    <Minigreeter label="Please Select a Filter!"/>
+    <button onClick={()=>{setMode(!mode)}}>Toggle Display</button>
+    </>);
+  }}
 }
 export default Meals;
 // Continue from here https://medium.com/@codingbeautydev/javascript-convert-json-to-map-49f95e4a6d21
