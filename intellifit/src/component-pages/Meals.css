@@ -13,3 +13,39 @@
         padding-left: 0px;
     }
 }
+
+.meal-button-group-flex{
+    display: flex;
+    width: 180px;
+    background-color: black;
+    justify-content: space-between;
+    margin-left: 20px;
+
+    padding: 20px 20px;
+    border-radius: 10px;
+}
+.meal-button-selected{
+    background-color: coral;
+}
+
+.today-flex{
+    display: flex;
+    background-color: black;
+    color: white;
+    padding: 30px;
+    flex-direction: column;
+    width: 400px;
+    height: 250px;
+    margin: 10px 20px;
+    border-radius: 20px;
+}
+.today-flex p{
+    font-size: 20px;
+    margin-bottom: 1px;
+    padding: 0;
+}
+.today-flex h3{
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+}

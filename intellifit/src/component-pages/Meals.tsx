@@ -4,6 +4,7 @@ import Minigreeter from "../components/Minigreeter";
 import { useEffect, useState } from "react";
 import MealsByDayCard from "../components/MealsByDayCard";
 import { useNavigate } from "react-router-dom";
+import TodayMeal from "../components/TodayMeal";
 
 function convertISOStringToDate(isoString: string) {
   const date = new Date(isoString);
@@ -12,9 +13,6 @@ function convertISOStringToDate(isoString: string) {
     year: "numeric",
     month: "long",
     day: "numeric",
-    // hour: "numeric",
-    // minute: "numeric",
-    // hour12: true,
   });
   return formattedDate;
 }
@@ -71,45 +69,60 @@ function Meals() {
     return (
       <>
         <Minigreeter label="Meals Today: "></Minigreeter>
-        <button
-          onClick={() => {
-            setMode("Today");
-            clearData();
-          }}
-        >
-          Today
-        </button>
-        <button
-          onClick={() => {
-            setMode("Daily");
-            clearData();
-          }}
-        >
-          Daily
-        </button>
-        <p>{JSON.stringify(data)}</p>
+        <div className="meal-button-group-flex">
+          <button
+            className="meal-button-selected"
+            onClick={() => {
+              setMode("Today");
+              clearData();
+            }}
+          >
+            Today
+          </button>
+          <button
+            onClick={() => {
+              setMode("Daily");
+              clearData();
+            }}
+          >
+            Daily
+          </button>
+        </div>
+
+        {/* <p>{JSON.stringify(data)}</p> */}
+        <div className="meal-flex">
+        {data && 
+        data.map((item)=>{
+          return (<TodayMeal data={item} />);
+        })
+        }
+        </div>
+      
       </>
     );
   } else {
     return (
       <>
         <Minigreeter label="Meals Sorted by Day: "></Minigreeter>
-        <button
-          onClick={() => {
-            setMode("Today");
-            clearData();
-          }}
-        >
-          Today
-        </button>
-        <button
-          onClick={() => {
-            setMode("Daily");
-            clearData();
-          }}
-        >
-          Daily
-        </button>
+        <div className="meal-button-group-flex">
+          <button
+            onClick={() => {
+              setMode("Today");
+              clearData();
+            }}
+          >
+            Today
+          </button>
+          <button
+            className="meal-button-selected"
+            onClick={() => {
+              setMode("Daily");
+              clearData();
+            }}
+          >
+            Daily
+          </button>
+        </div>
         <div className="meal-flex">
           {data &&
             data.map((meal) => {
