@@ -95,7 +95,7 @@ app.get("/meals/day/:date", (req, res) => {
 
 app.get("/meals/today",(req,res)=>{
   const GetMealsFromTodaySQL = `
-  SELECT mfe.mealfood_id, f.food_name, m.meal_name, mfe.serving_size, f.protein_per_gram, f.cal_per_gram, f.fat_per_gram, f.carb_per_gram
+  SELECT mfe.mealfood_id, f.food_name, f.food_brand, m.meal_name, mfe.serving_size, f.protein_per_gram, f.cal_per_gram, f.fat_per_gram, f.carb_per_gram
   from meal_food_entity mfe 
   JOIN food f ON f.food_id = mfe.food_id
   JOIN meal m ON m.meal_id = mfe.meal_id

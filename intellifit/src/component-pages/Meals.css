@@ -20,6 +20,7 @@
     background-color: black;
     justify-content: space-between;
     margin-left: 20px;
+    margin-bottom: 20px;
 
     padding: 20px 20px;
     border-radius: 10px;
@@ -35,7 +36,7 @@
     padding: 30px;
     flex-direction: column;
     width: 400px;
-    height: 250px;
+    height: 275px;
     margin: 10px 20px;
     border-radius: 20px;
 }
@@ -46,6 +47,10 @@
 }
 .today-flex h3{
     font-size: 25px;
+    margin: 0;
+    padding: 0;
+}
+.today-flex h4{
     margin: 0;
     padding: 0;
 }

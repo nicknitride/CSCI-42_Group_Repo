@@ -8,20 +8,29 @@ type dailyMeal = {
     cal_per_gram: number;
     fat_per_gram: number;
     carb_per_gram: number;
+    food_brand: string;
 };
 interface props{
     data : dailyMeal;
+}
+
+function formatFloat(num : number){
+    const originalVal = num;
+    const formattedVal = parseFloat(originalVal.toFixed(2));
+    return formattedVal;
 }
 
 function TodayMeal({data} : props){
 return(
 <>
 <div className="today-flex">
-    <h3>{data.meal_name} : {data.food_name}</h3>
-    <p>Calories: {data.cal_per_gram*data.serving_size}</p>
-    <p>Carbohydrates: {data.carb_per_gram*data.serving_size}g</p>
-    <p>Protein: {data.protein_per_gram*data.serving_size}g</p>
-    <p>Fat: {data.fat_per_gram*data.serving_size}g</p>
+    <h3>{data.food_name}</h3>
+    <h4>{data.food_brand}</h4>
+    <p>Calories: {formatFloat(data.cal_per_gram*data.serving_size)}</p>
+    <p>Serving: {formatFloat(data.serving_size)} (g)</p>
+    <p>Carbohydrates: {formatFloat(data.carb_per_gram*data.serving_size)} (g)</p>
+    <p>Protein: {formatFloat(data.protein_per_gram*data.serving_size)} (g)</p>
+    <p>Fat: {formatFloat(data.fat_per_gram*data.serving_size)} (g)</p>
 </div>
 </>
         );
