@@ -70,7 +70,7 @@ function Meals() {
   if (mode === "Today") {
     return (
       <>
-        <Minigreeter label="Meal Dashboard: "></Minigreeter>
+        <Minigreeter label="Meals Today: "></Minigreeter>
         <button
           onClick={() => {
             setMode("Today");
@@ -87,12 +87,13 @@ function Meals() {
         >
           Daily
         </button>
+        <p>{JSON.stringify(data)}</p>
       </>
     );
   } else {
     return (
       <>
-        <Minigreeter label="Meal Dashboard: "></Minigreeter>
+        <Minigreeter label="Meals Sorted by Day: "></Minigreeter>
         <button
           onClick={() => {
             setMode("Today");
