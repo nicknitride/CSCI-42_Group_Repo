@@ -27,6 +27,8 @@ app.get("/meals/day", (req, res) => {
     JOIN
         food f ON mfe.food_id = f.food_id
     GROUP BY
+        mfe.creation_date_mealfood
+    ORDER BY
         mfe.creation_date_mealfood;
     `,
     (err, result) => {
