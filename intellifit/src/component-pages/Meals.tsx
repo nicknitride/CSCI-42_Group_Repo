@@ -70,7 +70,7 @@ function Meals() {
                   const value=String(meal["day"]);
                   axios.get(`http://localhost:3003/meals/day/${value}`).then((response)=>{
                     console.log(response.data);
-                    navigate("/mealprep/editlist",{state: response.data});
+                    navigate("/meals/editlist",{state: response.data});
                   });
                 }}
                 key={String(meal["day"])}

@@ -71,13 +71,12 @@ function MealEditPage() {
     console.log("Date sent by handlesubmit"+dateForRedirect)
     axios.post(`http://localhost:3003/meal/edit/${value}`).then((response)=>{
         console.log(response.data);
-        // navigate(`/mealprep/editlist/${fixDateforRedirect(dateForRedirect)}`);
     }).catch((error) =>{
       console.log("Axios error:"+error);
     });
     axios.get(`http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}`).then((response)=>{
       console.log(response.data);
-      navigate("/mealprep/editlist",{state: response.data});
+      navigate("/meals/editlist",{state: response.data});
     });
   }
 
