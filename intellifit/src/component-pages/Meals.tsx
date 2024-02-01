@@ -3,7 +3,7 @@ import "./Meals.css";
 import Minigreeter from "../components/Minigreeter";
 import { useEffect, useState } from "react";
 import MealsByDayCard from "../components/MealsByDayCard";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function convertISOStringToDate(isoString: string) {
   const date = new Date(isoString);
@@ -21,41 +21,94 @@ function convertISOStringToDate(isoString: string) {
 
 function deleteEntriesMatchingDate(date: string) {
   console.log("Triggered delete handler for " + date);
-  axios.delete(`http://localhost:3003/meals/day/${date}`).then((response) => {
-    console.log(response.data);
-    console.log("Deleted entry successfully");
-    window.location.reload(); //Reload webpage after deletion
-  }).catch((error)=>{
-    console.log("Delete failed, axios error: "+error);
-  });
+  axios
+    .delete(`http://localhost:3003/meals/day/${date}`)
+    .then((response) => {
+      console.log(response.data);
+      console.log("Deleted entry successfully");
+      window.location.reload(); //Reload webpage after deletion
+    })
+    .catch((error) => {
+      console.log("Delete failed, axios error: " + error);
+    });
 }
-
-
 
 // !? TODO - Finish the edit handler, use for inspo: https://stackoverflow.com/questions/71777921/reat-js-navigate-with-json-object-to-another-page
 
 function Meals() {
   const [data, setData] = useState([]);
-  const[mode,setMode] = useState(true);
+  const [mode, setMode] = useState("Today");
   const navigate = useNavigate();
+
+  const clearData = () => {
+    setData([]); // Set data to an empty array
+  };
+
   useEffect(() => {
+    let axiosRequestEndpoint: string;
+    if (mode === "Today") {
+      axiosRequestEndpoint = "http://localhost:3003/meals/today";
+    } else if (mode === "Daily") {
+      axiosRequestEndpoint = "http://localhost:3003/meals/day/";
+    } else {
+      axiosRequestEndpoint = "http://localhost:3003/meals/day/";
+    }
     console.log("Page has requested meals by day");
     axios
-      .get("http://localhost:3003/meals/day/")
+      .get(axiosRequestEndpoint)
       .then((res) => {
         setData(res.data);
         console.log("Data received", JSON.stringify(res.data));
       })
       .catch((error) => {
-        console.error("Error fetching data, axios fetch meals by day failed: ", error);
+        console.error(
+          "Error fetching data, axios fetch meals by day failed: ",
+          error
+        );
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  {if (mode===true){
-    return(
+  }, [mode]);
+  if (mode === "Today") {
+    return (
       <>
         <Minigreeter label="Meal Dashboard: "></Minigreeter>
-       <button onClick={()=>{setMode(!mode)}}>Toggle Display</button>
+        <button
+          onClick={() => {
+            setMode("Today");
+            clearData();
+          }}
+        >
+          Today
+        </button>
+        <button
+          onClick={() => {
+            setMode("Daily");
+            clearData();
+          }}
+        >
+          Daily
+        </button>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Minigreeter label="Meal Dashboard: "></Minigreeter>
+        <button
+          onClick={() => {
+            setMode("Today");
+            clearData();
+          }}
+        >
+          Today
+        </button>
+        <button
+          onClick={() => {
+            setMode("Daily");
+            clearData();
+          }}
+        >
+          Daily
+        </button>
         <div className="meal-flex">
           {data &&
             data.map((meal) => {
@@ -68,12 +121,14 @@ function Meals() {
                     deleteEntriesMatchingDate(String(meal["day"]));
                   }}
                   editHandler={(msg) => {
-                    console.log(msg+" for "+String(meal["day"]));
-                    const value=String(meal["day"]);
-                    axios.get(`http://localhost:3003/meals/day/${value}`).then((response)=>{
-                      console.log(response.data);
-                      navigate("/meals/editlist",{state: response.data});
-                    });
+                    console.log(msg + " for " + String(meal["day"]));
+                    const value = String(meal["day"]);
+                    axios
+                      .get(`http://localhost:3003/meals/day/${value}`)
+                      .then((response) => {
+                        console.log(response.data);
+                        navigate("/meals/editlist", { state: response.data });
+                      });
                   }}
                   key={String(meal["day"])}
                 />
@@ -82,12 +137,7 @@ function Meals() {
         </div>
       </>
     );
-  }else{
-    return (<>
-    <Minigreeter label="Please Select a Filter!"/>
-    <button onClick={()=>{setMode(!mode)}}>Toggle Display</button>
-    </>);
-  }}
+  }
 }
 export default Meals;
 // Continue from here https://medium.com/@codingbeautydev/javascript-convert-json-to-map-49f95e4a6d21

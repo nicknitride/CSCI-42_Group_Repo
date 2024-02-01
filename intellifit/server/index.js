@@ -93,6 +93,25 @@ app.get("/meals/day/:date", (req, res) => {
   });
 });
 
+app.get("/meals/today",(req,res)=>{
+  const GetMealsFromTodaySQL = `
+  SELECT mfe.mealfood_id, f.food_name, m.meal_name, mfe.serving_size, f.protein_per_gram, f.cal_per_gram, f.fat_per_gram, f.carb_per_gram
+  from meal_food_entity mfe 
+  JOIN food f ON f.food_id = mfe.food_id
+  JOIN meal m ON m.meal_id = mfe.meal_id
+  where DATE(mfe.creation_date_mealfood) = CURDATE() ORDER BY mfe.meal_id;
+  ` 
+  db.query(GetMealsFromTodaySQL, (err,result)=>{
+    if(err){
+      console.log("Error getting meals/today "+err);
+    }
+    console.log("Sent meals/today",result);
+    res.send(result);
+  }
+
+    )
+})
+
 app.post("/meal/edit/:jsonstring",(req,res)=>{
   const data = JSON.parse(req.params.jsonstring);
   const sendEditedMealFood = `
