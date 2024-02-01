@@ -22,7 +22,7 @@ return(
 <>
 <div className="today-flex">
     <h3>{data.food_name}</h3>
-    <h4>{data.food_brand}</h4>
+    <h4> 🥚 {data.meal_name} | 🏪 {data.food_brand}</h4>
     <p>Calories: {formatFloat(data.cal_per_gram*data.serving_size)}</p>
     <p>Serving: {formatFloat(data.serving_size)} (g)</p>
     <p>Carbohydrates: {formatFloat(data.carb_per_gram*data.serving_size)} (g)</p>
@@ -30,6 +30,6 @@ return(
     <p>Fat: {formatFloat(data.fat_per_gram*data.serving_size)} (g)</p>
 </div>
 </>
-        );
+);
 }
 export default TodayMeal;
