@@ -66,18 +66,22 @@ INSERT INTO meal_food_entity (meal_id, food_id, serving_size) VALUES (1, 5, 150.
 INSERT INTO meal_food_entity (meal_id, food_id) VALUES (2, 13);
 
 -- Inserting an entry with specified meal_id, food_id, creation_date_mealfood, and serving_size
-INSERT INTO meal_food_entity (meal_id, food_id, serving_size)
+-- Inserting three whole days of meals into the mealfood table
+INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size)
 VALUES
-(1, 1, 150.50),
-(1, 2, 200.25),
-(2, 3, 100.75),
-(2, 4, 75.30),
-(3, 5, 300.00),
-(3, 6, 50.80),
-(1, 7, 180.40),
-(2, 8, 250.10),
-(3, 9, 120.75),
-(1, 10, 90.20);
+-- Day 1
+(1, 1, CURDATE(), 150.5),  -- Adjust the food_id as needed
+(1, 2, CURDATE(), 200.25), -- Adjust the food_id as needed
+(2, 3, CURDATE(), 100.75), -- Adjust the food_id as needed
+-- Day 2
+(2, 4, CURDATE() + INTERVAL 1 DAY, 75.3),  -- Adjust the food_id as needed
+(3, 5, CURDATE() + INTERVAL 1 DAY, 300.0), -- Adjust the food_id as needed
+(3, 6, CURDATE() + INTERVAL 1 DAY, 50.8),  -- Adjust the food_id as needed
+-- Day 3
+(1, 7, CURDATE() + INTERVAL 2 DAY, 180.4), -- Adjust the food_id as needed
+(2, 8, CURDATE() + INTERVAL 2 DAY, 250.1), -- Adjust the food_id as needed
+(3, 9, CURDATE() + INTERVAL 2 DAY, 120.75); -- Adjust the food_id as needed
+
 
 
 
