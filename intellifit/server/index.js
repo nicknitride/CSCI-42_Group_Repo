@@ -152,6 +152,29 @@ app.get("/meals/today/totalcal", (req, res) => {
   });
 });
 
+app.get("/meals/today/totalcal/:date", (req, res) => {
+  const date = req.params.date;
+  const getTotalCallForTodaySQL = `
+  SELECT 
+  SUM(mfe.serving_size * f.cal_per_gram) AS total_calories,
+  SUM(mfe.serving_size * f.protein_per_gram) AS total_protein,
+  SUM(mfe.serving_size * f.fat_per_gram) AS total_fat,
+  SUM(mfe.serving_size * f.carb_per_gram) AS total_carbs
+  FROM meal_food_entity mfe
+  JOIN food f on f.food_id = mfe.food_id
+  JOIN meal m on m.meal_id = mfe.meal_id
+  where DATE(mfe.creation_date_mealfood) = "${date}" ORDER BY mfe.meal_id;
+  `;
+  console.log(getTotalCallForTodaySQL);
+  db.query(getTotalCallForTodaySQL, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log("Successfully sent totals for Today view", result);
+    res.send(result);
+  });
+});
+
 app.post("/meal/edit/:jsonstring", (req, res) => {
   const data = JSON.parse(req.params.jsonstring);
   const sendEditedMealFood = `

@@ -1,94 +1,97 @@
-.single-meal-card{
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    color: white;
-    min-height: min-content;
-    width: 350px;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
+.single-meal-card {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  min-height: min-content;
+  width: 350px;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
 }
-.single-meal-card p{
-    margin: 0;
-    margin-bottom: 4px;
+.single-meal-card p {
+  margin: 0;
+  margin-bottom: 4px;
 }
-.single-meal-card:hover{
-    box-shadow: black 4px 5px 15px;
-    cursor: pointer;
+.single-meal-card:hover {
+  box-shadow: black 4px 5px 15px;
+  cursor: pointer;
 }
-.edit-container{
-    display: flex;
-    justify-content: center;
-    height: 100vh;
+.edit-container {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
 }
-.edit-meal{
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    color: white;
-    min-height: min-content;
-    max-height: 60vh;
-    width: 500px;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
-    align-items: center;
-    justify-content: center;
-
+.edit-meal {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  min-height: min-content;
+  max-height: 60vh;
+  width: 500px;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
+  align-items: center;
+  justify-content: center;
 }
-.edit-meal label{
-    font-size: 30px;
-    text-align: center;
+.edit-meal label {
+  font-size: 30px;
+  text-align: center;
 }
-.input-flex{
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
+.input-flex {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
 }
-.input-flex span{
-    font-size: 20px;
+.input-flex span {
+  font-size: 20px;
 }
-.input-flex input{
-    font-size: 18px;
-    width: 200px;
-    text-align: end;
-    border: 0px;
-    background-color: white;
-    outline: 1px solid white;
-    color: black;
-    padding-right: 2px ;
-    /* border-radius: 5px; */
+.input-flex input {
+  font-size: 18px;
+  width: 200px;
+  text-align: end;
+  border: 0px;
+  background-color: white;
+  outline: 1px solid white;
+  color: black;
+  padding-right: 2px;
+  /* border-radius: 5px; */
 }
-.nutrition-info{
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    color: white;
-    min-height: min-content;
-    max-height: 50vh;
-    width: 500px;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
+.nutrition-info {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  min-height: min-content;
+  max-height: 50vh;
+  width: 500px;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.6) 2px 4px 15px;
 }
-.button-and-edit-container{
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-between; */
-    align-items: center;
+.button-and-edit-container {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  align-items: center;
 }
-.button-and-edit-container button{
-    background-color: white;
-    width: 90%;
-    box-shadow: rgba(0, 0, 0, 0.3) 5px 6px 20px;
+.button-and-edit-container button {
+  background-color: white;
+  width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.3) 5px 6px 20px;
 }
-.button-and-edit-container button:hover{
-    background-color: white;
-    width: 90%;
-    box-shadow: rgba(0, 0, 0, 0.6) 5px 6px 20px;
+.button-and-edit-container button:hover {
+  background-color: white;
+  width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.6) 5px 6px 20px;
+}
+.meal-list-flex {
+  display: flex;
+  margin-left: 12px;
 }

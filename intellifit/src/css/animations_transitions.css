@@ -1,29 +1,29 @@
 .fade-in {
-    opacity: 0; /* Initial opacity set to 0 */
-    animation: fadeIn 4s ease-in-out; /* Adjust the duration (4s in this example) */
-  
-    /* Optionally, you can add other styles here, like transition, to control other aspects of the animation */
+  opacity: 0; /* Initial opacity set to 0 */
+  animation: fadeIn 4s ease-in-out forwards; /* Adjust the duration (4s in this example) */
+
+  /* Optionally, you can add other styles here, like transition, to control other aspects of the animation */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
+
+  to {
+    opacity: 1;
+  }
+}
+
+.short-fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-in-out forwards;
   @keyframes fadeIn {
     from {
       opacity: 0;
     }
-  
     to {
       opacity: 1;
     }
   }
-
-.short-fade-in{
-    opacity: 0;
-    animation: fadeIn 0.8s ease-in-out forwards;
-    @keyframes fadeIn{
-        from{
-         opacity: 0;
-        }
-        to{
-            opacity: 1;
-        }
-    }
 }

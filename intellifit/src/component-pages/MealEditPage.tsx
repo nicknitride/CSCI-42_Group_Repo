@@ -16,6 +16,9 @@ type MealDataQueryItem = {
   mealfood_id: number;
   serving_size: number;
   cal_per_gram: number;
+  protein_per_gram:number;
+  fat_per_gram: number;
+  carb_per_gram:number;
 };
 
 function processDate(value: string) {
@@ -132,8 +135,12 @@ function MealEditPage() {
         </div>
 
         <div className="nutrition-info">
-          <h1>Output protein, calories, carbohydrates, and fat.</h1>
-          <h1>But we need to edit the food entries to support these macros.</h1>
+          <h1>Stats</h1>
+          <ul>
+            <li>Protein Content: {formatFloat(editedData.serving_size*editedData.protein_per_gram)}</li>
+            <li>Carb Content: {formatFloat(editedData.serving_size*editedData.carb_per_gram)}</li>
+            <li>Fat Content: {formatFloat(editedData.serving_size*editedData.fat_per_gram)}</li>
+          </ul>
         </div>
       </div>
     </>
