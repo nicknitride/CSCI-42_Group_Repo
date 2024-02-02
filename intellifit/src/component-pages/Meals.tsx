@@ -208,9 +208,9 @@ function Meals() {
                   }}
                   editHandler={(msg) => {
                     console.log(msg + " for " + String(meal["day"]));
-                    const value = String(meal["day"]);
+                    const meal_day = String(meal["day"]);
                     axios
-                      .get(`http://localhost:3003/meals/day/${value}`)
+                      .get(`http://localhost:3003/meals/day/${meal_day}`)
                       .then((response) => {
                         console.log(response.data);
                         navigate("/meals/editlist", { state: response.data });
