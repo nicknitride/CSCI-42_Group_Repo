@@ -44,12 +44,13 @@ function deleteEntriesMatchingDate(date: string) {
 
 function Meals() {
   const [data, setData] = useState([]);
-  const [dailyTotals, setTotals] = useState<DailyTotals[]>();
+  const [dailyTotals, setTotals] = useState<DailyTotals[]>([]);
   const [mode, setMode] = useState("Today");
   const navigate = useNavigate();
 
   const clearData = () => {
     setData([]); // Set data to an empty array
+    setTotals([]);
   };
 
   useEffect(() => {
@@ -106,29 +107,45 @@ function Meals() {
             Daily
           </button>
         </div>
-
+        {dailyTotals.length > 0 && (
+            <div className="totals">
+              <h2>Totals:</h2>
+              <h4>
+                Total Calories:{" "}
+                {dailyTotals.length > 0 &&
+                  formatFloat(dailyTotals[0].total_calories)} (g)
+              </h4>
+              <h4>
+                Total Protein:{"  "}
+                {dailyTotals.length > 0 &&
+                  formatFloat(dailyTotals[0].total_protein)} (g)
+              </h4>
+              <h4>
+                Total Fat:{" "}
+                {dailyTotals.length > 0 &&
+                  formatFloat(dailyTotals[0].total_fat)} (g)
+              </h4>
+              <h4>
+                Total Carbs:{" "}
+                {dailyTotals.length > 0 &&
+                  formatFloat(dailyTotals[0].total_carbs)} (g)
+              </h4>
+            </div>
+          )}
+          {/* {JSON.stringify(dailyTotals)} */}
         {/* <p>{JSON.stringify(data)}</p> */}
-        <div className="meal-flex">
+        {/* <div className="meal-flex">
           {data &&
             data.map((item) => {
               return <TodayMeal data={item} />;
             })}
-            <div className="totals">
-          <h3>Total Calories: {dailyTotals && formatFloat(dailyTotals[0].total_calories)}</h3>
-          <h3>
-            Total Protein:{"  "}
-            {dailyTotals && formatFloat(dailyTotals[0].total_protein)}
-          </h3>
-          <h3>
-            Total Fat:  {dailyTotals && formatFloat(dailyTotals[0].total_fat)}
-          </h3>
-          <h3>
-            Total Carbs:  {dailyTotals && formatFloat(dailyTotals[0].total_carbs)}
-          </h3>
+        </div> */}
+        <div className="meal-grid">
+        {data &&
+            data.map((item) => {
+              return <TodayMeal data={item} />;
+            })}
         </div>
-        </div>
-        
-
       </>
     );
   } else {

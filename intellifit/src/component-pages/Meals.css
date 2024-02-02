@@ -6,6 +6,13 @@
 .meal-flex .one-item-card{
     min-width: 300px;
 }
+
+.meal-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,300px);
+    gap: 200px;
+}
+
 @media (max-width:500px) {
     .meal-flex{
         display: flex;
@@ -70,8 +77,12 @@
     /* align-items: center; */
 
 }
-.totals h3{
+.totals h2{
     margin: 0;
-    margin-bottom: 10px;
+}
+.totals h4{
+    margin: 0;
+    margin-bottom: 5px;
     padding: 0;
+    font-weight: lighter;
 }
