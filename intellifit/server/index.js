@@ -78,7 +78,7 @@ app.get("/meals/day/:date", (req, res) => {
   }
   const grabIndividualMealsWithMatchingDates = `
   SELECT mfe.mealfood_id, f.food_name, f.food_brand, m.meal_name, (f.cal_per_gram * mfe.serving_size) AS "Calories", mfe.creation_date_mealfood, mfe.serving_size, 
-  f.cal_per_gram
+  f.cal_per_gram, f.protein_per_gram, f.fat_per_gram, f.carb_per_gram
   FROM meal_food_entity mfe 
   JOIN food f ON f.food_id = mfe.food_id
   JOIN meal m ON m.meal_id = mfe.meal_id
