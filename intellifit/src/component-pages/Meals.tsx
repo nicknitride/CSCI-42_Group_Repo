@@ -55,6 +55,17 @@ function Meals() {
 
   useEffect(() => {
     let axiosRequestEndpoint: string;
+    // Reset MFE entry IDs (to make sure the index starts at 0 for the next and previous buttons to work)
+    axios
+      .post("http://localhost:3003/meals/reset/mealfood")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("Failed to reset mealfoodentity table", err);
+      });
+
+    // Get Details
     if (mode === "Today") {
       axiosRequestEndpoint = "http://localhost:3003/meals/today";
     } else if (mode === "Daily") {
@@ -107,32 +118,41 @@ function Meals() {
             Daily
           </button>
         </div>
-        {dailyTotals.length > 0 && (
-            <div className="totals">
-              <h2>Totals:</h2>
-              <h4>
-                Total Calories:{" "}
-                {dailyTotals.length > 0 &&
-                  formatFloat(dailyTotals[0].total_calories)} (g)
-              </h4>
-              <h4>
-                Total Protein:{"  "}
-                {dailyTotals.length > 0 &&
-                  formatFloat(dailyTotals[0].total_protein)} (g)
-              </h4>
-              <h4>
-                Total Fat:{" "}
-                {dailyTotals.length > 0 &&
-                  formatFloat(dailyTotals[0].total_fat)} (g)
-              </h4>
-              <h4>
-                Total Carbs:{" "}
-                {dailyTotals.length > 0 &&
-                  formatFloat(dailyTotals[0].total_carbs)} (g)
-              </h4>
-            </div>
-          )}
-          {/* {JSON.stringify(dailyTotals)} */}
+        {(dailyTotals[0] === undefined ||
+          dailyTotals[0].total_calories === null) && (
+          <h1 className="null-message fade-in">
+            No Meals to Display, Please Add a Meal Entry for Today
+          </h1>
+        )}
+        {dailyTotals.length > 0 && dailyTotals[0].total_calories !== null && (
+          <div className="totals short-fade-in">
+            <h2>Totals:</h2>
+            <h4>
+              Total Calories:{" "}
+              {dailyTotals.length > 0 &&
+                formatFloat(dailyTotals[0].total_calories)}{" "}
+              (g)
+            </h4>
+            <h4>
+              Total Protein:{"  "}
+              {dailyTotals.length > 0 &&
+                formatFloat(dailyTotals[0].total_protein)}{" "}
+              (g)
+            </h4>
+            <h4>
+              Total Fat:{" "}
+              {dailyTotals.length > 0 && formatFloat(dailyTotals[0].total_fat)}{" "}
+              (g)
+            </h4>
+            <h4>
+              Total Carbs:{" "}
+              {dailyTotals.length > 0 &&
+                formatFloat(dailyTotals[0].total_carbs)}{" "}
+              (g)
+            </h4>
+          </div>
+        )}
+        {/* {JSON.stringify(dailyTotals)} */}
         {/* <p>{JSON.stringify(data)}</p> */}
         {/* <div className="meal-flex">
           {data &&
@@ -140,8 +160,8 @@ function Meals() {
               return <TodayMeal data={item} />;
             })}
         </div> */}
-        <div className="meal-grid">
-        {data &&
+        <div className="meal-grid short-fade-in">
+          {data &&
             data.map((item) => {
               return <TodayMeal data={item} />;
             })}
@@ -171,7 +191,10 @@ function Meals() {
             Daily
           </button>
         </div>
-        <div className="meal-flex">
+        {data.length === 0 && (
+          <h1 className="null-message fade-in">No Meals to Display</h1>
+        )}
+        <div className="meal-flex short-fade-in">
           {data &&
             data.map((meal) => {
               return (

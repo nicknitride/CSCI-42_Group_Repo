@@ -8,7 +8,8 @@ const db = mysql.createConnection({
   user: "root",
   password: "nickwuzhere",
   database: "intellifit_test",
-  timezone: 'utc'  // set timezone to UTC
+  timezone: "utc", // set timezone to UTC
+  multipleStatements: true, //Enables complex commands, such as resetting auto_increment
 });
 const app = express();
 const PORT = 3003;
@@ -53,7 +54,7 @@ app.delete("/meals/day/:date", (req, res) => {
   const deleteBYDateSQL = `
   DELETE FROM meal_food_entity 
   WHERE meal_food_entity.creation_date_mealfood = "${processedDate}"
-  ;`
+  ;`;
   db.query(deleteBYDateSQL, (err, result) => {
     if (err) {
       console.log(err);
@@ -93,26 +94,44 @@ app.get("/meals/day/:date", (req, res) => {
   });
 });
 
-app.get("/meals/today",(req,res)=>{
+app.get("/meals/today", (req, res) => {
   const GetMealsFromTodaySQL = `
   SELECT mfe.mealfood_id, f.food_name, f.food_brand, m.meal_name, mfe.serving_size, f.protein_per_gram, f.cal_per_gram, f.fat_per_gram, f.carb_per_gram
   from meal_food_entity mfe 
   JOIN food f ON f.food_id = mfe.food_id
   JOIN meal m ON m.meal_id = mfe.meal_id
   where DATE(mfe.creation_date_mealfood) = CURDATE() ORDER BY mfe.meal_id;
-  ` 
-  db.query(GetMealsFromTodaySQL, (err,result)=>{
-    if(err){
-      console.log("Error getting meals/today "+err);
+  `;
+  db.query(GetMealsFromTodaySQL, (err, result) => {
+    if (err) {
+      console.log("Error getting meals/today " + err);
     }
-    console.log("Sent meals/today",result);
+    console.log("Sent meals/today", result);
     res.send(result);
-  }
+  });
+});
 
-    )
-})
+app.post("/meals/reset/mealfood", (req, res) => {
+  //This resets the mealfood_id, use upon deletion to keep the next and previous buttons working
+  const ResetMFESQL = `
+  SET  @num := 0;
+  UPDATE meal_food_entity 
+  SET mealfood_id = @num := (@num+1);
+  ALTER TABLE meal_food_entity AUTO_INCREMENT =1 ;
+  `;
+  db.query(ResetMFESQL, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(
+      "Successfully reset the meal_food_enttiy auto_increment",
+      result
+    );
+    res.send("Successfully reset the meal_food_enttiy auto_increment");
+  });
+});
 
-app.get("/meals/today/totalcal",(req,res)=>{
+app.get("/meals/today/totalcal", (req, res) => {
   const getTotalCallForTodaySQL = `
   SELECT 
   SUM(mfe.serving_size * f.cal_per_gram) AS total_calories,
@@ -123,34 +142,40 @@ app.get("/meals/today/totalcal",(req,res)=>{
   JOIN food f on f.food_id = mfe.food_id
   JOIN meal m on m.meal_id = mfe.meal_id
   where DATE(mfe.creation_date_mealfood) = CURDATE() ORDER BY mfe.meal_id;
-  `
-  db.query(getTotalCallForTodaySQL,(err,result)=>{
-    if(err){
-      console.log(err)
+  `;
+  db.query(getTotalCallForTodaySQL, (err, result) => {
+    if (err) {
+      console.log(err);
     }
-    console.log("Successfully sent totals for Today view",result)
+    console.log("Successfully sent totals for Today view", result);
     res.send(result);
-  })
-})
+  });
+});
 
-app.post("/meal/edit/:jsonstring",(req,res)=>{
+app.post("/meal/edit/:jsonstring", (req, res) => {
   const data = JSON.parse(req.params.jsonstring);
   const sendEditedMealFood = `
   UPDATE meal_food_entity
   SET serving_size = ${data["serving_size"]}
   WHERE meal_food_entity.mealfood_id = ${data["mealfood_id"]};
   `;
-  console.log("In meal/edit/:jsonstring post function", data,sendEditedMealFood);
-  db.query(sendEditedMealFood,(err, result) => {
+  console.log(
+    "In meal/edit/:jsonstring post function",
+    data,
+    sendEditedMealFood
+  );
+  db.query(sendEditedMealFood, (err, result) => {
     if (err) {
-      console.log("Edit has failed, check if database supports the number size, currently it supports xxxx.xx as a value max");
+      console.log(
+        "Edit has failed, check if database supports the number size, currently it supports xxxx.xx as a value max"
+      );
       console.log(err);
     }
     res.send(result);
   });
 
   // !? TODO Finish this Function
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

@@ -1,88 +1,126 @@
-.meal-flex{
+.meal-flex {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 80px;
+}
+.meal-flex .one-item-card {
+  min-width: 300px;
+}
+
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+  gap: 200px;
+}
+
+@media (max-width: 500px) {
+  .meal-flex {
     display: flex;
-    flex-wrap: wrap;
-    padding-left: 80px;
-}
-.meal-flex .one-item-card{
-    min-width: 300px;
+    flex-direction: column;
+    padding-left: 0px;
+  }
 }
 
-.meal-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fit,300px);
-    gap: 200px;
+.meal-button-group-flex {
+  display: flex;
+  width: 180px;
+  background-color: black;
+  justify-content: space-between;
+  margin-left: 20px;
+  margin-bottom: 20px;
+
+  padding: 20px 20px;
+  border-radius: 10px;
+}
+.meal-button-selected {
+  background-color: coral;
 }
 
-@media (max-width:500px) {
-    .meal-flex{
-        display: flex;
-        flex-direction: column;
-        padding-left: 0px;
+.today-flex {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: black;
+  color: white;
+  padding: 30px;
+  flex-direction: column;
+  width: 400px;
+  height: 275px;
+  margin: 10px 20px;
+  border-radius: 20px;
+}
+.today-flex p {
+  font-size: 20px;
+  margin-bottom: 1px;
+  padding: 0;
+}
+.today-flex h3 {
+  font-size: 25px;
+  margin: 0;
+  padding: 0;
+}
+.today-flex h4 {
+  margin: 0;
+  padding: 0;
+}
+.totals {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  width: 330px;
+  height: 200px;
+  padding: 10px 30px;
+  justify-content: center;
+  margin-left: 20px;
+  border-radius: 15px;
+  /* align-items: center; */
+}
+.totals h2 {
+  margin: 0;
+}
+.totals h4 {
+  margin: 0;
+  margin-bottom: 5px;
+  padding: 0;
+  font-weight: lighter;
+}
+.null-message {
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  height: 250px;
+  align-items: center;
+}
+
+
+.fade-in {
+    opacity: 0; /* Initial opacity set to 0 */
+    animation: fadeIn 4s ease-in-out; /* Adjust the duration (4s in this example) */
+  
+    /* Optionally, you can add other styles here, like transition, to control other aspects of the animation */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
     }
-}
+  
+    to {
+      opacity: 1;
+    }
+  }
 
-.meal-button-group-flex{
-    display: flex;
-    width: 180px;
-    background-color: black;
-    justify-content: space-between;
-    margin-left: 20px;
-    margin-bottom: 20px;
-
-    padding: 20px 20px;
-    border-radius: 10px;
-}
-.meal-button-selected{
-    background-color: coral;
-}
-
-.today-flex{
-    display: flex;
-    flex-wrap: wrap;
-    background-color: black;
-    color: white;
-    padding: 30px;
-    flex-direction: column;
-    width: 400px;
-    height: 275px;
-    margin: 10px 20px;
-    border-radius: 20px;
-}
-.today-flex p{
-    font-size: 20px;
-    margin-bottom: 1px;
-    padding: 0;
-}
-.today-flex h3{
-    font-size: 25px;
-    margin: 0;
-    padding: 0;
-}
-.today-flex h4{
-    margin: 0;
-    padding: 0;
-}
-.totals{
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    color: white;
-    font-size: 20px;
-    width: 330px;
-    height: 200px;
-    padding: 10px 30px;
-    justify-content: center;
-    margin-left: 20px;
-    border-radius: 15px;
-    /* align-items: center; */
-
-}
-.totals h2{
-    margin: 0;
-}
-.totals h4{
-    margin: 0;
-    margin-bottom: 5px;
-    padding: 0;
-    font-weight: lighter;
+.short-fade-in{
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
+    @keyframes fadeIn{
+        from{
+         opacity: 0;
+        }
+        to{
+            opacity: 1;
+        }
+    }
 }
