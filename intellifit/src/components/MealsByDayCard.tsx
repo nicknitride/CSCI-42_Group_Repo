@@ -1,5 +1,6 @@
 import "../css/MealsByDayCard.css";
 import formatFloat from "../formatting_functions/formatFloat";
+import "../css/animations_transitions.css";
 interface props {
   title: string;
   content: string;
@@ -14,20 +15,27 @@ function MealsByDayCard(
     content = "Err. No Content",
     infolabel,
     deleteHandler,
-    editHandler
+    editHandler,
   }: props,
   passedKey?: React.Key
 ) {
   return (
     <>
-      <div className="one-item-card">
+      <div className="one-item-card short-fade-in">
         <h1>{title}</h1>
         <p key={passedKey}>
-          {infolabel && <span>{(infolabel)}</span>}
+          {infolabel && <span>{infolabel}</span>}
           {formatFloat(parseFloat(content))}
         </p>
         <div className="two-button-flex">
-          <button onClick={()=> {editHandler("edit clicked")}}> Edit </button>
+          <button
+            onClick={() => {
+              editHandler("edit clicked");
+            }}
+          >
+            {" "}
+            Edit{" "}
+          </button>
           <button
             onClick={() => {
               deleteHandler(infolabel);

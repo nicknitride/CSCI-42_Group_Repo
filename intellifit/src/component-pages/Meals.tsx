@@ -6,6 +6,7 @@ import MealsByDayCard from "../components/MealsByDayCard";
 import { useNavigate } from "react-router-dom";
 import TodayMeal from "../components/TodayMeal";
 import formatFloat from "../formatting_functions/formatFloat";
+import "../css/animations_transitions.css"
 
 interface DailyTotals {
   total_calories: number;
@@ -194,9 +195,9 @@ function Meals() {
         {data.length === 0 && (
           <h1 className="null-message fade-in">No Meals to Display</h1>
         )}
-        <div className="meal-flex short-fade-in">
-          {data &&
-            data.map((meal) => {
+        {data && (
+          <div className="meal-flex">
+            {data.map((meal) => {
               return (
                 <MealsByDayCard
                   title={convertISOStringToDate(String(meal["day"]))}
@@ -219,7 +220,8 @@ function Meals() {
                 />
               );
             })}
-        </div>
+          </div>
+        )}
       </>
     );
   }
