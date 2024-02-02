@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Minigreeter from '../components/Minigreeter';
-import './MealList.css';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Minigreeter from "../components/Minigreeter";
+import "./MealList.css";
+import axios from "axios";
+import formatFloat, {
+  specifyDecimalPlaces,
+} from "../formatting_functions/formatFloat";
 
 type MealDataQueryItem = {
   Calories: number;
@@ -37,17 +40,20 @@ function processDate(value: string) {
     "12": "December",
   };
   const monthName = monthsMap[month] || "Invalid Month";
-    processedDate = `${monthName} ${day}, ${year}`;
-    console.log(processDate);
-    return processedDate;
-  }
+  processedDate = `${monthName} ${day}, ${year}`;
+  console.log(processDate);
+  return processedDate;
+}
 
-  function fixDateforRedirect(date: string): string{
-    const shortenedDateArray = date.split("",10);
-    const fixedDate = shortenedDateArray.splice(0.10).toString().replace(/[,]/g,"");
-    console.log(shortenedDateArray,fixedDate);
-    return fixedDate;
-  }
+function fixDateforRedirect(date: string): string {
+  const shortenedDateArray = date.split("", 10);
+  const fixedDate = shortenedDateArray
+    .splice(0.1)
+    .toString()
+    .replace(/[,]/g, "");
+  console.log(shortenedDateArray, fixedDate);
+  return fixedDate;
+}
 
 function MealEditPage() {
   const location = useLocation();
@@ -65,20 +71,27 @@ function MealEditPage() {
       [name]: value,
     }));
   };
-  const handleSubmit = ()=>{
+  const handleSubmit = () => {
     const value = JSON.stringify(editedData);
     const dateForRedirect = String(editedData.creation_date_mealfood);
-    console.log("Date sent by handlesubmit"+dateForRedirect)
-    axios.post(`http://localhost:3003/meal/edit/${value}`).then((response)=>{
+    console.log("Date sent by handlesubmit" + dateForRedirect);
+    axios
+      .post(`http://localhost:3003/meal/edit/${value}`)
+      .then((response) => {
         console.log(response.data);
-    }).catch((error) =>{
-      console.log("Axios error:"+error);
-    });
-    axios.get(`http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}`).then((response)=>{
-      console.log(response.data);
-      navigate("/meals/editlist",{state: response.data});
-    });
-  }
+      })
+      .catch((error) => {
+        console.log("Axios error:" + error);
+      });
+    axios
+      .get(
+        `http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}`
+      )
+      .then((response) => {
+        console.log(response.data);
+        navigate("/meals/editlist", { state: response.data });
+      });
+  };
 
   return (
     <>
@@ -91,32 +104,37 @@ function MealEditPage() {
       {/* Uncomment for debugging purposes */}
       <div className="edit-container">
         <div className="button-and-edit-container">
-        <form className="edit-meal" onSubmit={handleSubmit} >
-          <label>{editedData.food_name} : {editedData.food_brand}</label>
-          <div className="input-flex">
-            <span>Serving Size in Grams</span>
-            <input
-              type="text"
-              name="serving_size"
-              value={editedData.serving_size}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="input-flex">
-            <span>Calories per Gram</span>
-            <span>{editedData.cal_per_gram}</span>
-          </div>
-          <h3>Current Calorie Count: {editedData.cal_per_gram*editedData.serving_size}</h3>
-        </form>
-        <button onClick={
-          handleSubmit
-          } type='button'>Submit</button>
+          <form className="edit-meal" onSubmit={handleSubmit}>
+            <label>
+              {editedData.food_name} : {editedData.food_brand}
+            </label>
+            <div className="input-flex">
+              <span>Serving Size in Grams</span>
+              <input
+                type="text"
+                name="serving_size"
+                value={editedData.serving_size}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="input-flex">
+              <span>Calories per Gram</span>
+              <span>{specifyDecimalPlaces(editedData.cal_per_gram, 3)}</span>
+            </div>
+            <h3>
+              Current Calorie Count:{" "}
+              {formatFloat(editedData.cal_per_gram * editedData.serving_size)}
+            </h3>
+          </form>
+          <button onClick={handleSubmit} type="button">
+            Submit
+          </button>
         </div>
 
         <div className="nutrition-info">
-            <h1>Output protein, calories, carbohydrates, and fat.</h1>
-            <h1>But we need to edit the food entries to support these macros.</h1>
-            </div>
+          <h1>Output protein, calories, carbohydrates, and fat.</h1>
+          <h1>But we need to edit the food entries to support these macros.</h1>
+        </div>
       </div>
     </>
   );
