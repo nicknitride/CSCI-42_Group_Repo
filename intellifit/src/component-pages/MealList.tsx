@@ -13,6 +13,9 @@ type mealDataQuery = {
   mealfood_id: number;
   serving_size: number;
   cal_per_gram: number;
+  protein_per_gram : number;
+  fat_per_gram: number;
+  carb_per_gram:number;
 }[];
 
 function processDate(value: string) {
@@ -43,7 +46,6 @@ function processDate(value: string) {
   return processedDate;
 }
 
-
 function MealList() {
   const navigate = useNavigate();
 
@@ -58,6 +60,7 @@ function MealList() {
           JSON.stringify(Object.values(data)[0]["creation_date_mealfood"])
         )}`}
       />
+      {/* <p>{JSON.stringify(data)}</p> */}
       {data.map((dataitem) => {
         return (
           <>
@@ -72,8 +75,11 @@ function MealList() {
               <h1>{`${dataitem["food_name"]} for Meal: ${dataitem["meal_name"]}`}</h1>
               <p>Brand: {dataitem["food_brand"]}</p>
               <p>Calories: {formatFloat(dataitem["Calories"])}</p>
-              <p>Serving Size: {formatFloat(dataitem["serving_size"])}</p>
-              <p>Calories/Gram: {formatFloat(dataitem["cal_per_gram"])}</p>
+              <p>Serving Size: {formatFloat(dataitem["serving_size"])} (g)</p>
+              <p>Calories/Gram: {formatFloat(dataitem["cal_per_gram"])} (g)</p>
+              <p>Protein/Gram: {formatFloat(dataitem["protein_per_gram"])} (g)</p>
+              <p>Carb/Gram: {formatFloat(dataitem["carb_per_gram"])} (g)</p>
+              <p>Fat/Gram: {formatFloat(dataitem["fat_per_gram"])} (g)</p>
             </div>
           </>
         );
