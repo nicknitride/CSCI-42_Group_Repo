@@ -6,7 +6,7 @@ import MealsByDayCard from "../components/MealsByDayCard";
 import { useNavigate } from "react-router-dom";
 import TodayMeal from "../components/TodayMeal";
 import formatFloat from "../formatting_functions/formatFloat";
-import "../css/animations_transitions.css"
+import "../css/animations_transitions.css";
 
 interface DailyTotals {
   total_calories: number;
@@ -116,7 +116,7 @@ function Meals() {
               clearData();
             }}
           >
-            Daily
+            By Day
           </button>
         </div>
         {(dailyTotals[0] === undefined ||
@@ -189,7 +189,7 @@ function Meals() {
               clearData();
             }}
           >
-            Daily
+            By Day
           </button>
         </div>
         {data.length === 0 && (
