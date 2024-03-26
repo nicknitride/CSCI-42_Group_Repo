@@ -251,7 +251,8 @@ function Meals() {
             By Day
           </button>
         </div>
-        <div className="meal-button-add">
+        <div className="crud-flex-container">
+        <div className="meal-button-crud">
           <button
             onClick={() => {
               navigate("/meal/add/");
@@ -260,6 +261,8 @@ function Meals() {
             Add a Meal
           </button>
         </div>
+        </div>
+        
         {data.length === 0 && (
           <h1 className="null-message fade-in">No Meals to Display</h1>
         )}
