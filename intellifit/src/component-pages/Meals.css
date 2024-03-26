@@ -109,3 +109,31 @@
   padding-right: 0px;
   border-radius: 25px;
 }
+
+/* Meal Add Page */
+.meal-option-flex-container {
+  display: flex;
+  width: fit-content;
+  background-color: black;
+  border-radius: 20px;
+  margin-left: 15px;
+}
+.meal-option {
+  height: 60 px;
+  width: 100 px;
+  margin: 15px;
+}
+.currently-selected-meal-div {
+  background-color: black;
+  color: white;
+  display: flex;
+  width: fit-content;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  border-radius: 15px;
+}
+.currently-selected-meal-div h3 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
