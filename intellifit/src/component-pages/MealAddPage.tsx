@@ -1,7 +1,8 @@
 import Minigreeter from "../components/Minigreeter";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Meals.css";
+import axios from "axios";
 
 function AddMealPage() {
   const navigate = useNavigate();
@@ -9,12 +10,26 @@ function AddMealPage() {
   const [mealHumanReadable, setMealHumanReadable] = useState("");
   const [foodId, setFoodId] = useState("");
   const [servingSize, setServingSize] = useState("");
+  const [foodData, setFoodData] = useState([]);
 
-  const [active, setActive] = useState(""); /* Store active button*/
+  //   const [active, setActive] = useState(""); /* Store active button*/
 
   function outputCurrentSelected() {
     console.log(mealId);
   }
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3003/food/all")
+      .then((res) => {
+        console.log(JSON.stringify(res));
+        console.log("Response was" + res.data);
+        setFoodData(res.data);
+      })
+      .catch((err) => {
+        console.log("Failed to receive all food items from server", err);
+      });
+  }, []);
 
   return (
     <>
@@ -69,6 +84,21 @@ function AddMealPage() {
             Dinner
           </button>
         </div>
+      </div>
+
+      <div className="food-list">
+        <h1>Select a Food Item: </h1>
+        {foodData.map((item) => {
+          return (
+            <>
+              <h4>{JSON.stringify(item)}</h4>
+            </>
+          );
+        })}
+      </div>
+
+      <div className="serving-size-div">
+        <h4>Set a Serving Size: </h4>
       </div>
     </>
   );

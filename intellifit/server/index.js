@@ -200,6 +200,18 @@ app.post("/meal/edit/:jsonstring", (req, res) => {
   // !? TODO Finish this Function
 });
 
+app.get("/food/all", (req,res)=>{
+  const getAllFood = `select * from food;`
+  console.log("Sending list of all food items")
+  db.query(getAllFood, (err, result)=>{
+    if(err){
+      console.log("Failed inside food/all index.js");
+      console.log(err);
+    }
+    res.send(result);
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
