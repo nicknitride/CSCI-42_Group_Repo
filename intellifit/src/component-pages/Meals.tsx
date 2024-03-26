@@ -8,6 +8,14 @@ import TodayMeal from "../components/TodayMeal";
 import formatFloat from "../formatting_functions/formatFloat";
 import "../css/animations_transitions.css";
 
+
+
+/* 
+! TODO:
+! 1. Implement a delete button per entry in the today view
+! 2. Create a delete button in the edit view
+*/
+
 interface DailyTotals {
   total_calories: number;
   total_protein: number;

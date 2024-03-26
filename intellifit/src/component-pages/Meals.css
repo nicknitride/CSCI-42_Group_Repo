@@ -169,3 +169,37 @@
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   grid-gap: 10px;
 }
+.final-add-card {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 170px;
+  margin-left: 15px;
+  border-radius: 20px;
+}
+.final-add-card h3 {
+  margin-left: 10px;
+}
+.final-add-card span {
+  margin-left: 15px;
+  margin-top: 5px;
+}
+.submit-button {
+  background-color: coral;
+}
+
+.serving-size-div {
+  width: 500px;
+  /* border: 1px solid black; */
+}
+.food-selected {
+  width: 500px;
+  /* border: 1px solid black; */
+}
+.finalized-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 500px);
+  grid-gap: 69px;
+}

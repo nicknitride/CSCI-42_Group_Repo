@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Meals.css";
 import axios from "axios";
-import TodayMeal from "../components/TodayMeal";
+
+
 
 function AddMealPage() {
   const navigate = useNavigate();
@@ -23,6 +24,27 @@ function AddMealPage() {
     console.log(mealId);
   }
 
+  function handleSubmit() {
+    console.log("meal id: " + mealId);
+    console.log("Food ID: " + foodId);
+    console.log("Serving Size: " + servingSize);
+
+    const data = {
+        mealID : mealId,
+        foodID: foodId,
+        servingSize : servingSize
+    };
+    axios
+      .post(
+        `http://localhost:3003/meal/addentry/`, data
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("Axios error:" + error);
+      });
+  }
   useEffect(() => {
     axios
       .get("http://localhost:3003/food/all")
@@ -38,20 +60,20 @@ function AddMealPage() {
 
   return (
     <>
-        <div className="heading">
+      <div className="heading">
         <Minigreeter label="Add a Meal: "></Minigreeter>
-      <div className="meal-option-flex-container">
-        <button
-          onClick={() => {
-            navigate(-1);
-            // Go back to previous page (-1) goes to previous in react app history
-          }}
-          className="meal-option"
-        >
-          Go Back
-        </button>
-      </div>
+        <div className="meal-option-flex-container">
+          <button
+            onClick={() => {
+              navigate(-1);
+              // Go back to previous page (-1) goes to previous in react app history
+            }}
+            className="meal-option"
+          >
+            Go Back
+          </button>
         </div>
+      </div>
 
       <div className="meal-time">
         <h1>Select a Meal Time: </h1>
@@ -96,45 +118,6 @@ function AddMealPage() {
       </div>
 
       <div className="food-list">
-        {selectedFoodBoolean && (
-          <div className="food-selected">
-            <h2>Currently Selected Item: {selectedFoodData.food_name}</h2>
-            <div
-              className="add-meal-flex-card"
-              onClick={() => {
-                console.log("Clicked food_id " + selectedFoodData.food_id);
-                setSelectedFoodBoolean(true);
-                setSelectedFoodData(selectedFoodData);
-                console.log(selectedFoodData);
-              }}
-            >
-              <h4>
-                {selectedFoodData.food_name} | Brand:{" "}
-                {selectedFoodData.food_brand}
-              </h4>
-              <span>
-                Protein (100g) {selectedFoodData.protein_hundred_grams} grams
-              </span>
-              <span>
-                Carbohydrates (100g) {selectedFoodData.carb_hundred_grams} grams
-              </span>
-              <span className="last-span">
-                Fat (100g) {selectedFoodData.fat_hundred_grams} grams
-              </span>
-            </div>
-            <div className="meal-option-flex-container">
-              <button
-                onClick={() => {
-                  setSelectedFoodBoolean(false);
-                }}
-                className="meal-option"
-              >
-                Cancel Selection
-              </button>
-            </div>
-          </div>
-        )}
-
         {!selectedFoodBoolean && (
           <>
             <h1>
@@ -175,10 +158,87 @@ function AddMealPage() {
         )}
       </div>
 
-      { selectedFoodBoolean && (<div className="serving-size-div">
-        <h2>Set a Serving Size: </h2>
-        <input type="number" name="serving_size" id="serving_size" />
-      </div>)}
+      {selectedFoodBoolean && (
+        <div className="finalized-container">
+          <div className="food-selected">
+            <h2>Currently Selected Item: {selectedFoodData.food_name}</h2>
+            <div
+              className="add-meal-flex-card"
+              onClick={() => {
+                console.log("Clicked food_id " + selectedFoodData.food_id);
+                setSelectedFoodBoolean(true);
+                setSelectedFoodData(selectedFoodData);
+                console.log(selectedFoodData);
+              }}
+            >
+              <h4>
+                {selectedFoodData.food_name} | Brand:{" "}
+                {selectedFoodData.food_brand}
+              </h4>
+              <span>
+                Protein (100g) {selectedFoodData.protein_hundred_grams} grams
+              </span>
+              <span>
+                Carbohydrates (100g) {selectedFoodData.carb_hundred_grams} grams
+              </span>
+              <span className="last-span">
+                Fat (100g) {selectedFoodData.fat_hundred_grams} grams
+              </span>
+            </div>
+            <div className="meal-option-flex-container">
+              <button
+                onClick={() => {
+                  setSelectedFoodBoolean(false);
+                }}
+                className="meal-option"
+              >
+                Cancel Selection
+              </button>
+              {selectedFoodBoolean && (
+                <>
+                  <button
+                    className="meal-option submit-button"
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                  >
+                    Submit
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="serving-size-div">
+            <h2>
+              Set a Serving Size (in grams):{" "}
+              <input
+                type="number"
+                name="serving_size"
+                id="serving_size"
+                value={servingSize} // Bind value to servingSize state
+                onChange={(event) => {
+                  setServingSize(event.target.value);
+                }} // Handle change event
+              />
+            </h2>
+
+            <div className="final-add-card">
+              <h3>Serving Size: {servingSize} grams</h3>
+              <span>
+                Total Protein: {selectedFoodData.protein_per_gram * servingSize}{" "}
+                g
+              </span>
+              <span>
+                Total Carbohydrates:{" "}
+                {selectedFoodData.carb_per_gram * servingSize} g
+              </span>
+              <span>
+                Total Fat: {selectedFoodData.fat_per_gram * servingSize} g
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

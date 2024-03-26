@@ -200,17 +200,39 @@ app.post("/meal/edit/:jsonstring", (req, res) => {
   // !? TODO Finish this Function
 });
 
-app.get("/food/all", (req,res)=>{
-  const getAllFood = `select * from food;`
-  console.log("Sending list of all food items")
-  db.query(getAllFood, (err, result)=>{
-    if(err){
+app.get("/food/all", (req, res) => {
+  const getAllFood = `select * from food;`;
+  console.log("Sending list of all food items");
+  db.query(getAllFood, (err, result) => {
+    if (err) {
       console.log("Failed inside food/all index.js");
       console.log(err);
     }
     res.send(result);
-  })
-})
+  });
+});
+
+app.post("/meal/addentry", (req, res) => {
+  // Parse the data from the request body
+  const { mealID, foodID, servingSize } = req.body;
+
+  // Construct the SQL query to insert a new entry into the meal_food_entity table
+  const insertEntrySQL = `
+    INSERT INTO meal_food_entity (meal_id, food_id, serving_size)
+    VALUES (${mealID}, ${foodID}, ${servingSize})
+  `;
+
+  // Execute the SQL query
+  db.query(insertEntrySQL, (err, result) => {
+    if (err) {
+      console.log("Error adding meal entry:", err);
+      res.status(500).send("Failed to add meal entry");
+    } else {
+      console.log("Meal entry added successfully");
+      res.send(result);
+    }
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
