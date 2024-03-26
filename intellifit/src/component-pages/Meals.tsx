@@ -27,6 +27,32 @@ function convertISOStringToDate(isoString: string) {
   return formattedDate;
 }
 
+function processDate(value: string) {
+  const dateToParse = value;
+  const parsedDate = dateToParse.split("", 11);
+  let processedDate: string = "";
+  const year = parsedDate.slice(1, 5).toString().replace(/[,]/g, "");
+  const month = parsedDate.slice(6, 8).toString().replace(/[,]/g, "");
+  const day = parsedDate.slice(9, 11).toString().replace(/[,]/g, "");
+  const monthsMap: { [key: string]: string } = {
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December",
+  };
+  const monthName = monthsMap[month] || "Invalid Month";
+  processedDate = `${monthName} ${day}, ${year}`;
+  console.log(processDate);
+  return processedDate;
+}
 function deleteEntriesMatchingDate(date: string) {
   console.log("Triggered delete handler for " + date);
   axios
@@ -120,25 +146,36 @@ function Meals() {
           </button>
         </div>
         <div className="crud-flex-container">
-        <div className="meal-button-crud">
-          <button
-            onClick={() => {
-              navigate("/meal/add/");
-            }}
-          >
-            Add a Meal
-          </button>
-        </div>
-        <div className="meal-button-crud">
-          <button
-            onClick={() => {
-              navigate("/meal/add/");
-              // ! Modify this to navigate to the edit page for today's date
-            }}
-          >
-            Edit Today's Meals
-          </button>
-        </div>
+          <div className="meal-button-crud">
+            <button
+              onClick={() => {
+                navigate("/meal/add/");
+              }}
+            >
+              Add a Meal
+            </button>
+          </div>
+          {!(
+            dailyTotals[0] === undefined ||
+            dailyTotals[0].total_calories === null
+          ) && (
+            <div className="meal-button-crud">
+              <button
+                onClick={() => {
+                  const meal_day = data[0].creation_date_mealfood.slice(0, 10);
+                  console.log("Edit page launched from today edit button on the following date: "+meal_day);
+                  axios
+                  .get(`http://localhost:3003/meals/day/${meal_day}`)
+                  .then((response) => {
+                    console.log(response.data);
+                    navigate("/meals/editlist", { state: response.data });
+                  });
+                }}
+              >
+                Edit Today's Meals
+              </button>
+            </div>
+          )}
         </div>
 
         {(dailyTotals[0] === undefined ||

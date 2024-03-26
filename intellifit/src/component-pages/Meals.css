@@ -95,16 +95,17 @@
 }
 
 .meal-button-crud {
-  /* height: 50px; */
+  padding-right: 15px;
 }
 .crud-flex-container {
   /* display: flex; */
   background-color: black;
   display: flex;
   justify-content: space-between;
-  width: 260px;
+  width: fit-content;
   margin-left: 20px;
   margin-bottom: 10px;
   padding: 15px;
+  padding-right: 0px;
   border-radius: 25px;
 }
