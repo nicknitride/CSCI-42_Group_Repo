@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import "./Meals.css";
 import axios from "axios";
 
-
-
 function AddMealPage() {
   const navigate = useNavigate();
   const [mealId, setMealId] = useState("");
@@ -30,20 +28,19 @@ function AddMealPage() {
     console.log("Serving Size: " + servingSize);
 
     const data = {
-        mealID : mealId,
-        foodID: foodId,
-        servingSize : servingSize
+      mealID: mealId,
+      foodID: foodId,
+      servingSize: servingSize,
     };
     axios
-      .post(
-        `http://localhost:3003/meal/addentry/`, data
-      )
+      .post(`http://localhost:3003/meal/addentry/`, data)
       .then((response) => {
         console.log(response.data);
       })
       .catch((error) => {
         console.log("Axios error:" + error);
       });
+    navigate(-1);
   }
   useEffect(() => {
     axios
