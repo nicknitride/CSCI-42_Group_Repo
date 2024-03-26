@@ -119,6 +119,28 @@ function Meals() {
             By Day
           </button>
         </div>
+        <div className="crud-flex-container">
+        <div className="meal-button-crud">
+          <button
+            onClick={() => {
+              navigate("/meal/add/");
+            }}
+          >
+            Add a Meal
+          </button>
+        </div>
+        <div className="meal-button-crud">
+          <button
+            onClick={() => {
+              navigate("/meal/add/");
+              // ! Modify this to navigate to the edit page for today's date
+            }}
+          >
+            Edit Today's Meals
+          </button>
+        </div>
+        </div>
+
         {(dailyTotals[0] === undefined ||
           dailyTotals[0].total_calories === null) && (
           <h1 className="null-message fade-in">
