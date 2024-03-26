@@ -192,6 +192,15 @@ function Meals() {
             By Day
           </button>
         </div>
+        <div className="meal-button-add">
+          <button
+            onClick={() => {
+              navigate("/meal/add/");
+            }}
+          >
+            Add a Meal
+          </button>
+        </div>
         {data.length === 0 && (
           <h1 className="null-message fade-in">No Meals to Display</h1>
         )}
