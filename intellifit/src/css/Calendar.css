@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*{
+    font-family: 'Roboto', sans-serif;
+}
+.css-1aqny2q-MuiPickersCalendarHeader-root{
+    background-color: black !important;
+    color: white;
+}
+
+.css-12mkn7b-MuiButtonBase-root-MuiIconButton-root-MuiPickersCalendarHeader-switchViewButton,
+.css-sf5j28-MuiButtonBase-root-MuiIconButton-root-MuiPickersCalendarHeader-switchViewButton,
+.css-kg9q0s-MuiButtonBase-root-MuiIconButton-root-MuiPickersArrowSwitcher-button, 
+.css-1vooibu-MuiSvgIcon-root, 
+.css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel, 
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root, 
+.css-innj4t-MuiPickersYear-yearButton{
+    color: rgb(255,255,255) !important;
+}
+
+.css-jgls56-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    color: #000;
+    background-color: #FFF !important;
+}
+
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root:focus.Mui-selected {
+    will-change: background-color;
+    background-color: #fff;
+    color: #000 !important;
+}
+
+.css-15v8kdh-MuiPickersFadeTransitionGroup-root-MuiDateCalendar-viewTransitionContainer{
+    background-color: black;
+}
