@@ -7,6 +7,8 @@ import Meals from "./component-pages/Meals"
 import MealList from "./component-pages/MealList";
 import MealEditPage from "./component-pages/MealEditPage";
 import MealAddPage from "./component-pages/MealAddPage";
+import ImportExport from "./component-pages/import-export-pages/ImportExport";
+
 function App() {
   return (
     <>
@@ -19,6 +21,7 @@ function App() {
         <Route path="/meals/editlist" element={<MealList />} />
         <Route path="/meal/edit/" element={<MealEditPage />} />
         <Route path="/meal/add/" element={<MealAddPage />} />
+        <Route path="/fileops" element={<ImportExport />}/>
       </Routes>
     </>
   );

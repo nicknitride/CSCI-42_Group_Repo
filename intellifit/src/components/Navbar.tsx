@@ -14,6 +14,9 @@ function Navbar() {
           <div className="rounded-button">
             <a href="/meals">Meal Tracking</a>
           </div>
+          <div className="rounded-button">
+            <a href="/fileops">Import/Export</a>
+          </div>
         </div>
         <div className="nav-logo">
           <img src={gymlogo} alt="Gym Logo" />
