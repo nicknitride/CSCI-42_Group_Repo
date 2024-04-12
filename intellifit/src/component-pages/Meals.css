@@ -9,8 +9,8 @@
 
 .meal-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 300px);
-  gap: 200px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 100px;
 }
 
 @media (max-width: 500px) {
