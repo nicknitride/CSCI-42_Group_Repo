@@ -222,6 +222,9 @@ function AddMealPage() {
             <div className="final-add-card">
               <h3>Serving Size: {servingSize} grams</h3>
               <span>
+                Total Calories: {selectedFoodData.cal_per_gram * servingSize} cal
+              </span>
+              <span>
                 Total Protein: {selectedFoodData.protein_per_gram * servingSize}{" "}
                 g
               </span>
@@ -232,6 +235,7 @@ function AddMealPage() {
               <span>
                 Total Fat: {selectedFoodData.fat_per_gram * servingSize} g
               </span>
+              
             </div>
           </div>
         </div>
