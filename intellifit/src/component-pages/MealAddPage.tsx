@@ -4,14 +4,27 @@ import { useState, useEffect } from "react";
 import "./Meals.css";
 import axios from "axios";
 
+type foodItem = {
+  food_id : string;
+  food_name: string;
+  food_brand: string;
+  protein_hundred_grams: number;
+  carb_hundred_grams: number;
+  fat_hundred_grams: number;
+  protein_per_gram: number;
+  carb_per_gram: number;
+  fat_per_gram: number;
+  cal_per_gram: number;
+}
+
 function AddMealPage() {
   const navigate = useNavigate();
   const [mealId, setMealId] = useState("");
   const [mealHumanReadable, setMealHumanReadable] = useState("");
   const [foodId, setFoodId] = useState("");
-  const [servingSize, setServingSize] = useState("");
+  const [servingSize, setServingSize] = useState<any>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [foodData, setFoodData] = useState<any>([]);
+  const [foodData, setFoodData] = useState<foodItem[]>([]);
   const [selectedFoodBoolean, setSelectedFoodBoolean] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedFoodData, setSelectedFoodData] = useState<any>([]);
@@ -47,7 +60,6 @@ function AddMealPage() {
       .get("http://localhost:3003/food/all")
       .then((res) => {
         console.log(JSON.stringify(res));
-        console.log("Response was" + res.data);
         setFoodData(res.data);
       })
       .catch((err) => {
@@ -133,6 +145,7 @@ function AddMealPage() {
                         setSelectedFoodData(item);
                         console.log(item);
                       }}
+                      key={item.food_id + item.food_brand}
                     >
                       <h4>
                         {item.food_name} | Brand: {item.food_brand}

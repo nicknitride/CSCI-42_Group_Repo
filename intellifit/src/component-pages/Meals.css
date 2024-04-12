@@ -10,6 +10,7 @@
 .meal-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  width: 85%;
   column-gap: 150px;
   row-gap: 10px;
 }
