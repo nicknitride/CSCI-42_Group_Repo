@@ -235,7 +235,6 @@ function AddMealPage() {
               <span>
                 Total Fat: {selectedFoodData.fat_per_gram * servingSize} g
               </span>
-              
             </div>
           </div>
         </div>
