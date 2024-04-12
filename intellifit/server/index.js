@@ -200,6 +200,199 @@ app.post("/meal/edit/:jsonstring", (req, res) => {
   // !? TODO Finish this Function
 });
 
+
+app.get("/workouts", (req, res) => {
+    const getWorkouts =`SELECT workout_id, workout_name FROM workout;`;
+    db.query(getWorkouts, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("successfully retrieved");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-1", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id, 
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=1
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-2", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=2
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-3", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=3
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-4", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=4
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-5", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id, 
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=5
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-6", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=6
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-7", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=7
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-8", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-8-sr", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    AND workout_exercise_entry.entry_type="Set-Rep";`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-8-srd", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    AND workout_exercise_entry.entry_type="Set-Rep-Duration";`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      console.log("data retrieved successfully");
+      res.send(result);
+    })
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
