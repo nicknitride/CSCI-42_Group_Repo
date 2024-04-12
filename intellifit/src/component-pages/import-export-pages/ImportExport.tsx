@@ -3,29 +3,26 @@ import Minigreeter from "../../components/Minigreeter";
 import "../Meals.css";
 import axios from "axios";
 type foodItem = {
-    food_id : string;
-    food_name: string;
-    food_brand: string;
-    protein_hundred_grams: number;
-    carb_hundred_grams: number;
-    fat_hundred_grams: number;
-    protein_per_gram: number;
-    carb_per_gram: number;
-    fat_per_gram: number;
-    cal_per_gram: number;
-  }
+  food_id: string;
+  food_name: string;
+  food_brand: string;
+  protein_hundred_grams: number;
+  carb_hundred_grams: number;
+  fat_hundred_grams: number;
+  protein_per_gram: number;
+  carb_per_gram: number;
+  fat_per_gram: number;
+  cal_per_gram: number;
+};
 
 type mealfood = {
-    mealfood_id:string, 
-    meal_id:string, 
-    food_id:string, 
-    creation_date_mealfood:string, 
-    serving_size:string
-}
+  mealfood_id: string;
+  meal_id: string;
+  food_id: string;
+  creation_date_mealfood: string;
+  serving_size: string;
+};
 function ImportExport() {
-
-    
-      
   const [dataType, setDataType] = useState("");
   const [operationType, SetOperationType] = useState("");
 
@@ -41,6 +38,76 @@ function ImportExport() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+  };
+
+  // Function to handle importing meal data
+  const handleMealDataImport = (fileContent) => {
+    axios
+      .post("http://localhost:3003/mealfood/purge")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("Failed to delete mealfood db", err);
+      });
+
+    const meals: mealfood[] = JSON.parse(fileContent);
+    meals.forEach((item) => {
+      axios
+        .post("http://localhost:3003/mealfood/import", item)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log("Failed to add mealfood item to database", err);
+        });
+    });
+  };
+
+  // Function to handle importing food data
+  const handleFoodDataImport = (fileContent) => {
+    axios
+      .post("http://localhost:3003/food/purge")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("Failed to delete food db", err);
+      });
+
+    const foods: foodItem[] = JSON.parse(fileContent);
+    foods.forEach((item) => {
+      axios
+        .post("http://localhost:3003/food/import", item)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log("Failed to add food item to database", err);
+        });
+    });
+  };
+
+  // Function to handle file change for meal data import
+  const handleMealFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = (readerEvent) => {
+      const content = readerEvent.target.result;
+      handleMealDataImport(content);
+    };
+  };
+
+  // Function to handle file change for food data import
+  const handleFoodFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = (readerEvent) => {
+      const content = readerEvent.target.result;
+      handleFoodDataImport(content);
+    };
   };
 
   function downloadFoodDB() {
@@ -133,89 +200,31 @@ function ImportExport() {
           <h2 style={{ marginLeft: "20px" }}>
             Click the buttons below to Import the appropriate files
           </h2>
-          <div style={{display:"flex", marginLeft:"20px"}} >
+          <div style={{ display: "flex", marginLeft: "20px" }}>
             <h3>Meal_DB:</h3>
             <input
               className="meal-option"
-              style={{fontFamily:"Arial",fontSize:"18px"}}
-              onChange={(e) => {
-                 // getting a hold of the file reference
-                var file = e.target.files[0]; 
-
-                // setting up the reader
-                var reader = new FileReader();
-                reader.readAsText(file,'UTF-8');
-
-                // here we tell the reader what to do when it's done reading...
-                reader.onload = readerEvent => {
-                    var content = readerEvent.target.result; // this is the content!
-                    console.log( content );
-                    axios.post("http://localhost:3003/mealfood/purge")
-                    .then((res) => {
-                        console.log(res);
-                      })
-                      .catch((err) => {
-                        console.log("Failed to delete mealfood db", err);
-                      });
-                      const foods: mealfood[] = JSON.parse(content);
-                      foods.map((item)=>{
-                          axios.post("http://localhost:3003/mealfood/import", item)
-                          .then((res) => {
-                              console.log(res);
-                            })
-                            .catch((err) => {
-                              console.log("Failed to add mealfood item to database", err);
-                            });
-                      });
-                    // source: https://stackoverflow.com/questions/16215771/how-to-open-select-file-dialog-via-js
-   }            
+              style={{ fontFamily: "Arial", fontSize: "18px" }}
+              
+              onChange={(e)=>{
+                handleMealFileChange(e);
               }}
               type="file"
               id="dbimportfilepicker"
-            >
-            </input>
+            ></input>
           </div>
-          <div style={{display:"flex", marginLeft:"20px"}} >
+          <div style={{ display: "flex", marginLeft: "20px" }}>
             <h3>Food_DB:</h3>
             <input
               className="meal-option"
-              style={{fontFamily:"Arial",fontSize:"18px"}}
+              style={{ fontFamily: "Arial", fontSize: "18px" }}
               onChange={(e) => {
-                // getting a hold of the file reference
-               var file = e.target.files[0]; 
-
-               // setting up the reader
-               var reader = new FileReader();
-               reader.readAsText(file,'UTF-8');
-
-               // here we tell the reader what to do when it's done reading...
-               reader.onload = readerEvent => {
-                   var content = readerEvent.target.result; // this is the content!
-                   console.log( content );
-                   axios.post("http://localhost:3003/food/purge")
-                   .then((res) => {
-                       console.log(res);
-                     })
-                     .catch((err) => {
-                       console.log("Failed to delete food db", err);
-                     });
-                     const foods: foodItem[] = JSON.parse(content);
-                     foods.map((item)=>{
-                         axios.post("http://localhost:3003/food/import", item)
-                         .then((res) => {
-                             console.log(res);
-                           })
-                           .catch((err) => {
-                             console.log("Failed to add food item to database", err);
-                           });
-                     });
-                   // source: https://stackoverflow.com/questions/16215771/how-to-open-select-file-dialog-via-js
-  }            
-             }}
+                handleFoodFileChange(e);
+                // source: https://stackoverflow.com/questions/16215771/how-to-open-select-file-dialog-via-js
+              }}
               type="file"
               id="dbimportfilepickerfooddb"
-            >
-            </input>
+            ></input>
           </div>
         </>
       )}
