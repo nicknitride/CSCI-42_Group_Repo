@@ -317,7 +317,44 @@ app.post("/mealfood/purge",(req,res)=>{
       res.status(500).send(err);
     }
     else{
-      console.log("Exported all meal food entities")
+      console.log("Deleted all meal food entities")
+      console.log(result)
+      res.send(result);
+    }
+  })
+})
+
+app.post("/food/purge",(req,res)=>{
+  const eraseDB = `
+  DELETE FROM food;
+  `
+  db.query(eraseDB,(err,result)=>{
+    if(err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    else{
+      console.log("Deleted all food entities")
+      console.log(result)
+      res.send(result);
+    }
+  })
+})
+
+// MealFoodImport
+app.post("/food/import",(req,res)=>{
+  const {food_id, food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams } = req.body;
+  const populateDB = `
+  INSERT INTO food (food_id, food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams )
+    VALUES (${food_id}, "${food_name}", "${food_brand}", ${protein_hundred_grams}, ${carb_hundred_grams}, ${fat_hundred_grams} )
+  `
+  db.query(populateDB,(err,result)=>{
+    if(err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    else{
+      console.log("Added  all meal food entries")
       console.log(result)
       res.send(result);
     }

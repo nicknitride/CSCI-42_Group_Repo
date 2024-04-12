@@ -180,11 +180,40 @@ function ImportExport() {
             <input
               className="meal-option"
               style={{fontFamily:"Arial",fontSize:"18px"}}
-              onClick={() => {
-                
-              }}
+              onChange={(e) => {
+                // getting a hold of the file reference
+               var file = e.target.files[0]; 
+
+               // setting up the reader
+               var reader = new FileReader();
+               reader.readAsText(file,'UTF-8');
+
+               // here we tell the reader what to do when it's done reading...
+               reader.onload = readerEvent => {
+                   var content = readerEvent.target.result; // this is the content!
+                   console.log( content );
+                   axios.post("http://localhost:3003/food/purge")
+                   .then((res) => {
+                       console.log(res);
+                     })
+                     .catch((err) => {
+                       console.log("Failed to delete food db", err);
+                     });
+                     const foods: foodItem[] = JSON.parse(content);
+                     foods.map((item)=>{
+                         axios.post("http://localhost:3003/food/import", item)
+                         .then((res) => {
+                             console.log(res);
+                           })
+                           .catch((err) => {
+                             console.log("Failed to add food item to database", err);
+                           });
+                     });
+                   // source: https://stackoverflow.com/questions/16215771/how-to-open-select-file-dialog-via-js
+  }            
+             }}
               type="file"
-              id="dbimportfilepicker"
+              id="dbimportfilepickerfooddb"
             >
             </input>
           </div>
