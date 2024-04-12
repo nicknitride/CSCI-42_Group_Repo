@@ -161,20 +161,32 @@ function AddMealPage() {
       </div>
 
       <div className="food-list">
-      <div>
-        <input name="searchBox" type="text" placeholder="Search Food Database" value={searchValue} onChange={(e)=>{
+      <h1>
+              Select a Food Item:
+            </h1>
+      <div className="meal-option-flex-container" style={{marginTop:"20px"}}>
+        <input className="meal-option" name="searchBox" type="text" placeholder="Search Food Database" value={searchValue} onChange={(e)=>{
           setSearchValue(e.target.value);
         }}/>
         {
+          !searchBoolean &&
         <>
-        <button onClick={()=>{
+        <button className="meal-option" onClick={()=>{
           setSearchBoolean(true)
+          if(selectedFoodBoolean){
+            setSelectedFoodBoolean(false)
+            setSelectedFoodData("")
+          }
         }}>Search</button>
         </>}
-        { <>
-        <button onClick={()=>{
+        {searchBoolean && <>
+        <button className="meal-option" onClick={()=>{
           setSearchBoolean(false)
           setSearchValue("")
+          if(selectedFoodBoolean){
+            setSelectedFoodBoolean(false)
+            setSelectedFoodData("")
+          }
         }
       } style={{backgroundColor: "coral", border:"none"}} >
           Clear Search
@@ -184,9 +196,6 @@ function AddMealPage() {
       </div>
         {!selectedFoodBoolean && (
           <>
-            <h1>
-              Select a Food Item:
-            </h1>
             <div className="grid-container-add-meal">
               {foodData.map((item) => {
                 return (
@@ -277,6 +286,7 @@ function AddMealPage() {
             <h2>
               Set a Serving Size (in grams):{" "}
               <input
+              className="meal-option"
                 type="number"
                 name="serving_size"
                 id="serving_size"
@@ -284,24 +294,25 @@ function AddMealPage() {
                 onChange={(event) => {
                   setServingSize(event.target.value);
                 }} // Handle change event
+                style={{fontSize:"20px"}}
               />
             </h2>
 
             <div className="final-add-card">
               <h3>Serving Size: {servingSize} grams</h3>
               <span>
-                Total Calories: {selectedFoodData.cal_per_gram * servingSize} cal
+                Total Calories: {((parseFloat(selectedFoodData.cal_per_gram) * parseFloat(servingSize)).toFixed(2))} cal
               </span>
               <span>
-                Total Protein: {selectedFoodData.protein_per_gram * servingSize}{" "}
+                Total Protein: {(parseFloat(selectedFoodData.protein_per_gram) * parseFloat(servingSize)).toFixed(2)}{" "}
                 g
               </span>
               <span>
                 Total Carbohydrates:{" "}
-                {selectedFoodData.carb_per_gram * servingSize} g
+                {(parseFloat(selectedFoodData.carb_per_gram) * parseFloat(servingSize)).toFixed(2)} g
               </span>
               <span>
-                Total Fat: {selectedFoodData.fat_per_gram * servingSize} g
+                Total Fat: {(parseFloat(selectedFoodData.fat_per_gram) * parseFloat(servingSize)).toFixed(2)} g
               </span>
             </div>
           </div>
