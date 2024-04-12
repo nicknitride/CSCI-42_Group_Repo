@@ -166,7 +166,7 @@ function AddMealPage() {
               Select a Food Item:
             </h1>
       <div className="meal-option-flex-container" style={{marginTop:"20px"}}>
-        <input className="meal-option" name="searchBox" type="text" placeholder="Search Food Database" value={searchValue} onChange={(e)=>{
+        <input disabled={searchBoolean? true: false} className="meal-option" name="searchBox" type="text" placeholder="Search Food Database" value={searchValue} onChange={(e)=>{
           setSearchValue(e.target.value);
         }}/>
         {

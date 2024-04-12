@@ -256,6 +256,74 @@ app.post("/food/search",(req,res)=>{
   })
 })
 
+// Food data export see "/food/all"
+// MealFoodExport
+app.get("/mealfood/export",(req,res)=>{
+  const downMealFood = `
+  SELECT * FROM meal_food_entity
+  `
+  db.query(downMealFood,(err,result)=>{
+    if(err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    else{
+      console.log("Exported all meal food entities")
+      console.log(result)
+      res.send(result);
+    }
+  })
+})
+
+function fixDateforRedirect(date){
+  const shortenedDateArray = date.split("", 10);
+  const fixedDate = shortenedDateArray
+    .splice(0.1)
+    .toString()
+    .replace(/[,]/g, "");
+  console.log(shortenedDateArray, fixedDate);
+  return fixedDate;
+}
+
+// MealFoodImport
+app.post("/mealfood/import",(req,res)=>{
+  const {mealfood_id, meal_id, food_id, creation_date_mealfood, serving_size} = req.body;
+  const populateDB = `
+  INSERT INTO meal_food_entity (mealfood_id, meal_id, food_id,creation_date_mealfood, serving_size)
+    VALUES (${mealfood_id}, ${meal_id}, ${food_id}, "${fixDateforRedirect(creation_date_mealfood)}",${serving_size})
+  `
+  db.query(populateDB,(err,result)=>{
+    if(err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    else{
+      console.log("Exported all meal food entities")
+      console.log(result)
+      res.send(result);
+    }
+  })
+})
+
+
+
+app.post("/mealfood/purge",(req,res)=>{
+  const eraseDB = `
+  DELETE FROM meal_food_entity;
+  `
+  db.query(eraseDB,(err,result)=>{
+    if(err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    else{
+      console.log("Exported all meal food entities")
+      console.log(result)
+      res.send(result);
+    }
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
