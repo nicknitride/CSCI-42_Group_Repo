@@ -24,10 +24,14 @@ function AddMealPage() {
   const [foodId, setFoodId] = useState("");
   const [servingSize, setServingSize] = useState<any>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const [foodData, setFoodData] = useState<foodItem[]>([]);
   const [selectedFoodBoolean, setSelectedFoodBoolean] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedFoodData, setSelectedFoodData] = useState<any>([]);
+
+  const [searchBoolean, setSearchBoolean] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   //   const [active, setActive] = useState(""); /* Store active button*/
 
@@ -45,6 +49,8 @@ function AddMealPage() {
       foodID: foodId,
       servingSize: servingSize,
     };
+
+    
     axios
       .post(`http://localhost:3003/meal/addentry/`, data)
       .then((response) => {
@@ -66,6 +72,34 @@ function AddMealPage() {
         console.log("Failed to receive all food items from server", err);
       });
   }, []);
+
+  const searchType = {
+    search_term: searchValue
+  };
+  // This function allows search to work
+  useEffect(()=>{
+    if(searchBoolean){
+      axios.post("http://localhost:3003/food/search",searchType)
+      .then((res)=>{
+        console.log("\nSearch returned: "+JSON.stringify(res)+"\n");
+        setFoodData(res.data)
+      })
+      .catch((err)=>{
+        console.log("Search query failed :"+err);
+      })
+    }
+    else{
+      axios
+      .get("http://localhost:3003/food/all")
+      .then((res) => {
+        console.log(JSON.stringify(res));
+        setFoodData(res.data);
+      })
+      .catch((err) => {
+        console.log("Failed to receive all food items from server", err);
+      });
+    }
+  },[searchBoolean])
 
   return (
     <>
@@ -127,10 +161,31 @@ function AddMealPage() {
       </div>
 
       <div className="food-list">
+      <div>
+        <input name="searchBox" type="text" placeholder="Search Food Database" value={searchValue} onChange={(e)=>{
+          setSearchValue(e.target.value);
+        }}/>
+        {
+        <>
+        <button onClick={()=>{
+          setSearchBoolean(true)
+        }}>Search</button>
+        </>}
+        { <>
+        <button onClick={()=>{
+          setSearchBoolean(false)
+          setSearchValue("")
+        }
+      } style={{backgroundColor: "coral", border:"none"}} >
+          Clear Search
+        </button>
+        </>}
+        
+      </div>
         {!selectedFoodBoolean && (
           <>
             <h1>
-              Select a Food Item (Search Functionality to be Implemented):{" "}
+              Select a Food Item:
             </h1>
             <div className="grid-container-add-meal">
               {foodData.map((item) => {
@@ -167,7 +222,7 @@ function AddMealPage() {
           </>
         )}
       </div>
-
+      
       {selectedFoodBoolean && (
         <div className="finalized-container">
           <div className="food-selected">
@@ -252,6 +307,8 @@ function AddMealPage() {
           </div>
         </div>
       )}
+
+
     </>
   );
 }

@@ -3,6 +3,7 @@
 const mysql = require("mysql");
 const express = require("express");
 const cors = require("cors");
+const { Axios } = require("axios");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -233,6 +234,27 @@ app.post("/meal/addentry", (req, res) => {
     }
   });
 });
+
+app.post("/food/search",(req,res)=>{
+  const {search_term} = req.body;
+  const searchMealFoodSQL = `
+  SELECT * FROM food
+  WHERE LOWER(food_name) LIKE "%${search_term.toLowerCase()}%" 
+  OR LOWER(food_brand) LIKE "%${search_term.toLowerCase()}%"
+  `
+  db.query(searchMealFoodSQL,(err,result)=>{
+    if(err){
+      console.log(err);
+      console.log()
+      res.status(500).send(err);
+    }
+    else{
+      console.log("Performed search for "+search_term);
+      console.log(result);
+      res.send(result);
+    }
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
