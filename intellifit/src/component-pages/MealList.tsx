@@ -136,7 +136,7 @@ function MealList() {
                   navigate("/meal/edit", { state: dataitem });
                 }}
               >
-                <h1>{`${dataitem["food_name"]} for Meal: ${dataitem["meal_name"]}`}</h1>
+                <h1>{`${dataitem["food_name"]}  (${dataitem["meal_name"]})`}</h1>
                 <p>Brand: {dataitem["food_brand"]}</p>
                 <p>Calories: {formatFloat(dataitem["Calories"])}</p>
                 <p>Serving Size: {formatFloat(dataitem["serving_size"])} (g)</p>

@@ -29,12 +29,13 @@ function MealsByDayCard(
         </p>
         <div className="two-button-flex">
           <button
+            style={{marginRight:"5px"}}
             onClick={() => {
               editHandler("edit clicked");
             }}
           >
             {" "}
-            Edit{" "}
+            Edit/View{" "}
           </button>
           <button
             onClick={() => {

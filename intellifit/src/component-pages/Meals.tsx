@@ -160,7 +160,7 @@ function Meals() {
                 navigate("/meal/add/");
               }}
             >
-              Add a Meal
+              Add a Food Item
             </button>
           </div>
           {!(
@@ -180,7 +180,7 @@ function Meals() {
                   });
                 }}
               >
-                Edit Today's Meals
+                Edit Today's Food Entries
               </button>
             </div>
           )}
@@ -266,7 +266,7 @@ function Meals() {
               navigate("/meal/add/");
             }}
           >
-            Add a Meal
+            Add a Food Entry
           </button>
         </div>
         </div>

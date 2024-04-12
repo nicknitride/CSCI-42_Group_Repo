@@ -128,7 +128,7 @@ function AddMealPage() {
         </div>
         <div className="meal-option-flex-container">
           <button
-            className="meal-option"
+            className={(mealHumanReadable === "Breakfast") ? "meal-option meal-button-selected " : "meal-option"}
             onClick={() => {
               setMealId("1");
               setMealHumanReadable("Breakfast");
@@ -138,7 +138,7 @@ function AddMealPage() {
             Breakfast
           </button>
           <button
-            className="meal-option"
+            className={(mealHumanReadable === "Lunch") ? "meal-option meal-button-selected " : "meal-option"}
             onClick={() => {
               setMealId("2");
               setMealHumanReadable("Lunch");
@@ -148,7 +148,7 @@ function AddMealPage() {
             Lunch
           </button>
           <button
-            className="meal-option"
+            className={(mealHumanReadable === "Dinner") ? "meal-option meal-button-selected " : "meal-option"}
             onClick={() => {
               setMealId("3");
               setMealHumanReadable("Dinner");
@@ -160,7 +160,8 @@ function AddMealPage() {
         </div>
       </div>
 
-      <div className="food-list">
+      {mealId && <>
+        <div className="food-list">
       <h1>
               Select a Food Item:
             </h1>
@@ -319,6 +320,8 @@ function AddMealPage() {
         </div>
       )}
 
+      </>}
+     
 
     </>
   );
