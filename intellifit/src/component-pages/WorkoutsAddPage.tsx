@@ -1,29 +1,36 @@
 import axios from "axios";
 import "./WorkoutsAddPage.css";
 import Minigreeter from "../components/Minigreeter";
-import React, { useEffect, useState } from 'react'
+import React, { FormEvent, ReactComponentElement, useEffect, useState } from 'react'
 
-function getDate(){
-    
-}
 function WorkoutsAddPage(){
+    const getDate = new Date();
+    const formattedDate = getDate.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', });
+
     const [exercises, setExercises] = useState([
-        { id: 1, exercise: '', reps: '', sets: '', distance: '', duration: ''}
+        { id: 1, exercise: '', reps: '', sets: '', date: formattedDate}
     ]);
-    
+
     const handleAddExercise = () => {
         const newId = exercises.length + 1;
         setExercises([...exercises, { id: newId, exercise: '', reps: '', 
-                        sets: '', distance: '', duration: '' }]);
+                        sets: '', date: formattedDate }]);
     };
-    
+
     const handleExerciseChange = (event: React.ChangeEvent<HTMLSelectElement>, id: number) => {
         const updatedExercises = exercises.map((exercise) =>
           exercise.id === id ? { ...exercise, exercise: event.target.value } : exercise
         );
         setExercises(updatedExercises);
     };
-    
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        axios.post('http://localhost:3003//add-workout', exercises)
+        .then(res => console.log("Registered Successfully!!"))
+        .catch(err => console.log(err));
+    }
+{/*
     const handleRepsChange = (event: React.ChangeEvent<HTMLInputElement>, id: number) => {
         const updatedExercises = exercises.map((exercise) =>
           exercise.id === id ? { ...exercise, reps: event.target.value } : exercise
@@ -56,6 +63,7 @@ function WorkoutsAddPage(){
         const updatedExercises = exercises.filter((exercise, i) => i !== index);
         setExercises(updatedExercises);
     };
+*/}
 
     const [workouts, setWorkouts] = useState<any[]>([]);
     useEffect(() => {
@@ -235,9 +243,9 @@ function WorkoutsAddPage(){
 
     return (
         <>
-            <Minigreeter label="Add a Workout"></Minigreeter>
+            <Minigreeter label="TEST_PAGE"></Minigreeter>
             <div className="addForm_Container">
-                <form className="addForm">
+                <form className="addForm" onSubmit={handleSubmit}>
                     <div className="workoutField">
                         <p>Choose Kind of Workout: </p>
                         <select id="workout" name="workout" onChange={handleSelectChange}>
@@ -255,11 +263,10 @@ function WorkoutsAddPage(){
                                 <p>Choose Exercise: </p>
                                 <select
                                 value={exercise.exercise}
-                                onChange={(e) => handleExerciseChange(e, exercise.id)}
                                 >
                                 <option value="">Choose Exercise</option>
-                                {exercises_1.map(exercise => (
-                                    <option key={exercise.exercise_id} value={exercise.exercise_id}>{exercise.exercise_name}</option>
+                                {exercises_1.map(exercise_1 => (
+                                    <option key={exercise_1.exercise_id} value={exercise_1.exercise_id}>{exercise_1.exercise_name}</option>
                                 ))}
                                 </select>
                             </div>
@@ -268,7 +275,7 @@ function WorkoutsAddPage(){
                                 <input
                                 type='number'
                                 value={exercise.sets}
-                                onChange={(e) => handleSetsChange(e, exercise.id)}
+                                }
                                 placeholder="sets"
                                 />
                             </div>
@@ -277,16 +284,16 @@ function WorkoutsAddPage(){
                                 <input
                                 type='number'
                                 value={exercise.reps}
-                                onChange={(e) => handleRepsChange(e, exercise.id)}
                                 placeholder="reps"
                                 />
                             </div>
-                            <button onClick={() => handleDeleteExercise(index)}>Delete Exercise</button>
+                            {/*<button onClick={() => handleDeleteExercise(index)}>Delete Exercise</button>*/}
                         </div>
                         ))}
                         <button onClick={(e) => {handleAddExercise(); e.preventDefault(); }}>Add another Exercise</button>
                         </div>
                     )}
+                    {/*
                     {selectEx2 && (
                         <div className="exInputFieldsContainer">
                         {exercises.map((exercise, index) => (
@@ -567,12 +574,16 @@ function WorkoutsAddPage(){
                         <button onClick={(e) => {handleAddExercise(); e.preventDefault(); }}>Add another Exercise</button>
                         </div>
                     )}
+                    <div className="Date_Container">
+                        <p>Today is {formattedDate}. </p>
+                    </div>
+                    {/*
                     <div className="mb3">
                         <p>Start Time:</p>
                         <input type="time" id="startTime" name="startTime"></input>
                         <p>End Time: </p>
                         <input type="time" id="endTime" name="endTime"></input>
-                    </div>
+                </div>*/}
                     <button id="Add-Workout">Add Workout</button>
                 </form>
             </div>

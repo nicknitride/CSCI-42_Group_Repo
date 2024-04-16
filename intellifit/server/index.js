@@ -3,6 +3,7 @@
 const mysql = require("mysql");
 const express = require("express");
 const cors = require("cors");
+const { format } = require("path");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -202,13 +203,12 @@ app.post("/meal/edit/:jsonstring", (req, res) => {
 
 
 app.get("/workouts", (req, res) => {
-    const getWorkouts =`SELECT workout_id, workout_name FROM workout;`;
+    const getWorkouts =`SELECT workout_id, workout_name FROM workout ORDER BY workout_name ASC;`;
     db.query(getWorkouts, (err, result) => {
       if(err){
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("successfully retrieved");
       res.send(result);
     })
 });
@@ -226,7 +226,6 @@ app.get("/ex_entries-1", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -244,7 +243,6 @@ app.get("/ex_entries-2", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -262,7 +260,6 @@ app.get("/ex_entries-3", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -280,7 +277,6 @@ app.get("/ex_entries-4", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -298,7 +294,6 @@ app.get("/ex_entries-5", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -316,7 +311,6 @@ app.get("/ex_entries-6", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -334,7 +328,6 @@ app.get("/ex_entries-7", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -352,7 +345,6 @@ app.get("/ex_entries-8", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -370,7 +362,6 @@ app.get("/ex_entries-8-sr", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
@@ -388,11 +379,171 @@ app.get("/ex_entries-8-srd", (req, res) => {
         console.log("could not retrieve");
         console.log(err);
       }
-      console.log("data retrieved successfully");
       res.send(result);
     })
 });
 
+app.post('/add-workout', (req, res) => {
+    const date = new Date();
+    const addWorkout = "INSERT INTO workout_completed(`completed_date`) VALUES (CURDATE());";
+    const values = [
+      req.body.date,
+    ]
+    /*const addExercise = "INSERT INTO exercise_completed(`workout_completed_id`, `exercise_id`, `completed_type`) VALUES (?);";
+    const values = [
+      `SELECT MAX(workout_id) AS recent_id FROM workout_completed`, 
+      rep.body.exercise_id,
+      `set-rep`
+    ]*/
+    db.query(addWorkout, [values], (err, data) => {
+      if (err) return res.json(err);
+      return res.json(data);
+    })
+    /*db.query(addExercise, [values], (err, data) => {
+      if (err) return res.json(err);
+      return res.json(data);
+    })*/
+  });
+
+app.post('/add-workout-test', (req, res) => {
+  const addWorkout = "INSERT INTO ExerciseLog_Test(`Exercise`, `Sets`, `Reps`, `Date`, `Workout_Type`) VALUES(?);";
+    const values = [
+      req.body.exercise,
+      req.body.sets,
+      req.body.reps,
+      req.body.date,
+      req.body.workout_type,
+    ]
+    db.query(addWorkout, [values], (err, data) => {
+      if(err){
+        console.log("Error adding entry:", err);
+        res.status(500).send("Failed to add entry");
+      } else {
+        console.log("Exercise Logged");
+        res.send(data);
+      }
+    })
+})
+
+app.post('/addTo_WorkoutCompleted', (req, res) => {
+    const addWorkoutDate = "INSERT INTO workout_completed(`completed_date`) VALUES(?);";
+    const date_value = req.body.date;
+    db.query(addWorkoutDate, [date_value], (err, data) => {
+      if(err){
+        console.log("Error adding entry into workout_completed:", err);
+        res.status(500).send("Failed to add entry");
+      } else {
+        console.log("workout_completed Logged");
+        res.send(data);
+      }
+    })
+})
+
+/*
+app.post('/addTo_ExerciseCompleted', (req, res) => {
+    const addExerciseCompleted = "INSERT INTO exercise_completed(`workout_completed_id`, `exercise_id`, `completed_type` VALUES(?);";
+    
+    const getWorkoutCompletedID = "SELECT workout_completed_id FROM workout_completed ORDER BY workout_completed_id DESC LIMIT 1;";
+    db.query(getWorkoutCompletedID, (err, result) => {
+      if (err) {
+          console.log("Error fetching workout_completed_id:", err);
+          res.status(500).send("Failed to fetch workout_completed_id");
+          return;
+      }
+    const workoutCompletedID = result[0].workout_completed_id;
+
+    const exerciseValues = [
+        workoutCompletedID,
+        req.body.exercise,
+        req.body.workout_type
+    ]
+    db.query(addExerciseCompleted, [exerciseValues], (err, data) => {
+      if(err){
+        console.log("Error adding entry into exercise_completed:", err);
+        res.status(500).send("Failed to add entry");
+      } else {
+        console.log("exercise_completed Logged");
+        res.send(data);
+      }
+    })
+})*/
+
+app.post('/addTo_ExerciseCompleted', (req, res) => {
+  const addExerciseCompleted = "INSERT INTO exercise_completed (`workout_completed_id`, `exercise_id`, `completed_type`) VALUES (?, ?, ?);";
+  const getWorkoutCompletedID = `SELECT workout_completed_id FROM workout_completed ORDER BY workout_completed_id DESC LIMIT 1;`;
+  // Execute the query to get the workout_completed_id
+  db.query(getWorkoutCompletedID, (err, result) => {
+      if (err) {
+          console.log("Error fetching workout_completed_id:", err);
+          res.status(500).send("Failed to fetch workout_completed_id");
+          return;
+      }
+
+      // Extract the workout_completed_id from the result
+      const workoutCompletedID = result[0].workout_completed_id;
+
+      //Function to get the workout_type
+      const exercise = req.body.exercise;
+      var getWorkoutType = '';
+      
+      if((exercise >= 1 && exercise <= 18) || (exercise >= 27 && exercise <= 34) || (exercise == 37) 
+      || (exercise >= 39 && exercise <= 42)){
+        getWorkoutType = 'set-rep-weight';
+      } else if ((exercise >= 19 && exercise <= 22)) {
+        getWorkoutType = 'distance';
+      } else {
+        getWorkoutType = 'set-rep-duration';
+      }
+
+      const exerciseValues = [
+          workoutCompletedID,
+          req.body.exercise,
+          getWorkoutType
+      ];
+
+      // Execute the insert query with the retrieved workout_completed_id
+      db.query(addExerciseCompleted, exerciseValues, (err, data) => {
+          if (err) {
+              console.log("Error adding entry into exercise_completed:", err);
+              res.status(500).send("Failed to add entry");
+          } else {
+              console.log("exercise_completed Logged");
+              res.send(data);
+          }
+      });
+  });
+});
+
+app.post('/addTo_SRW', (req, res) => {
+    const addSRW = "INSERT INTO set_rep_weight_completed(`exercise_completed_id`, `sets`, `reps`, `weight`) VALUES(?);";
+    const getExerciseCompletedID = `SELECT exercise_completed_id 
+    FROM exercise_completed ORDER BY exercise_completed_id DESC LIMIT 1;`;
+    db.query(getExerciseCompletedID, (err, result) =>{
+      if (err) {
+        console.log("Error fetching workout_completed_id:", err);
+        res.status(500).send("Failed to fetch workout_completed_id");
+        return;
+      }
+      const exerciseCompletedID = result[0].exercise_completed_id;
+
+      const valuesSRW = [
+        exerciseCompletedID,
+        req.body.sets,
+        req.body.reps,
+        req.body.weight
+      ]
+
+      db.query(addSRW, [valuesSRW], (err, data) => {
+        if(err){
+          console.log("Error adding SRW:", err);
+          res.status(500).send("Failed to add entry");
+        } else {
+          console.log("SRW Logged");
+          res.send(data);
+        }
+      })
+    })
+})
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });

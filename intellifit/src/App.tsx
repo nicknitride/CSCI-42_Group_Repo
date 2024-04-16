@@ -7,6 +7,7 @@ import Meals from "./component-pages/Meals"
 import MealList from "./component-pages/MealList";
 import MealEditPage from "./component-pages/MealEditPage";
 import WorkoutsAddPage from "./component-pages/WorkoutsAddPage";
+import WorkoutsAdd from "./component-pages/WorkoutsAdd";
 function App() {
   return (
     <>
@@ -18,7 +19,7 @@ function App() {
         <Route path="/meals/editlist" element={<MealList />} />
         <Route path="/meal/edit/" element={<MealEditPage />} />
         <Route path="/workouts" element={<Workouts/>} />
-        <Route path="/workouts/add/" element={<WorkoutsAddPage />} />
+        <Route path="/workouts/add/" element={<WorkoutsAdd/>} />
       </Routes>
     </>
   );
