@@ -60,7 +60,7 @@ function WorkoutsAdd(){
         let secs: string = String(Math.floor(elapsedTime / 1000 % 60)).padStart(2, "0");
         let ms: string = String(Math.floor((elapsedTime % 1000) / 10)).padStart(2, "0");
 
-        return `${mins}:${secs}:${ms}`;
+        return `${hours}:${mins}:${secs}`;
     }
     
     const currentDate: Date = new Date();
@@ -252,6 +252,9 @@ function WorkoutsAdd(){
         axios.post('http://localhost:3003/addTo_ExerciseCompleted', values)
         .then(res => console.log("exercise completed registered Successfully!!"))
         .catch(err => console.log(err));
+        axios.post('http://localhost:3003/addTo_DurationCompleted', values)
+        .then(res => console.log("exercise completed registered Successfully!!"))
+        .catch(err => console.log(err));
         axios.post('http://localhost:3003/addTo_OtherTables', values)
         .then(res => console.log("SRW registered Successfully!!"))
         .catch(err => console.log(err));
@@ -292,6 +295,18 @@ function WorkoutsAdd(){
                                 <p>Enter Weight: </p>
                                 <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
+                            <div className="time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
                     {selectEx2 && (
@@ -314,6 +329,18 @@ function WorkoutsAdd(){
                             <div className="weight">
                                 <p>Enter Weight: </p>
                                 <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                            </div>
+                            <div className="time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -338,6 +365,18 @@ function WorkoutsAdd(){
                                 <p>Enter Weight: </p>
                                 <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
+                            <div className="time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
                     {selectEx4 && (
@@ -352,6 +391,18 @@ function WorkoutsAdd(){
                             <div className="distance">
                                 <p>Enter Distance in meters: </p>
                                 <input type='number'placeholder="distance" name="distance" onChange={handleChange}/>
+                            </div>
+                            <div className="time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -372,7 +423,7 @@ function WorkoutsAdd(){
                                 <p>Enter Reps: </p>
                                 <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
-                            <div className="Time">
+                            <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
                                 <div className="stopwatch">
                                     <div className="display">{formatTime()}</div>
@@ -383,7 +434,6 @@ function WorkoutsAdd(){
                                         <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
                                     </div>
                                 </div>
-                                {/*<Stopwatch/>*/}
                             </div>
                         </div>
                     )}
@@ -408,6 +458,18 @@ function WorkoutsAdd(){
                                 <p>Enter Weight: </p>
                                 <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
+                            <div className="time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
                     {selectEx7 && (
@@ -430,6 +492,18 @@ function WorkoutsAdd(){
                             <div className="weight">
                                 <p>Enter Weight: </p>
                                 <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                            </div>
+                            <div className="time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}

@@ -4,6 +4,7 @@ const mysql = require("mysql");
 const express = require("express");
 const cors = require("cors");
 const { format } = require("path");
+const { duration } = require("@mui/material");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -443,6 +444,39 @@ app.post('/addTo_ExerciseCompleted', (req, res) => {
   });
 });
 
+app.post('/addTo_DurationCompleted', (req, res) => {
+    const addDuration = "INSERT INTO duration_completed(`exercise_completed_id`, `duration`) VALUES (?, ?);";
+    const getExerciseCompletedID = `SELECT e.exercise_completed_id 
+                                    FROM exercise_completed e, workout_completed w 
+                                    WHERE e.workout_completed_id=w.workout_completed_id 
+                                    ORDER BY e.workout_completed_id DESC LIMIT 1;`;
+
+    db.query(getExerciseCompletedID, (err, result) => {
+      if (err) {
+          console.log("Error fetching exercise_completed_id:", err);
+          res.status(500).send("Failed to fetch exercise_completed_id");
+          return;
+      }
+
+      const exercise_completed_id = result[0].exercise_completed_id;
+
+      const tableValues = [
+          exercise_completed_id,
+          req.body.duration
+      ]
+  
+      db.query(addDuration, tableValues, (err, data) => {
+          if (err) {
+              console.log("Error adding entry into duration_completed:", err);
+              res.status(500).send("Failed to add entry");
+          } else {
+              console.log("duration_completed Logged");
+              res.send(data);
+          }
+      });
+  });
+})
+
 app.post('/addTo_OtherTables', (req, res) => {
     const addSRW = "INSERT INTO set_rep_weight_completed(`exercise_completed_id`, `sets`, `reps`, `weight`) VALUES(?);";
     const addSRD = "INSERT INTO set_rep_duration_completed(`exercise_completed_id`, `sets`, `reps`, `duration`) VALUES(?);";
@@ -454,7 +488,7 @@ app.post('/addTo_OtherTables', (req, res) => {
     //`SELECT exercise_completed_id 
     //FROM exercise_completed ORDER BY exercise_completed_id DESC LIMIT 1;`;
 
-    db.query(getExerciseCompletedID, (err, result) =>{
+     db.query(getExerciseCompletedID, (err, result) =>{
       if (err) {
         console.log("Error fetching workout_completed_id:", err);
         res.status(500).send("Failed to fetch workout_completed_id");
@@ -463,7 +497,7 @@ app.post('/addTo_OtherTables', (req, res) => {
       const exerciseCompletedID = result[0].exercise_completed_id;
 
       var values = [];
-
+ 
       const exercise = req.body.exercise;
 
       if((exercise >= 1 && exercise <= 18) || (exercise >= 27 && exercise <= 34) || (exercise == 37) 
