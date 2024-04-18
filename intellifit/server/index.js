@@ -383,48 +383,6 @@ app.get("/ex_entries-8-srd", (req, res) => {
     })
 });
 
-app.post('/add-workout', (req, res) => {
-    const date = new Date();
-    const addWorkout = "INSERT INTO workout_completed(`completed_date`) VALUES (CURDATE());";
-    const values = [
-      req.body.date,
-    ]
-    /*const addExercise = "INSERT INTO exercise_completed(`workout_completed_id`, `exercise_id`, `completed_type`) VALUES (?);";
-    const values = [
-      `SELECT MAX(workout_id) AS recent_id FROM workout_completed`, 
-      rep.body.exercise_id,
-      `set-rep`
-    ]*/
-    db.query(addWorkout, [values], (err, data) => {
-      if (err) return res.json(err);
-      return res.json(data);
-    })
-    /*db.query(addExercise, [values], (err, data) => {
-      if (err) return res.json(err);
-      return res.json(data);
-    })*/
-  });
-
-app.post('/add-workout-test', (req, res) => {
-  const addWorkout = "INSERT INTO ExerciseLog_Test(`Exercise`, `Sets`, `Reps`, `Date`, `Workout_Type`) VALUES(?);";
-    const values = [
-      req.body.exercise,
-      req.body.sets,
-      req.body.reps,
-      req.body.date,
-      req.body.workout_type,
-    ]
-    db.query(addWorkout, [values], (err, data) => {
-      if(err){
-        console.log("Error adding entry:", err);
-        res.status(500).send("Failed to add entry");
-      } else {
-        console.log("Exercise Logged");
-        res.send(data);
-      }
-    })
-})
-
 app.post('/addTo_WorkoutCompleted', (req, res) => {
     const addWorkoutDate = "INSERT INTO workout_completed(`completed_date`) VALUES(?);";
     const date_value = req.body.date;
@@ -438,35 +396,6 @@ app.post('/addTo_WorkoutCompleted', (req, res) => {
       }
     })
 })
-
-/*
-app.post('/addTo_ExerciseCompleted', (req, res) => {
-    const addExerciseCompleted = "INSERT INTO exercise_completed(`workout_completed_id`, `exercise_id`, `completed_type` VALUES(?);";
-    
-    const getWorkoutCompletedID = "SELECT workout_completed_id FROM workout_completed ORDER BY workout_completed_id DESC LIMIT 1;";
-    db.query(getWorkoutCompletedID, (err, result) => {
-      if (err) {
-          console.log("Error fetching workout_completed_id:", err);
-          res.status(500).send("Failed to fetch workout_completed_id");
-          return;
-      }
-    const workoutCompletedID = result[0].workout_completed_id;
-
-    const exerciseValues = [
-        workoutCompletedID,
-        req.body.exercise,
-        req.body.workout_type
-    ]
-    db.query(addExerciseCompleted, [exerciseValues], (err, data) => {
-      if(err){
-        console.log("Error adding entry into exercise_completed:", err);
-        res.status(500).send("Failed to add entry");
-      } else {
-        console.log("exercise_completed Logged");
-        res.send(data);
-      }
-    })
-})*/
 
 app.post('/addTo_ExerciseCompleted', (req, res) => {
   const addExerciseCompleted = "INSERT INTO exercise_completed (`workout_completed_id`, `exercise_id`, `completed_type`) VALUES (?, ?, ?);";
@@ -514,10 +443,17 @@ app.post('/addTo_ExerciseCompleted', (req, res) => {
   });
 });
 
-app.post('/addTo_SRW', (req, res) => {
+app.post('/addTo_OtherTables', (req, res) => {
     const addSRW = "INSERT INTO set_rep_weight_completed(`exercise_completed_id`, `sets`, `reps`, `weight`) VALUES(?);";
-    const getExerciseCompletedID = `SELECT exercise_completed_id 
-    FROM exercise_completed ORDER BY exercise_completed_id DESC LIMIT 1;`;
+    const addSRD = "INSERT INTO set_rep_duration_completed(`exercise_completed_id`, `sets`, `reps`, `duration`) VALUES(?);";
+    const addDistance = "INSERT INTO distance_completed(`exercise_completed_id`, `distance`) VALUES (?);";
+    const getExerciseCompletedID = `SELECT e.exercise_completed_id 
+                                    FROM exercise_completed e, workout_completed w 
+                                    WHERE e.workout_completed_id=w.workout_completed_id 
+                                    ORDER BY e.workout_completed_id DESC LIMIT 1;`;
+    //`SELECT exercise_completed_id 
+    //FROM exercise_completed ORDER BY exercise_completed_id DESC LIMIT 1;`;
+
     db.query(getExerciseCompletedID, (err, result) =>{
       if (err) {
         console.log("Error fetching workout_completed_id:", err);
@@ -526,22 +462,59 @@ app.post('/addTo_SRW', (req, res) => {
       }
       const exerciseCompletedID = result[0].exercise_completed_id;
 
-      const valuesSRW = [
-        exerciseCompletedID,
-        req.body.sets,
-        req.body.reps,
-        req.body.weight
-      ]
+      var values = [];
 
-      db.query(addSRW, [valuesSRW], (err, data) => {
-        if(err){
-          console.log("Error adding SRW:", err);
-          res.status(500).send("Failed to add entry");
-        } else {
-          console.log("SRW Logged");
-          res.send(data);
-        }
-      })
+      const exercise = req.body.exercise;
+
+      if((exercise >= 1 && exercise <= 18) || (exercise >= 27 && exercise <= 34) || (exercise == 37) 
+      || (exercise >= 39 && exercise <= 42)){
+        values = [
+          exerciseCompletedID,
+          req.body.sets,
+          req.body.reps,
+          req.body.weight
+        ]
+        db.query(addSRW, [values], (err, data) => {
+          if(err){
+            console.log("Error adding SRW:", err);
+            res.status(500).send("Failed to add entry");
+          } else {
+            console.log("SRW Logged");
+            res.send(data);
+          }
+        })
+      } else if ((exercise >= 19 && exercise <= 22)) {
+        values = [
+          exerciseCompletedID,
+          req.body.distance
+        ]
+        db.query(addDistance, [values], (err, data) => {
+          if(err){
+            console.log("Error adding distance:", err);
+            res.status(500).send("Failed to add entry");
+          } else {
+            console.log("Distance Logged");
+            res.send(data);
+          }
+        })
+      } else {
+        values = [
+          exerciseCompletedID,
+          req.body.sets,
+          req.body.reps,
+          req.body.duration
+        ]
+        db.query(addSRD, [values], (err, data) => {
+          if(err){
+            console.log("Error adding SRD:", err);
+            res.status(500).send("Failed to add entry");
+          } else {
+            console.log("SRD Logged");
+            res.send(data);
+          }
+        })
+      }
+
     })
 })
 app.listen(PORT, () => {

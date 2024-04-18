@@ -139,9 +139,10 @@ function WorkoutsAddPage(){
 
     const [selectEx1, setEx1] = useState<boolean>(false);
     const [selectEx2, setEx2] = useState<boolean>(false);
-    const [selectEx3, setEx3] = useState<boolean>(false);
+    
     const [selectEx4, setEx4] = useState<boolean>(false);
     const [selectEx5, setEx5] = useState<boolean>(false);
+    const [selectEx3, setEx3] = useState<boolean>(false);
     const [selectEx6, setEx6] = useState<boolean>(false);
     const [selectEx7, setEx7] = useState<boolean>(false);
     const [selectEx8, setEx8] = useState<boolean>(false);

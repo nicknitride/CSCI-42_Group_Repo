@@ -1,8 +1,11 @@
 import axios from "axios";
 import "./WorkoutsAddPage.css";
 import Minigreeter from "../components/Minigreeter";
-import React, { FormEvent, ReactComponentElement, useEffect, useState } from 'react'
+import Stopwatch from "../components/Stopwatch";
+import React, { FormEvent, ReactComponentElement, useEffect, useState, useRef } from 'react'
 import { breadcrumbsClasses } from "@mui/material";
+import { hoursToMilliseconds } from "date-fns";
+import { format } from "path";
 
 type workoutFields = {
     workout: number,
@@ -11,10 +14,55 @@ type workoutFields = {
     reps: number;
     weight: number;
     date: String;
+    distance: number;
+    duration: String;
     workout_type: String;
 }
 
 function WorkoutsAdd(){
+    const [isRunning, setIsRunning] = useState(false);
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
+    const startTimeRef = useRef(0);
+
+    useEffect(() => {
+        if(isRunning){
+            intervalIdRef.current = setInterval(() => {
+                setElapsedTime(Date.now() - startTimeRef.current);
+            }, 10);
+        }
+
+        return () => {
+            if (intervalIdRef.current) {
+                clearInterval(intervalIdRef.current);
+            }
+        }
+
+    }, [isRunning])
+
+    function start(){
+        setIsRunning(true);
+        startTimeRef.current = Date.now() - elapsedTime;
+    }
+
+    function pause(){
+        setIsRunning(false);
+    }
+
+    function reset(){
+        setElapsedTime(0);
+        setIsRunning(false);
+    }
+
+    function formatTime(){
+        let hours: string = String(Math.floor(elapsedTime / (1000 * 60 * 60))).padStart(2, "0");
+        let mins: string = String(Math.floor(elapsedTime / (1000 * 60) % 60)).padStart(2, "0");
+        let secs: string = String(Math.floor(elapsedTime / 1000 % 60)).padStart(2, "0");
+        let ms: string = String(Math.floor((elapsedTime % 1000) / 10)).padStart(2, "0");
+
+        return `${mins}:${secs}:${ms}`;
+    }
+    
     const currentDate: Date = new Date();
     const formattedDate: string = currentDate.toISOString().split('T')[0];
 
@@ -25,6 +73,8 @@ function WorkoutsAdd(){
         reps: 0,
         weight: 0,
         date: formattedDate,
+        distance: 0,
+        duration: '',
         workout_type: '',
     });
 
@@ -35,6 +85,14 @@ function WorkoutsAdd(){
     const handleExerciseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = event.target;
         setValues({ ...values, [name]: value });
+    }
+
+    const handleStop = () => {
+        setIsRunning(false);
+        setValues(prevValues => ({
+            ...prevValues,
+            duration: formatTime()
+        }));
     }
 
     const [workouts, setWorkouts] = useState<any[]>([]);
@@ -69,6 +127,22 @@ function WorkoutsAdd(){
         .catch(error => console.error('Error fetching Pull exercises:', error));
     }, []);
 
+    const [exercises_4, setExercises_4] = useState<any[]>([])
+    useEffect(() => {
+        fetch('http://localhost:3003/ex_entries-4')
+        .then(res => res.json())
+        .then(data => setExercises_4(data))
+        .catch(error => console.error('Error fetching Running exercises:', error));
+    }, []);
+
+    const [exercises_5, setExercises_5] = useState<any[]>([])
+    useEffect(() => {
+        fetch('http://localhost:3003/ex_entries-5')
+        .then(res => res.json())
+        .then(data => setExercises_5(data))
+        .catch(error => console.error('Error fetching Running exercises:', error));
+    }, []);
+
     const [exercises_6, setExercises_6] = useState<any[]>([])
     useEffect(() => {
         fetch('http://localhost:3003/ex_entries-6')
@@ -88,6 +162,8 @@ function WorkoutsAdd(){
     const [selectEx1, setEx1] = useState<boolean>(false);
     const [selectEx2, setEx2] = useState<boolean>(false);
     const [selectEx3, setEx3] = useState<boolean>(false);
+    const [selectEx4, setEx4] = useState<boolean>(false);
+    const [selectEx5, setEx5] = useState<boolean>(false);
     const [selectEx6, setEx6] = useState<boolean>(false);
     const [selectEx7, setEx7] = useState<boolean>(false);
     
@@ -98,6 +174,8 @@ function WorkoutsAdd(){
                 setEx1(true);
                 setEx2(false);
                 setEx3(false);
+                setEx4(false);
+                setEx5(false);
                 setEx6(false);
                 setEx7(false);
                 break;
@@ -105,6 +183,8 @@ function WorkoutsAdd(){
                 setEx1(false);
                 setEx2(true);
                 setEx3(false);
+                setEx4(false);
+                setEx5(false);
                 setEx6(false);
                 setEx7(false);
                 break;
@@ -112,6 +192,26 @@ function WorkoutsAdd(){
                 setEx1(false);
                 setEx2(false);
                 setEx3(true);
+                setEx4(false);
+                setEx5(false);
+                setEx6(false);
+                setEx7(false);
+                break;
+            case "4":
+                setEx1(false);
+                setEx2(false);
+                setEx3(false);
+                setEx4(true);
+                setEx5(false);
+                setEx6(false);
+                setEx7(false);
+                break;
+            case "5":
+                setEx1(false);
+                setEx2(false);
+                setEx3(false);
+                setEx4(false);
+                setEx5(true);
                 setEx6(false);
                 setEx7(false);
                 break;
@@ -119,6 +219,8 @@ function WorkoutsAdd(){
                 setEx1(false);
                 setEx2(false);
                 setEx3(false);
+                setEx4(false);
+                setEx5(false);
                 setEx6(true);
                 setEx7(false);
                 break;
@@ -126,6 +228,8 @@ function WorkoutsAdd(){
                 setEx1(false);
                 setEx2(false);
                 setEx3(false);
+                setEx4(false);
+                setEx5(false);
                 setEx6(false);
                 setEx7(true);
                 break;
@@ -133,6 +237,8 @@ function WorkoutsAdd(){
                 setEx1(false);
                 setEx2(false);
                 setEx3(false);
+                setEx4(false);
+                setEx5(false);
                 setEx6(false);
                 setEx7(false);
         }
@@ -140,16 +246,13 @@ function WorkoutsAdd(){
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        axios.post('http://localhost:3003/add-workout-Test', values)
-        .then(res => console.log("workout registered Successfully!!"))
-        .catch(err => console.log(err));
         axios.post('http://localhost:3003/addTo_WorkoutCompleted', values)
         .then(res => console.log("workout completed registered Successfully!!"))
         .catch(err => console.log(err));
         axios.post('http://localhost:3003/addTo_ExerciseCompleted', values)
         .then(res => console.log("exercise completed registered Successfully!!"))
         .catch(err => console.log(err));
-        axios.post('http://localhost:3003/addTo_SRW', values)
+        axios.post('http://localhost:3003/addTo_OtherTables', values)
         .then(res => console.log("SRW registered Successfully!!"))
         .catch(err => console.log(err));
     }
@@ -237,6 +340,53 @@ function WorkoutsAdd(){
                             </div>
                         </div>
                     )}
+                    {selectEx4 && (
+                        <div className="exerSelect">
+                            <p>Choose Exercise: </p>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                                <option value="">Choose Exercise</option>
+                                {exercises_4.map(exercise_4 => (
+                                    <option key={exercise_4.exercise_id} value={exercise_4.exercise_id}>{exercise_4.exercise_name}</option>
+                                ))}
+                            </select>
+                            <div className="distance">
+                                <p>Enter Distance in meters: </p>
+                                <input type='number'placeholder="distance" name="distance" onChange={handleChange}/>
+                            </div>
+                        </div>
+                    )}
+                    {selectEx5 && (
+                        <div className="exerSelect">
+                            <p>Choose Exercise: </p>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                                <option value="">Choose Exercise</option>
+                                {exercises_5.map(exercise_5 => (
+                                    <option key={exercise_5.exercise_id} value={exercise_5.exercise_id}>{exercise_5.exercise_name}</option>
+                                ))}
+                            </select>
+                            <div className="sets">
+                                <p>Enter Sets: </p>
+                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                            </div>
+                            <div className="reps">
+                                <p>Enter Reps: </p>
+                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                            </div>
+                            <div className="Time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
+                                {/*<Stopwatch/>*/}
+                            </div>
+                        </div>
+                    )}
                     {selectEx6 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
@@ -283,7 +433,7 @@ function WorkoutsAdd(){
                             </div>
                         </div>
                     )}
-                    <button id="Add-Workout">Add Workout</button>
+                    <button id="Add-Workout" type="submit">Add Workout</button>
                 </form>
             </div>
         </>
