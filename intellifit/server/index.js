@@ -236,6 +236,23 @@ app.post("/meal/addentry", (req, res) => {
   });
 });
 
+app.post("/food/addentry",(req,res)=>{
+  const{food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams} = req.body;
+  const addFoodSQL = `
+  INSERT INTO food(food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams)
+  VALUES
+  ("${food_name}", "${food_brand}", ${protein_hundred_grams}, ${carb_hundred_grams}, ${fat_hundred_grams});
+  `
+  db.query(addFoodSQL, (err, result)=>{
+    if(err){
+      res.status(500).send("Error: possibly invalid macronutrient values")
+    }
+    else{
+      res.status(200).send("Added to Food DB!")
+    }
+  })
+})
+
 app.post("/meal/delete-single-item",(req,res)=>{
   const {mealfood_id} = req.body;
   const deleteSingleItem = `

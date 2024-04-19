@@ -207,6 +207,30 @@
   grid-gap: 69px;
 }
 
+
+
+/* FoodDBAdd_Edit.tsx (Start)*/
+
+.food-add-card{
+  background-color: black;
+  color: white;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 20px;
+  box-shadow: 5px 2px 15px;
+  border-radius: 20px;
+}
+.food-add-card h1{
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+/* FoodDBAdd_Edit.tsx (End) */
+
+
+
 @media (max-width: 600px) {
   body{
     overflow-x: hidden;

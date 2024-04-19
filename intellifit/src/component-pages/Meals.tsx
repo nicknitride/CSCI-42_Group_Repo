@@ -133,7 +133,14 @@ function Meals() {
   if (mode === "Today") {
     return (
       <>
+       
         <Minigreeter label="Meals Today: "></Minigreeter>
+        <h2 style={{marginLeft:"10px"}}>Want to Add Custom Food Items to the DB?</h2>
+          <div className="meal-option-flex-container" style={{marginTop:"20px", marginBottom:"20px"}}>
+              <button className="meal-option" onClick={()=>{
+                navigate("/fooddb")
+              }}>View/Add to Food Database</button>
+            </div>
         <div className="meal-button-group-flex">
           <button
             className="meal-button-selected"
