@@ -15,13 +15,7 @@
   row-gap: 10px;
 }
 
-@media (max-width: 500px) {
-  .meal-flex {
-    display: flex;
-    flex-direction: column;
-    padding-left: 0px;
-  }
-}
+
 
 .meal-button-group-flex {
   display: flex;
@@ -211,4 +205,18 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, 500px);
   grid-gap: 69px;
+}
+
+@media (max-width: 600px) {
+  body{
+    overflow-x: hidden;
+  }
+  .today-flex{
+    width: 85%;
+  }
+  .totals{
+    width: 65%;
+  }
+  
+  
 }

@@ -100,7 +100,7 @@ function MealList() {
         )}`}
       />
 
-      <p>{JSON.stringify(data)}</p>
+      {/* <p>{JSON.stringify(data)}</p> */}
       {dailyTotals.length > 0 && dailyTotals[0].total_calories !== null && (
         <div className="totals short-fade-in">
           <h2>Totals:</h2>

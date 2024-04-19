@@ -203,7 +203,7 @@ app.post("/meal/edit/:jsonstring", (req, res) => {
 });
 
 app.get("/food/all", (req, res) => {
-  const getAllFood = `select * from food;`;
+  const getAllFood = `select * from food LIMIT 10;`;
   console.log("Sending list of all food items");
   db.query(getAllFood, (err, result) => {
     if (err) {
@@ -228,7 +228,7 @@ app.post("/meal/addentry", (req, res) => {
   db.query(insertEntrySQL, (err, result) => {
     if (err) {
       console.log("Error adding meal entry:", err);
-      res.status(500).send("Failed to add meal entry");
+      res.status(500).send("Error: invalid meal serving size!");
     } else {
       console.log("Meal entry added successfully");
       res.send(result);
