@@ -34,6 +34,9 @@ function AddMealPage() {
   const [searchValue, setSearchValue] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedDate, setSelectedDate] = useState<string>(
+    new Date().toISOString().split("T")[0] // Initialize with today's date
+  );
 
   //   const [active, setActive] = useState(""); /* Store active button*/
 
@@ -50,6 +53,7 @@ function AddMealPage() {
       mealID: mealId,
       foodID: foodId,
       servingSize: servingSize,
+      selectedDate: selectedDate,
     };
 
     axios
@@ -127,6 +131,28 @@ function AddMealPage() {
 
       <div className="meal-time">
         <h1>Select a Meal Time: </h1>
+        <div className="meal-option-flex-container">
+          <div className="meal-option">
+            <label
+              htmlFor="selectedDate"
+              style={{
+                color: "white",
+                fontFamily: "arial",
+                fontWeight: "bolder",
+              }}
+            >
+              Select Date:
+            </label>
+            <input
+              type="date"
+              id="selectedDate"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="meal-option"
+            />
+          </div>
+        </div>
+
         <div className="currently-selected-meal-div">
           <h3>
             Currently Selected Meal Time: {mealHumanReadable}
@@ -233,6 +259,7 @@ function AddMealPage() {
                 </>
               )}
             </div>
+
             {!selectedFoodBoolean && (
               <>
                 <h3 style={{ textAlign: "center" }}>

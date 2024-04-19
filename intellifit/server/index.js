@@ -216,12 +216,12 @@ app.get("/food/all", (req, res) => {
 
 app.post("/meal/addentry", (req, res) => {
   // Parse the data from the request body
-  const { mealID, foodID, servingSize } = req.body;
+  const { mealID, foodID, servingSize, selectedDate } = req.body;
 
   // Construct the SQL query to insert a new entry into the meal_food_entity table
   const insertEntrySQL = `
-    INSERT INTO meal_food_entity (meal_id, food_id, serving_size)
-    VALUES (${mealID}, ${foodID}, ${servingSize})
+    INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size)
+    VALUES (${mealID}, ${foodID}, "${selectedDate}", ${servingSize})
   `;
 
   // Execute the SQL query

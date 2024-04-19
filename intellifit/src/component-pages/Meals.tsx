@@ -160,7 +160,7 @@ function Meals() {
                 navigate("/meal/add/");
               }}
             >
-              Add a Food Item
+              Add a Food Entry
             </button>
           </div>
           {!(
