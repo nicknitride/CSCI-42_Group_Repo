@@ -384,6 +384,21 @@ app.get("/ex_entries-8-srd", (req, res) => {
     })
 });
 
+app.get("/exercises-Recent", (req, res) => {
+  const getExercisesRecent =  `SELECT ec.exercise_completed_id, e.exercise_name, w.completed_date, ec.completed_type 
+                              FROM exercise_completed ec 
+                              INNER JOIN exercise e ON ec.exercise_id = e.exercise_id 
+                              INNER JOIN workout_completed w ON ec.workout_completed_id = w.workout_completed_id 
+                              WHERE w.completed_date = (SELECT MAX(completed_date) FROM workout_completed);`;
+  db.query(getExercisesRecent, (err, result) => {
+    if(err){
+      console.log("could not retrieve");
+      console.log(err);
+    }
+    res.send(result);
+  })
+});
+
 app.post('/addTo_WorkoutCompleted', (req, res) => {
     const addWorkoutDate = "INSERT INTO workout_completed(`completed_date`) VALUES(?);";
     const date_value = req.body.date;

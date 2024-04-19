@@ -15,8 +15,6 @@ interface props{
     data : dailyMeal;
 }
 
-
-
 function TodayMeal({data} : props){
 return(
 <>
