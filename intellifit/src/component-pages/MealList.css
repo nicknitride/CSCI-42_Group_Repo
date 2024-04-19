@@ -14,10 +14,19 @@
   margin: 0;
   margin-bottom: 4px;
 }
-.single-meal-card:hover {
+/* .single-meal-card:hover {
   box-shadow: black 4px 5px 15px;
   cursor: pointer;
+} */
+.single-meal-button-container{
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
 }
+.single-meal-button-container button{
+  padding: 10px 20px;
+}
+
 .edit-container {
   display: flex;
   justify-content: center;

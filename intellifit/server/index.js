@@ -194,6 +194,7 @@ app.post("/meal/edit/:jsonstring", (req, res) => {
         "Edit has failed, check if database supports the number size, currently it supports xxxx.xx as a value max"
       );
       console.log(err);
+      res.status(500).send("Number value is either negative outside of realistic range, please try again")
     }
     res.send(result);
   });
@@ -234,6 +235,23 @@ app.post("/meal/addentry", (req, res) => {
     }
   });
 });
+
+app.post("/meal/delete-single-item",(req,res)=>{
+  const {mealfood_id} = req.body;
+  const deleteSingleItem = `
+  DELETE FROM meal_food_entity WHERE meal_food_entity.mealfood_id = ${mealfood_id}
+  `
+  db.query(deleteSingleItem, (err, result)=>{
+    if(err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    else{
+      console.log(result)
+      res.status(200).send(result);
+    }
+  })
+})
 
 app.post("/food/search",(req,res)=>{
   const {search_term} = req.body;

@@ -6,6 +6,7 @@ import axios from "axios";
 import formatFloat, {
   specifyDecimalPlaces,
 } from "../formatting_functions/formatFloat";
+import "../css/animations_transitions.css"
 
 type MealDataQueryItem = {
   Calories: number;
@@ -16,9 +17,9 @@ type MealDataQueryItem = {
   mealfood_id: number;
   serving_size: number;
   cal_per_gram: number;
-  protein_per_gram:number;
+  protein_per_gram: number;
   fat_per_gram: number;
-  carb_per_gram:number;
+  carb_per_gram: number;
 };
 
 function processDate(value: string) {
@@ -63,6 +64,8 @@ function MealEditPage() {
   const initialData: MealDataQueryItem = location.state;
   const navigate = useNavigate();
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   // Use state to manage editable values
   const [editedData, setEditedData] = useState(initialData);
 
@@ -76,16 +79,29 @@ function MealEditPage() {
   };
   const handleSubmit = () => {
     const value = JSON.stringify(editedData);
-    const dateForRedirect = String(editedData.creation_date_mealfood);
-    console.log("Date sent by handlesubmit" + dateForRedirect);
     axios
       .post(`http://localhost:3003/meal/edit/${value}`)
       .then((response) => {
         console.log(response.data);
+        return response;
+      })
+      .then((response) => {
+        if (response.status !== 500) {
+          redirectToPreviousPage();
+        }
       })
       .catch((error) => {
         console.log("Axios error:" + error);
+        setErrorMessage(error.response.data);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
       });
+  };
+
+  const redirectToPreviousPage = () => {
+    const dateForRedirect = String(editedData.creation_date_mealfood);
+    console.log("Date sent by handlesubmit" + dateForRedirect);
     axios
       .get(
         `http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}`
@@ -114,10 +130,13 @@ function MealEditPage() {
             <div className="input-flex">
               <span>Serving Size in Grams</span>
               <input
-                type="text"
+                type="number"
+                min="1"
+                max="999.99"
                 name="serving_size"
                 value={editedData.serving_size}
                 onChange={handleInputChange}
+                // source: https://www.w3schools.com/html/html_form_input_types.asp
               />
             </div>
             <div className="input-flex">
@@ -128,18 +147,33 @@ function MealEditPage() {
               Current Calorie Count:{" "}
               {formatFloat(editedData.cal_per_gram * editedData.serving_size)}
             </h3>
+            <div style={{color:"red",width:"80%",textAlign:"center"}} className={errorMessage? "short-fade-in":""}>
+            {errorMessage && <h3>{errorMessage}</h3>}
+          </div>
           </form>
           <button onClick={handleSubmit} type="button">
             Submit
           </button>
+          
         </div>
 
         <div className="nutrition-info">
           <h1>Stats</h1>
           <ul>
-            <li>Protein Content: {formatFloat(editedData.serving_size*editedData.protein_per_gram)}</li>
-            <li>Carb Content: {formatFloat(editedData.serving_size*editedData.carb_per_gram)}</li>
-            <li>Fat Content: {formatFloat(editedData.serving_size*editedData.fat_per_gram)}</li>
+            <li>
+              Protein Content:{" "}
+              {formatFloat(
+                editedData.serving_size * editedData.protein_per_gram
+              )}
+            </li>
+            <li>
+              Carb Content:{" "}
+              {formatFloat(editedData.serving_size * editedData.carb_per_gram)}
+            </li>
+            <li>
+              Fat Content:{" "}
+              {formatFloat(editedData.serving_size * editedData.fat_per_gram)}
+            </li>
           </ul>
         </div>
       </div>

@@ -1,5 +1,9 @@
 -- # Food Entity
 -- -- Draft new food entity
+DROP DATABASE intellifit_test;
+CREATE DATABASE intellifit_test;
+USE intellifit_test;
+
 create table food(
 food_id int auto_increment,
 food_name varchar(80) not null,
@@ -11,6 +15,12 @@ protein_per_gram  decimal(6,3) AS (protein_hundred_grams/100),
 carb_per_gram decimal(6,3) AS (carb_hundred_grams/100),
 fat_per_gram decimal(6,3) AS (fat_hundred_grams/100),
 cal_per_gram decimal (7,3) AS ((carb_per_gram*4)+(protein_per_gram*4)+(fat_per_gram*9)),
+CHECK (protein_hundred_grams >= 0),
+CHECK (carb_hundred_grams >= 0),
+CHECK (fat_hundred_grams >= 0),
+CHECK (protein_hundred_grams <= 999.99),
+CHECK (carb_hundred_grams <= 999.99),
+CHECK (fat_hundred_grams <= 999.99),
 PRIMARY KEY(food_id)
 );
 
@@ -54,6 +64,7 @@ CREATE TABLE meal_food_entity(
   food_id int,
   creation_date_mealfood DATE DEFAULT (CURRENT_DATE),
   serving_size DECIMAL(6,2) not null,
+  CHECK (serving_size >= 0 AND serving_size <= 9999.99),
   PRIMARY KEY (mealfood_id),
   FOREIGN KEY (meal_id) REFERENCES meal(meal_id),
   FOREIGN KEY (food_id) REFERENCES food(food_id)
