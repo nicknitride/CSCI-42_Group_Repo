@@ -284,6 +284,7 @@ function AddMealPage() {
                           <h4>
                             {item.food_name} | Brand: {item.food_brand}
                           </h4>
+                          <span>Calories (in 100g) {item.cal_per_gram*100}</span>
                           <span>
                             Protein (100g) {item.protein_hundred_grams} grams
                           </span>

@@ -198,6 +198,7 @@ function FoodDBAdd_Edit() {
                             <h4>
                               {item.food_name} | Brand: {item.food_brand}
                             </h4>
+                            <span>Calories (in 100g) {(item.cal_per_gram*100).toFixed(2)}</span>
                             <span>
                               Protein (100g) {item.protein_hundred_grams} grams
                             </span>
@@ -300,9 +301,9 @@ function FoodDBAdd_Edit() {
                 fat_hundred_grams && (
                   <>
                     <span>
-                      {(parseFloat(carb_hundred_grams) / 100) * 4 +
+                      {((parseFloat(carb_hundred_grams) / 100) * 4 +
                         (parseFloat(protein_hundred_grams) / 100) * 4 +
-                        (parseFloat(fat_hundred_grams) / 100) * 9}
+                        (parseFloat(fat_hundred_grams) / 100) * 9)*100}
                     </span>
                   </>
                 )}
