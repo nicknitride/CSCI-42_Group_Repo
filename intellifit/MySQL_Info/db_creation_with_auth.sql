@@ -1,27 +1,21 @@
--- # Food Entity
--- -- Draft new food entity
 DROP DATABASE intellifit_test;
 CREATE DATABASE intellifit_test;
 USE intellifit_test;
 
+-- # Food Entity
+-- -- Draft new food entity
 create table food(
-food_id int auto_increment,
-food_name varchar(80) not null,
-food_brand varchar(80) not null,
-protein_hundred_grams decimal(5,2) not null,
-carb_hundred_grams decimal(5,2) not null,
-fat_hundred_grams decimal(5,2) not null,
-protein_per_gram  decimal(6,3) AS (protein_hundred_grams/100),
-carb_per_gram decimal(6,3) AS (carb_hundred_grams/100),
-fat_per_gram decimal(6,3) AS (fat_hundred_grams/100),
-cal_per_gram decimal (7,3) AS ((carb_per_gram*4)+(protein_per_gram*4)+(fat_per_gram*9)),
-CHECK (protein_hundred_grams >= 0),
-CHECK (carb_hundred_grams >= 0),
-CHECK (fat_hundred_grams >= 0),
-CHECK (protein_hundred_grams <= 999.99),
-CHECK (carb_hundred_grams <= 999.99),
-CHECK (fat_hundred_grams <= 999.99),
-PRIMARY KEY(food_id)
+    food_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    food_name varchar(80) not null,
+    food_brand varchar(80) not null,
+    protein_hundred_grams decimal(5,2) not null,
+    carb_hundred_grams decimal(5,2) not null,
+    fat_hundred_grams decimal(5,2) not null,
+    protein_per_gram  decimal(6,3) AS (protein_hundred_grams/100),
+    carb_per_gram decimal(6,3) AS (carb_hundred_grams/100),
+    fat_per_gram decimal(6,3) AS (fat_hundred_grams/100),
+    cal_per_gram decimal (7,3) AS ((carb_per_gram*4)+(protein_per_gram*4)+(fat_per_gram*9)),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 
 INSERT INTO food(food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams)
@@ -44,9 +38,9 @@ VALUES
 
 -- # Meal Entity
 CREATE TABLE meal(
-  meal_id int AUTO_INCREMENT,
+  meal_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   meal_name varchar(80) NOT NULL,
-  PRIMARY KEY(meal_id)
+  created_by VARCHAR(50) DEFAULT 'Server'
 );
 -- source: https://www.mysqltutorial.org/mysql-basics/mysql-insert-date/
 -- https://prahladyeri.github.io/blog/2022/10/mysql-setting-default-date-to-current-date.html
@@ -59,52 +53,52 @@ INSERT INTO meal (meal_name) VALUES ('Dinner');
 
 -- ! #Meal-Food Associative Entity
 CREATE TABLE meal_food_entity(
-  mealfood_id INT AUTO_INCREMENT,
+  mealfood_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   meal_id int,
   food_id int,
   creation_date_mealfood DATE DEFAULT (CURRENT_DATE),
   serving_size DECIMAL(6,2) not null,
-  created_by NOT NULL,
-  CHECK (serving_size >= 0 AND serving_size <= 9999.99),
-  PRIMARY KEY (mealfood_id),
   FOREIGN KEY (meal_id) REFERENCES meal(meal_id),
-  FOREIGN KEY (food_id) REFERENCES food(food_id)
+  FOREIGN KEY (food_id) REFERENCES food(food_id),
+  created_by VARCHAR(50) DEFAULT 'Server'
 );
 -- #Insert Statements
 -- Inserting a meal_food_entity entry with specified meal_id and food_id
-INSERT INTO meal_food_entity (meal_id, food_id, serving_size, created_by) VALUES (1, 5, 150.50, 'Nick');
+INSERT INTO meal_food_entity (meal_id, food_id, serving_size) VALUES (1, 5, 150.50);
 
 -- Inserting another entry with different meal_id, food_id, and using the default serving_size
-INSERT INTO meal_food_entity (meal_id, food_id, created_by) VALUES (2, 13, 'Nick');
+INSERT INTO meal_food_entity (meal_id, food_id) VALUES (2, 13);
 
 -- Inserting an entry with specified meal_id, food_id, creation_date_mealfood, and serving_size
 -- Inserting three whole days of meals into the mealfood table
-INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size, created_by)
+INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size)
 VALUES
 -- Day 1
-(1, 1, CURDATE(), 150.5, 'Nick'),  -- Adjust the food_id as needed
-(1, 2, CURDATE(), 200.25, 'Nick'), -- Adjust the food_id as needed
-(2, 3, CURDATE(), 100.75, 'Nick'), -- Adjust the food_id as needed
+(1, 1, CURDATE(), 150.5),  -- Adjust the food_id as needed
+(1, 2, CURDATE(), 200.25), -- Adjust the food_id as needed
+(2, 3, CURDATE(), 100.75), -- Adjust the food_id as needed
 -- Day 2
-(2, 4, CURDATE() + INTERVAL 1 DAY, 75.3, 'Nick'),  -- Adjust the food_id as needed
-(3, 5, CURDATE() + INTERVAL 1 DAY, 300.0, 'Nick'), -- Adjust the food_id as needed
-(3, 6, CURDATE() + INTERVAL 1 DAY, 50.8, 'Nick'),  -- Adjust the food_id as needed
+(2, 4, CURDATE() + INTERVAL 1 DAY, 75.3),  -- Adjust the food_id as needed
+(3, 5, CURDATE() + INTERVAL 1 DAY, 300.0), -- Adjust the food_id as needed
+(3, 6, CURDATE() + INTERVAL 1 DAY, 50.8),  -- Adjust the food_id as needed
 -- Day 3
-(1, 7, CURDATE() + INTERVAL 2 DAY, 180.4, 'Nick'), -- Adjust the food_id as needed
-(2, 8, CURDATE() + INTERVAL 2 DAY, 250.1, 'Nick'), -- Adjust the food_id as needed
-(3, 9, CURDATE() + INTERVAL 2 DAY, 120.75, 'Nick'); -- Adjust the food_id as needed
+(1, 7, CURDATE() + INTERVAL 2 DAY, 180.4), -- Adjust the food_id as needed
+(2, 8, CURDATE() + INTERVAL 2 DAY, 250.1), -- Adjust the food_id as needed
+(3, 9, CURDATE() + INTERVAL 2 DAY, 120.75); -- Adjust the food_id as needed
 
 
 -- # Workout Entity
 CREATE TABLE exercise (
     exercise_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     exercise_name VARCHAR(50),
-    exercise_desc VARCHAR(510)
+    exercise_desc VARCHAR(510),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE workout (
     workout_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     workout_name VARCHAR(50),
-    goal VARCHAR(50)
+    goal VARCHAR(50),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE workout_exercise_entry (
     workout_exercise_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -114,35 +108,41 @@ CREATE TABLE workout_exercise_entry (
     FOREIGN KEY (workout_id) REFERENCES workout(workout_id),
     FOREIGN KEY (exercise_id) REFERENCES exercise(exercise_id),
     CHECK
-    ( entry_type IN ('Set-Rep', 'Set-Rep-Duration', 'Duration', 'Distance') )
+    ( entry_type IN ('Set-Rep', 'Set-Rep-Duration', 'Duration', 'Distance') ),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE set_rep_entry (
     workout_exercise_id INT,
     sets INT,
     reps INT,
-    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id)
+    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE set_rep_duration_entry (
     workout_exercise_id INT,
     sets INT,
     reps INT,
     duration TIME,
-    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id)
+    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE duration_entry (
     workout_exercise_id INT,
     duration TIME,
-    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id)
+    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE distance_entry (
     workout_exercise_id INT,
     distance FLOAT(2),
-    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id)
+    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise_entry(workout_exercise_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 
 CREATE TABLE workout_completed (
     workout_completed_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    completed_date DATE
+    completed_date DATE,
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE exercise_completed (
     exercise_completed_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -152,31 +152,36 @@ CREATE TABLE exercise_completed (
     FOREIGN KEY (workout_completed_id) REFERENCES workout_completed(workout_completed_id),
     FOREIGN KEY (exercise_id) REFERENCES exercise(exercise_id),
     CHECK
-    ( completed_type IN ('Set-Rep-Weight', 'Set-Rep-Duration', 'Duration', 'Distance') )
+    ( completed_type IN ('Set-Rep-Weight', 'Set-Rep-Duration', 'Duration', 'Distance') ),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE set_rep_weight_completed (
     exercise_completed_id INT,
     sets INT,
     reps INT,
     weight FLOAT(2),
-    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id)
+    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE set_rep_duration_completed (
     exercise_completed_id INT,
     sets INT,
     reps INT,
     duration TIME,
-    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id)
+    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE duration_completed (
     exercise_completed_id INT,
     duration TIME,
-    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id)
+    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 CREATE TABLE distance_completed (
     exercise_completed_id INT,
     distance FLOAT(2),
-    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id)
+    FOREIGN KEY (exercise_completed_id) REFERENCES exercise_completed(exercise_completed_id),
+    created_by VARCHAR(50) DEFAULT 'Server'
 );
 
 INSERT INTO workout (workout_id, workout_name, goal) VALUES 
