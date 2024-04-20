@@ -422,11 +422,12 @@ app.post("/register",async (req, res) => {
     values ("${username}","${hashedPass}")`;
     db.query(insertUser, (err, result) => {
       if (err) {
+        console.log(err);
         if(err.code==="ER_DUP_ENTRY"){
           res.status(500).send("Username already exists, please try again or login");
         }
         else{
-          console.log(err);
+          // console.log(err);
           res.status(500).send("Error: Try Again");
         }
       } 
@@ -440,16 +441,13 @@ app.post("/register",async (req, res) => {
   }
 
 });
-app.post("/login/userdetails",(req,res)=>{
-
-});
 
 app.post("/login",async (req,res)=>{
   console.log("Triggered login")
   const {username, password} = req.body;
   var foundPassword = "";
   const checkUsername = `
-  SELECT user.password from user where user.username = "${username}"
+  SELECT user.password from user where BINARY user.username = "${username}"
   LIMIT 1
   `
   db.query(checkUsername,async (err, result)=>{

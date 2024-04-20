@@ -10,7 +10,7 @@ function Login() {
   const [username, SetUsername] = useState("");
   const [password, SetPassword] = useState("");
   const [serverMessage, setServerMessage] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  // const [loginSuccess, setLoginSuccess] = useState(false);
 
   const { setLoggedInUser, loggedInUser } = React.useContext(AuthContext);
   const {} = React.useContext(AuthContext);
@@ -31,7 +31,7 @@ function Login() {
             console.log(loggedInUser);
             navigate("/");
           }
-          console.log(response.data);
+          console.log(response.data)
           setServerMessage(JSON.stringify(response.data));
           setTimeout(() => {
             setServerMessage("");
@@ -83,6 +83,14 @@ function Login() {
                 <input
                   type="text"
                   id="usernameinput"
+                  onKeyDown={(event)=>{
+                    if(event.key === "Enter"){
+                      if(serverMessage===""){
+                        // Disables input while error message is displaying
+                        sendAccountToBackend();
+                      } 
+                    }
+                  }}
                   onChange={(e) => {
                     SetUsername(e.target.value);
                   }}
@@ -95,6 +103,14 @@ function Login() {
                 <input
                   type="password"
                   id="passwordinput"
+                  onKeyDown={(event)=>{
+                    if(event.key === "Enter"){
+                      if(serverMessage===""){
+                        // Disables input while error message is displaying
+                        sendAccountToBackend();
+                      } 
+                    }
+                  }}
                   onChange={(e) => {
                     SetPassword(e.target.value);
                   }}
@@ -105,7 +121,10 @@ function Login() {
                 <button
                   className="meal-option"
                   onClick={() => {
-                    sendAccountToBackend();
+                    if(serverMessage===""){
+                      // Disables input while error message is displaying
+                      sendAccountToBackend();
+                    }
                   }}
                 >
                   Log In
@@ -148,7 +167,7 @@ function Login() {
           <span>
             <h3
               className={
-                serverMessage ? "short-fade-in one-item-card" : "one-item-card"
+                serverMessage ? "short-fade-in one-item-card temporary-banner" : "one-item-card temporary-banner"
               }
             >
               {serverMessage}

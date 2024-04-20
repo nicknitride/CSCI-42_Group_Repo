@@ -1,7 +1,7 @@
 DROP TABLE user;
 CREATE TABLE user (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
+    username VARCHAR(50) BINARY UNIQUE NOT NULL,
     password VARCHAR(300) NOT NULL,
     calorie_goal INT,
     protein_goal INT,

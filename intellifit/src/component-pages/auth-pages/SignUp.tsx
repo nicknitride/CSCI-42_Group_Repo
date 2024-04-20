@@ -80,6 +80,14 @@ function SignUp() {
                   }}
                   required
                   ref={userNameField}
+                  onKeyDown={(event)=>{
+                    if(event.key === "Enter"){
+                      if(serverMessage===""){
+                        // Disables input while error message is displaying
+                        sendAccountToBackend();
+                      } 
+                    }
+                  }}
                 />
               </div>
               <div className="vertical-flex">
@@ -89,6 +97,14 @@ function SignUp() {
                   id="passwordinput"
                   onChange={(e) => {
                     SetPassword(e.target.value);
+                  }}
+                  onKeyDown={(event)=>{
+                    if(event.key === "Enter"){
+                      if(serverMessage===""){
+                        // Disables input while error message is displaying
+                        sendAccountToBackend();
+                      } 
+                    }
                   }}
                   required
                 />
@@ -140,7 +156,7 @@ function SignUp() {
           <span>
             <h3
               className={
-                serverMessage ? "short-fade-in one-item-card" : "one-item-card"
+                serverMessage ? "short-fade-in one-item-card temporary-banner" : "one-item-card temporary-banner"
               }
             >
               {serverMessage}
