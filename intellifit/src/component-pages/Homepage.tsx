@@ -14,6 +14,13 @@ type user = {
   weight_kg: string;
   height_cm: string;
 };
+interface DailyTotals {
+  total_calories: number;
+  total_protein: number;
+  total_fat: number;
+  total_carbs: number;
+}
+[];
 
 function Home() {
   const navigate = useNavigate();
@@ -24,6 +31,7 @@ function Home() {
   const [protein, setProtein] = useState<string>();
   const [weight, setWeight] = useState<string>();
   const [height, setHeight] = useState<string>();
+  const [totals, setTotals] = useState<DailyTotals[]>([]);
   const { setLoggedInUser, loggedInUser } = React.useContext(AuthContext);
   const initialData = {
     username: loggedInUser,
@@ -52,6 +60,14 @@ function Home() {
       .catch((error) => {
         console.log(error.reponse.data);
       });
+    const dailyTotalEndpoint = "http://localhost:3003/meals/today/totalcal";
+    axios
+      .get(dailyTotalEndpoint)
+      .then((res) => {
+        setTotals(res.data);
+        console.log("Received daily totals", res.data);
+      })
+      .catch((err) => console.log("failed at daily total: " + err));
   }, []);
 
   return (
@@ -259,7 +275,7 @@ function Home() {
           <div className="one-item-card">
             <div className="user-info">
               <h1 style={{ marginLeft: "10px" }}>Nutrition Stats (Today): </h1>
-              {!editSettings && userData && (
+              {!editSettings && userData && totals.length>0 && (
                 <>
                   <div
                     className="horizontal-flex"
@@ -271,7 +287,7 @@ function Home() {
                     }}
                   >
                     <p style={{ margin: "0px" }}>Calorie Goal: </p>{" "}
-                    <span>{calorie ? calorie : "Not Set"}</span>
+                    <span>{(calorie &&totals[0].total_calories) ? `${(((totals[0].total_calories)/parseFloat(calorie))*100).toFixed(2)}%` : "0%"}</span>
                   </div>
                   <div
                     className="horizontal-flex"
@@ -283,31 +299,9 @@ function Home() {
                     }}
                   >
                     <p style={{ margin: "0px" }}>Protein Goal (grams): </p>{" "}
-                    <span>{protein == null ? "Not Set" : protein}</span>
-                  </div>
-                  <div
-                    className="horizontal-flex"
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      height: "30px",
-                      fontSize: "20px",
-                    }}
-                  >
-                    <p style={{ margin: "0px" }}> Weight (kg): </p>{" "}
-                    <span>{weight == null ? "Not Set" : weight}</span>
-                  </div>
-                  <div
-                    className="horizontal-flex"
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      height: "30px",
-                      fontSize: "20px",
-                    }}
-                  >
-                    <p style={{ margin: "0px" }}> Height (cm): </p>{" "}
-                    <span>{height == null ? "Not Set" : height}</span>
+                    {/* <span>{protein == null ? "Add in Settings" : protein}</span> */}
+                    <span>{(protein && totals &&totals[0].total_protein) ? `${(((totals[0].total_protein)/parseFloat(protein))*100).toFixed(2)}%` : "0%"}</span>
+
                   </div>
                 </>
               )}

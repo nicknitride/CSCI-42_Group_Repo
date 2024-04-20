@@ -34,10 +34,11 @@ function AddMealPage() {
   const [searchValue, setSearchValue] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
+  const now = new Date();
+now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
   const [selectedDate, setSelectedDate] = useState<string>(
-    new Date().toISOString().split("T")[0] // Initialize with today's date
+    now.toISOString().split("T")[0] // Initialize with today's date
   );
-
   //   const [active, setActive] = useState(""); /* Store active button*/
 
   function outputCurrentSelected() {
