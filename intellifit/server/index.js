@@ -475,11 +475,46 @@ app.post("/login",async (req,res)=>{
     }
   })
 })
-
-
 // Authentication End
 
+// User Logic Start
+app.post("/userinfo",(req,res)=>{
+  const {username} = req.body;
+  const getUser = `
+  SELECT * from user WHERE BINARY "${username}" = user.username
+  `
+  db.query(getUser,(err,result)=>{
+    if(err){
+      res.status(500).send("Failed")
+      console.log(err);
+    }
+    else{
+      res.send(result)
+      console.log(result);
+    }
+  })
+})
 
+app.post("/userinfo/update",(req,res)=>{
+  const{protein_goal, calorie_goal, weight_kg, height_cm, username} = req.body;
+  const updateInfo = `
+    UPDATE user 
+    SET protein_goal = ${protein_goal}, calorie_goal = ${calorie_goal}, 
+    weight_kg = ${weight_kg}, height_cm = ${height_cm}
+    WHERE BINARY username = "${username}"
+  `;
+  db.query(updateInfo, (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Failed to update user information");
+    } else {
+      console.log("User information updated successfully");
+      res.send("User information updated successfully");
+    }
+  });
+})
+
+// User Logic End
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
