@@ -71,10 +71,10 @@ function Login() {
             <h1>Login</h1>
           </div>
 
-          <div className="testing-block">
+          {/* <div className="testing-block">
             <p>Username: {username}</p>
             <p>Password: {password}</p>
-          </div>
+          </div> */}
 
           <div className="sign-up-container">
             <div className="vertical-flex sign-up">
