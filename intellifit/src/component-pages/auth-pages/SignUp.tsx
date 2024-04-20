@@ -107,6 +107,34 @@ function SignUp() {
           </div>
         </>
       }
+              <div className="centered-flex">
+            <div className="one-item-card vertical-flex" style={{alignItems:"center"}}>
+              <p>Already Have an Account?</p>
+              <div className="meal-option-flex-container" style={{padding:"5px"}}>
+                <button
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Log In
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="centered-flex">
+            <div className="one-item-card vertical-flex" style={{alignItems:"center"}}>
+              <p>Need an Account?</p>
+              <div className="meal-option-flex-container" style={{padding:"5px"}}>
+                <button
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  Go Back to Welcome Screen
+                </button>
+              </div>
+            </div>
+          </div>
       {serverMessage && (
         <>
           <span>

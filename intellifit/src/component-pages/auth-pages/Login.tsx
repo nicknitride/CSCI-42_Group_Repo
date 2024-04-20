@@ -12,7 +12,7 @@ function Login() {
   const [serverMessage, setServerMessage] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
 
-  const {setLoggedInUser, loggedInUser} = React.useContext(AuthContext);
+  const { setLoggedInUser, loggedInUser } = React.useContext(AuthContext);
   const {} = React.useContext(AuthContext);
   const navigate = useNavigate();
   const userNameField = useRef<any>();
@@ -26,7 +26,7 @@ function Login() {
       axios
         .post("http://localhost:3003/login", user)
         .then((response) => {
-          if(response.data==="Success"){
+          if (response.data === "Success") {
             setLoggedInUser(username);
             console.log(loggedInUser);
             navigate("/");
@@ -109,6 +109,34 @@ function Login() {
                   }}
                 >
                   Log In
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="centered-flex">
+            <div className="one-item-card vertical-flex" style={{alignItems:"center"}}>
+              <p>Need an Account?</p>
+              <div className="meal-option-flex-container" style={{padding:"5px"}}>
+                <button
+                  onClick={() => {
+                    navigate("/signup");
+                  }}
+                >
+                  Sign Up
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="centered-flex">
+            <div className="one-item-card vertical-flex" style={{alignItems:"center"}}>
+              <p>Need an Account?</p>
+              <div className="meal-option-flex-container" style={{padding:"5px"}}>
+                <button
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  Go to Welcome Page
                 </button>
               </div>
             </div>
