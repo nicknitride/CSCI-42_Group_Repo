@@ -3,12 +3,17 @@ import "../MealList.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import React from "react";
+import { AuthContext } from "./AuthContext";
 
 function Login() {
   const [username, SetUsername] = useState("");
   const [password, SetPassword] = useState("");
   const [serverMessage, setServerMessage] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
+
+  const {setLoggedInUser, loggedInUser} = React.useContext(AuthContext);
+  const {} = React.useContext(AuthContext);
   const navigate = useNavigate();
   const userNameField = useRef<any>();
 
@@ -21,6 +26,11 @@ function Login() {
       axios
         .post("http://localhost:3003/login", user)
         .then((response) => {
+          if(response.data==="Success"){
+            setLoggedInUser(username);
+            console.log(loggedInUser);
+            navigate("/");
+          }
           console.log(response.data);
           setServerMessage(JSON.stringify(response.data));
           setTimeout(() => {

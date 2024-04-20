@@ -1,21 +1,22 @@
 import "../css/Navbar.css";
 import gymlogo from "../assets/1_gym.svg";
+import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <>
       <div className="outer-nav-flex">
         <div className="left-nav-flex">
           <div className="rounded-button">
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </div>
           <div className="rounded-button">
-            <a href="/workouts">Workouts</a>
+            <Link to="/workouts">Workouts</Link>
           </div>
           <div className="rounded-button">
-            <a href="/meals">Meal Tracking</a>
+            <Link to="/meals">Meal Tracking</Link>
           </div>
           <div className="rounded-button">
-            <a href="/fileops">Import/Export</a>
+            <Link to="/fileops">Import/Export</Link>
           </div>
         </div>
         <div className="nav-logo">
