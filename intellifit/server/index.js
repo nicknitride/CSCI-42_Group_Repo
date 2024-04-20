@@ -4,6 +4,7 @@ const mysql = require("mysql");
 const express = require("express");
 const cors = require("cors");
 const { Axios } = require("axios");
+const bcrypt = require("bcrypt");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -194,7 +195,11 @@ app.post("/meal/edit/:jsonstring", (req, res) => {
         "Edit has failed, check if database supports the number size, currently it supports xxxx.xx as a value max"
       );
       console.log(err);
-      res.status(500).send("Number value is either negative outside of realistic range, please try again")
+      res
+        .status(500)
+        .send(
+          "Number value is either negative outside of realistic range, please try again"
+        );
     }
     res.send(result);
   });
@@ -236,81 +241,83 @@ app.post("/meal/addentry", (req, res) => {
   });
 });
 
-app.post("/food/addentry",(req,res)=>{
-  const{food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams} = req.body;
+app.post("/food/addentry", (req, res) => {
+  const {
+    food_name,
+    food_brand,
+    protein_hundred_grams,
+    carb_hundred_grams,
+    fat_hundred_grams,
+  } = req.body;
   const addFoodSQL = `
   INSERT INTO food(food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams)
   VALUES
   ("${food_name}", "${food_brand}", ${protein_hundred_grams}, ${carb_hundred_grams}, ${fat_hundred_grams});
-  `
-  db.query(addFoodSQL, (err, result)=>{
-    if(err){
-      res.status(500).send("Error: possibly invalid macronutrient values")
+  `;
+  db.query(addFoodSQL, (err, result) => {
+    if (err) {
+      res.status(500).send("Error: possibly invalid macronutrient values");
+    } else {
+      res.status(200).send("Added to Food DB!");
     }
-    else{
-      res.status(200).send("Added to Food DB!")
-    }
-  })
-})
+  });
+});
 
-app.post("/meal/delete-single-item",(req,res)=>{
-  const {mealfood_id} = req.body;
+app.post("/meal/delete-single-item", (req, res) => {
+  const { mealfood_id } = req.body;
   const deleteSingleItem = `
   DELETE FROM meal_food_entity WHERE meal_food_entity.mealfood_id = ${mealfood_id}
-  `
-  db.query(deleteSingleItem, (err, result)=>{
-    if(err){
+  `;
+  db.query(deleteSingleItem, (err, result) => {
+    if (err) {
       console.log(err);
       res.status(500).send(err);
-    }
-    else{
-      console.log(result)
+    } else {
+      console.log(result);
       res.status(200).send(result);
     }
-  })
-})
+  });
+});
 
-app.post("/food/search",(req,res)=>{
-  const {search_term} = req.body;
+app.post("/food/search", (req, res) => {
+  const { search_term } = req.body;
   const searchMealFoodSQL = `
   SELECT * FROM food
   WHERE LOWER(food_name) LIKE "%${search_term.toLowerCase()}%" 
   OR LOWER(food_brand) LIKE "%${search_term.toLowerCase()}%"
-  `
-  db.query(searchMealFoodSQL,(err,result)=>{
-    if(err){
+  `;
+  db.query(searchMealFoodSQL, (err, result) => {
+    if (err) {
       console.log(err);
-      console.log()
+      console.log();
       res.status(500).send(err);
-    }
-    else{
-      console.log("Performed search for "+search_term);
+    } else {
+      console.log("Performed search for " + search_term);
       console.log(result);
       res.send(result);
     }
-  })
-})
+  });
+});
 
 // Food data export see "/food/all"
 // MealFoodExport
-app.get("/mealfood/export",(req,res)=>{
+app.get("/mealfood/export", (req, res) => {
   const downMealFood = `
   SELECT * FROM meal_food_entity
-  `
-  db.query(downMealFood,(err,result)=>{
-    if(err){
+  `;
+  db.query(downMealFood, (err, result) => {
+    if (err) {
       console.log(err);
       res.status(500).send(err);
-    }
-    else{
-      console.log("Exported all meal food entities")
-      console.log(result)
+    } else {
+      console.log("Exported all meal food entities");
+      console.log(result);
       res.send(result);
     }
-  })
-})
+  });
+});
 
-function fixDateforRedirect(date){
+function fixDateforRedirect(date) {
   const shortenedDateArray = date.split("", 10);
   const fixedDate = shortenedDateArray
     .splice(0.1)
@@ -321,80 +328,159 @@ function fixDateforRedirect(date){
 }
 
 // MealFoodImport
-app.post("/mealfood/import",(req,res)=>{
-  const {mealfood_id, meal_id, food_id, creation_date_mealfood, serving_size} = req.body;
+app.post("/mealfood/import", (req, res) => {
+  const {
+    mealfood_id,
+    meal_id,
+    food_id,
+    creation_date_mealfood,
+    serving_size,
+  } = req.body;
   const populateDB = `
   INSERT INTO meal_food_entity (mealfood_id, meal_id, food_id,creation_date_mealfood, serving_size)
-    VALUES (${mealfood_id}, ${meal_id}, ${food_id}, "${fixDateforRedirect(creation_date_mealfood)}",${serving_size})
-  `
-  db.query(populateDB,(err,result)=>{
-    if(err){
+    VALUES (${mealfood_id}, ${meal_id}, ${food_id}, "${fixDateforRedirect(
+    creation_date_mealfood
+  )}",${serving_size})
+  `;
+  db.query(populateDB, (err, result) => {
+    if (err) {
       console.log(err);
       res.status(500).send(err);
-    }
-    else{
-      console.log("Exported all meal food entities")
-      console.log(result)
+    } else {
+      console.log("Exported all meal food entities");
+      console.log(result);
       res.send(result);
     }
-  })
-})
+  });
+});
 
-
-
-app.post("/mealfood/purge",(req,res)=>{
+app.post("/mealfood/purge", (req, res) => {
   const eraseDB = `
   DELETE FROM meal_food_entity;
-  `
-  db.query(eraseDB,(err,result)=>{
-    if(err){
+  `;
+  db.query(eraseDB, (err, result) => {
+    if (err) {
       console.log(err);
       res.status(500).send(err);
-    }
-    else{
-      console.log("Deleted all meal food entities")
-      console.log(result)
+    } else {
+      console.log("Deleted all meal food entities");
+      console.log(result);
       res.send(result);
     }
-  })
-})
+  });
+});
 
-app.post("/food/purge",(req,res)=>{
+app.post("/food/purge", (req, res) => {
   const eraseDB = `
   DELETE FROM food;
-  `
-  db.query(eraseDB,(err,result)=>{
-    if(err){
+  `;
+  db.query(eraseDB, (err, result) => {
+    if (err) {
       console.log(err);
       res.status(500).send(err);
-    }
-    else{
-      console.log("Deleted all food entities")
-      console.log(result)
+    } else {
+      console.log("Deleted all food entities");
+      console.log(result);
       res.send(result);
     }
-  })
-})
+  });
+});
 
 // MealFoodImport
-app.post("/food/import",(req,res)=>{
-  const {food_id, food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams } = req.body;
+app.post("/food/import", (req, res) => {
+  const {
+    food_id,
+    food_name,
+    food_brand,
+    protein_hundred_grams,
+    carb_hundred_grams,
+    fat_hundred_grams,
+  } = req.body;
   const populateDB = `
   INSERT INTO food (food_id, food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams )
     VALUES (${food_id}, "${food_name}", "${food_brand}", ${protein_hundred_grams}, ${carb_hundred_grams}, ${fat_hundred_grams} )
-  `
-  db.query(populateDB,(err,result)=>{
-    if(err){
+  `;
+  db.query(populateDB, (err, result) => {
+    if (err) {
       console.log(err);
       res.status(500).send(err);
+    } else {
+      console.log("Added  all meal food entries");
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+
+// Authentication Start
+app.post("/register",async (req, res) => {
+  const { username, password } = req.body;
+  try{
+    const passwordSalt = await bcrypt.genSalt();
+    const hashedPass = await bcrypt.hash(password, passwordSalt);
+    const insertUser = `INSERT INTO user (username, password) 
+    values ("${username}","${hashedPass}")`;
+    db.query(insertUser, (err, result) => {
+      if (err) {
+        if(err.code==="ER_DUP_ENTRY"){
+          res.status(500).send("Username already exists, please try again or login");
+        }
+        else{
+          console.log(err);
+          res.status(500).send("Error: Try Again");
+        }
+      } 
+      else {
+        console.log("Account registered")
+        res.send("Account Registered, Welcome!");
+      }
+    });
+  }catch{
+    res.status(500).send("Failed")
+  }
+
+});
+app.post("/login/userdetails",(req,res)=>{
+
+});
+
+app.post("/login",async (req,res)=>{
+  console.log("Triggered login")
+  const {username, password} = req.body;
+  var foundPassword = "";
+  const checkUsername = `
+  SELECT user.password from user where user.username = "${username}"
+  LIMIT 1
+  `
+  db.query(checkUsername,async (err, result)=>{
+    if(err){
+      res.status(500).send("Server error")
     }
     else{
-      console.log("Added  all meal food entries")
-      console.log(result)
-      res.send(result);
+      if(result.length===0){
+        res.send("User doesn't exist")
+      }
+      else{
+        foundPassword = result[0].password;
+        console.log("Found:"+foundPassword)
+        try{
+          if(await bcrypt.compare(password,foundPassword)){
+            console.log(await bcrypt.compare(password,foundPassword))
+            res.send("Success")
+          }else{
+            res.send("Incorrect username or password")
+          }
+        }catch{
+          res.send("Server failed")
+        }
+      }
     }
   })
 })
+
+
+// Authentication End
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

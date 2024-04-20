@@ -1,6 +1,74 @@
 .horizontal-flex{
   display: flex;
 }
+.vertical-flex{
+  display: flex;
+  flex-direction: column;
+}
+.centered-flex{
+  display: flex;
+  justify-content: center;
+}
+
+
+/* Sign-Up CSS Beginning */
+.sign-up-container{
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.sign-up-container h5{
+  margin: 0;
+  padding: 0;
+  margin: 4px 2px;
+}
+
+.sign-up-container .vertical-flex{
+  margin-bottom: 5px;
+}
+
+.sign-up{
+  padding: 5px 30px;
+  height: 200px;
+  background-color: black; 
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.6) 5px 10px 20px;
+}
+.sign-up input{
+  margin: 0;
+  padding: 0;
+  height: 20px;
+  width: 100%;
+}
+.sign-up .meal-option-flex-container{
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+.sign-up-container{
+  width: 100%;
+}
+.sign-up{
+  width: 100%;
+  height: 300px;
+  font-size: 20px;
+}
+.sign-up input{
+  height: 30px;
+}
+body{
+  overflow-x: hidden;
+}
+
+  
+}
+/* Sign-Up CSS End */
+
+
 .temporary-banner{
   background-color: black;
   border-radius: 20px;
