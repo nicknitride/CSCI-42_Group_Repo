@@ -148,7 +148,7 @@ function Login() {
           </div>
           <div className="centered-flex">
             <div className="one-item-card vertical-flex" style={{alignItems:"center"}}>
-              <p>Need an Account?</p>
+              <p>Want to See the Overview?</p>
               <div className="meal-option-flex-container" style={{padding:"5px"}}>
                 <button
                   onClick={() => {

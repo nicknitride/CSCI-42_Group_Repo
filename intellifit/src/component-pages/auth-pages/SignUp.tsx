@@ -10,7 +10,7 @@ function SignUp() {
   const [password, SetPassword] = useState("");
   const [serverMessage, setServerMessage] = useState("");
   const [registerSuccess, setRegisterSuccess] = useState(false);
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const userNameField = useRef<any>();
 
   const user = {
@@ -23,12 +23,16 @@ function SignUp() {
         .post("http://localhost:3003/register", user)
         .then((response) => {
           console.log("Account Registered");
-          setServerMessage(JSON.stringify(response.data)+"\n Redirecting to Login Page");
+          setServerMessage(
+            JSON.stringify(response.data) + "\n Redirecting to Login Page"
+          );
           setTimeout(() => {
             setServerMessage("");
           }, 2000);
           setRegisterSuccess(true);
-          setTimeout(()=>{navigate("/login")},1000)
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
         })
         .catch((error) => {
           console.log(error.response.data);
@@ -80,12 +84,12 @@ function SignUp() {
                   }}
                   required
                   ref={userNameField}
-                  onKeyDown={(event)=>{
-                    if(event.key === "Enter"){
-                      if(serverMessage===""){
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      if (serverMessage === "") {
                         // Disables input while error message is displaying
                         sendAccountToBackend();
-                      } 
+                      }
                     }
                   }}
                 />
@@ -98,12 +102,12 @@ function SignUp() {
                   onChange={(e) => {
                     SetPassword(e.target.value);
                   }}
-                  onKeyDown={(event)=>{
-                    if(event.key === "Enter"){
-                      if(serverMessage===""){
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      if (serverMessage === "") {
                         // Disables input while error message is displaying
                         sendAccountToBackend();
-                      } 
+                      }
                     }
                   }}
                   required
@@ -123,40 +127,54 @@ function SignUp() {
           </div>
         </>
       }
-              <div className="centered-flex">
-            <div className="one-item-card vertical-flex" style={{alignItems:"center"}}>
-              <p>Already Have an Account?</p>
-              <div className="meal-option-flex-container" style={{padding:"5px"}}>
-                <button
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  Log In
-                </button>
-              </div>
-            </div>
+      <div className="centered-flex">
+        <div
+          className="one-item-card vertical-flex"
+          style={{ alignItems: "center" }}
+        >
+          <p>Already Have an Account?</p>
+          <div
+            className="meal-option-flex-container"
+            style={{ padding: "5px" }}
+          >
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Log In
+            </button>
           </div>
-          <div className="centered-flex">
-            <div className="one-item-card vertical-flex" style={{alignItems:"center"}}>
-              <p>Need an Account?</p>
-              <div className="meal-option-flex-container" style={{padding:"5px"}}>
-                <button
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                >
-                  Go Back to Welcome Screen
-                </button>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div className="centered-flex">
+        <div
+          className="one-item-card vertical-flex"
+          style={{ alignItems: "center" }}
+        >
+          <p>Want to See the Overview?</p>
+          <div
+            className="meal-option-flex-container"
+            style={{ padding: "5px" }}
+          >
+            <button
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Go Back to Welcome Screen
+            </button>
           </div>
+        </div>
+      </div>
       {serverMessage && (
         <>
           <span>
             <h3
               className={
-                serverMessage ? "short-fade-in one-item-card temporary-banner" : "one-item-card temporary-banner"
+                serverMessage
+                  ? "short-fade-in one-item-card temporary-banner"
+                  : "one-item-card temporary-banner"
               }
             >
               {serverMessage}
