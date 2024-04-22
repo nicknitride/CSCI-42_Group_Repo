@@ -265,6 +265,14 @@ function WorkoutsAdd(){
             <div className="minigreeter-container">
                 <Minigreeter label="Add a Workout"></Minigreeter>
             </div>
+            <div className="dropdown">
+                   <button>Intellifit</button>
+                    <div className="content">
+                        <a href="#">Home</a>
+                        <a href="#">Workouts</a>
+                        <a href="#">Meal Tracking</a>
+                </div>
+            </div>
             <div className="addForm_Container">
                 <form className="addForm" onSubmit={handleSubmit}>
                     <div className="workoutField">
