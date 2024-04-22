@@ -1,5 +1,5 @@
 import axios from "axios";
-import "./WorkoutsAddPage.css";
+import "./WorkoutsAdd.css";
 import Minigreeter from "../components/Minigreeter";
 import Stopwatch from "../components/Stopwatch";
 import React, { FormEvent, ReactComponentElement, useEffect, useState, useRef } from 'react'
@@ -262,18 +262,20 @@ function WorkoutsAdd(){
 
     return(
         <>
-            <Minigreeter label="Add a Workout"></Minigreeter>
+            <div className="minigreeter-container">
+                <Minigreeter label="Add a Workout"></Minigreeter>
+            </div>
             <div className="addForm_Container">
                 <form className="addForm" onSubmit={handleSubmit}>
                     <div className="workoutField">
-                        <p>Choose Kind of Workout: </p>
+                    <p className="chooseWorkoutText">Choose workout type:</p>
                         <select id="workout" name="workout" onChange={handleSelectChange}>
                             <option value="">Select Workout</option>
                             {workouts.map(workout => (
                                 <option key={workout.workout_id} value={workout.workout_id}>{workout.workout_name}</option>
                             ))}
                         </select>
-                    </div>
+                    </div>             
                     {selectEx1 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
