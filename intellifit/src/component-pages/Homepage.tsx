@@ -60,7 +60,7 @@ function Home() {
       .catch((error) => {
         console.log(error.reponse.data);
       });
-    const dailyTotalEndpoint = "http://localhost:3003/meals/today/totalcal";
+    const dailyTotalEndpoint = `http://localhost:3003/meals/today/totalcal/${loggedInUser}`;
     axios
       .get(dailyTotalEndpoint)
       .then((res) => {
