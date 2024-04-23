@@ -6,20 +6,7 @@ import formatFloat from "../formatting_functions/formatFloat";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Meals.css";
-
-type mealDataQuery = {
-  Calories: number;
-  creation_date_mealfood: string;
-  food_brand: string;
-  food_name: string;
-  meal_name: string;
-  mealfood_id: number;
-  serving_size: number;
-  cal_per_gram: number;
-  protein_per_gram: number;
-  fat_per_gram: number;
-  carb_per_gram: number;
-}[];
+import { mealDataQuery } from "./Types/mealTypes";
 
 interface Totals {
   total_calories: number;

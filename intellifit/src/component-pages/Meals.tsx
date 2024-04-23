@@ -1,12 +1,13 @@
 import axios from "axios";
 import "./Meals.css";
 import Minigreeter from "../components/Minigreeter";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MealsByDayCard from "../components/MealsByDayCard";
-import { useNavigate } from "react-router-dom";
+import {NavigateFunction, useNavigate } from "react-router-dom";
 import TodayMeal from "../components/TodayMeal";
 import formatFloat from "../formatting_functions/formatFloat";
 import "../css/animations_transitions.css";
+import { mealDataQuery } from "./Types/mealTypes";
 
 
 
@@ -61,14 +62,19 @@ function processDate(value: string) {
   console.log(processDate);
   return processedDate;
 }
-function deleteEntriesMatchingDate(date: string) {
+
+
+function deleteEntriesMatchingDate(date: string, setData: React.Dispatch<React.SetStateAction<mealDataQuery>>, creationDateAsKey : string) {
   console.log("Triggered delete handler for " + date);
   axios
     .delete(`http://localhost:3003/meals/day/${date}`)
     .then((response) => {
       console.log(response.data);
-      console.log("Deleted entry successfully");
-      window.location.reload(); //Reload webpage after deletion
+      console.log("Deleted entry successfully"); 
+      // Remove from map
+      setData((prevData)=>{
+        return prevData.filter(item=> item.creation_date_mealfood != creationDateAsKey);
+      })
     })
     .catch((error) => {
       console.log("Delete failed, axios error: " + error);
@@ -78,10 +84,10 @@ function deleteEntriesMatchingDate(date: string) {
 // !? TODO - Finish the edit handler, use for inspo: https://stackoverflow.com/questions/71777921/reat-js-navigate-with-json-object-to-another-page
 
 function Meals() {
-  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const [data, setData] = useState<mealDataQuery>([]);
   const [dailyTotals, setTotals] = useState<DailyTotals[]>([]);
   const [mode, setMode] = useState("Today");
-  const navigate = useNavigate();
 
   const clearData = () => {
     setData([]); // Set data to an empty array
@@ -286,15 +292,15 @@ function Meals() {
             {data.map((meal) => {
               return (
                 <MealsByDayCard
-                  title={convertISOStringToDate(String(meal["day"]))}
-                  content={meal["Total Calories"]}
+                  title={convertISOStringToDate(String(meal["creation_date_mealfood"]))}
+                  content={String(meal["Calories"])}
                   infolabel="Total Calories:"
                   deleteHandler={() => {
-                    deleteEntriesMatchingDate(String(meal["day"]));
+                    deleteEntriesMatchingDate(String(meal["creation_date_mealfood"]),setData, String(meal["creation_date_mealfood"]));
                   }}
                   editHandler={(msg) => {
-                    console.log(msg + " for " + String(meal["day"]));
-                    const meal_day = String(meal["day"]);
+                    console.log(msg + " for " + String(meal["creation_date_mealfood"]));
+                    const meal_day = String(meal["creation_date_mealfood"]);
                     axios
                       .get(`http://localhost:3003/meals/day/${meal_day}`)
                       .then((response) => {
@@ -302,7 +308,7 @@ function Meals() {
                         navigate("/meals/editlist", { state: response.data });
                       });
                   }}
-                  key={String(meal["day"])}
+                  key={String(meal["creation_date_mealfood"])}
                 />
               );
             })}

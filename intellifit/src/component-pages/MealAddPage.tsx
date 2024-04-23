@@ -3,19 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Meals.css";
 import axios from "axios";
+import { foodItem } from "./Types/mealTypes";
 
-type foodItem = {
-  food_id: string;
-  food_name: string;
-  food_brand: string;
-  protein_hundred_grams: number;
-  carb_hundred_grams: number;
-  fat_hundred_grams: number;
-  protein_per_gram: number;
-  carb_per_gram: number;
-  fat_per_gram: number;
-  cal_per_gram: number;
-};
 
 function AddMealPage() {
   const navigate = useNavigate();

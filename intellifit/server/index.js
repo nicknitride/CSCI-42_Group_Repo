@@ -21,8 +21,8 @@ app.get("/meals/day", (req, res) => {
   db.query(
     `
     SELECT
-    DATE_FORMAT(mfe.creation_date_mealfood, '%Y-%m-%d') AS day,
-    SUM(f.cal_per_gram * mfe.serving_size) AS "Total Calories"
+    DATE_FORMAT(mfe.creation_date_mealfood, '%Y-%m-%d') AS creation_date_mealfood,
+    SUM(f.cal_per_gram * mfe.serving_size) AS "Calories"
     FROM
         meal_food_entity mfe
     JOIN
@@ -40,7 +40,7 @@ app.get("/meals/day", (req, res) => {
       }
       // console.log(result);
       res.send(result);
-      console.log("Displayed meals grouped by day with total calories");
+      console.log("Displayed meals grouped by day with total calories",result);
     }
   );
 });

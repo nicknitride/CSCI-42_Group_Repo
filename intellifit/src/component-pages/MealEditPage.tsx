@@ -7,20 +7,8 @@ import formatFloat, {
   specifyDecimalPlaces,
 } from "../formatting_functions/formatFloat";
 import "../css/animations_transitions.css"
+import { MealDataQueryItem } from "./Types/mealTypes";
 
-type MealDataQueryItem = {
-  Calories: number;
-  creation_date_mealfood: string;
-  food_brand: string;
-  food_name: string;
-  meal_name: string;
-  mealfood_id: number;
-  serving_size: number;
-  cal_per_gram: number;
-  protein_per_gram: number;
-  fat_per_gram: number;
-  carb_per_gram: number;
-};
 
 function processDate(value: string) {
   const dateToParse = value;
