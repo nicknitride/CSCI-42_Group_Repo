@@ -4,7 +4,7 @@ DROP DATABASE intellifit_test;
 CREATE DATABASE intellifit_test;
 USE intellifit_test;
 
-DROP TABLE user;
+-- DROP TABLE user;
 CREATE TABLE user (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) BINARY UNIQUE NOT NULL,

@@ -734,13 +734,15 @@ app.get("/exercises-Recent", (req, res) => {
 });
 
 app.post('/addTo_WorkoutCompleted', (req, res) => {
-    const addWorkoutDate = "INSERT INTO workout_completed(`completed_date`) VALUES(?);";
-    const date_value = req.body.date;
+  const date_value = req.body.date;
+  console.log(date_value)
+    const addWorkoutDate =  `INSERT INTO workout_completed(completed_date) VALUES("${date_value}");`;
     db.query(addWorkoutDate, [date_value], (err, data) => {
       if(err){
         console.log("Error adding entry into workout_completed:", err);
         res.status(500).send("Failed to add entry");
       } else {
+        console.log(data)
         console.log("workout_completed Logged");
         res.send(data);
       }
