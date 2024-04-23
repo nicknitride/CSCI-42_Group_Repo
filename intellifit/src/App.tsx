@@ -15,6 +15,8 @@ import React, { useEffect } from "react";
 import { AuthContext } from "./component-pages/auth-pages/AuthContext";
 import WelcomeScreen from "./component-pages/auth-pages/WelcomeScreen";
 
+import WorkoutsAddPage from "./component-pages/WorkoutsAddPage";
+import WorkoutsAdd from "./component-pages/WorkoutsAdd";
 function App() {
   const { loggedInUser } = React.useContext(AuthContext);
   useEffect(()=>{
@@ -42,6 +44,9 @@ function App() {
             <Route path="/meal/add/" element={<MealAddPage />} />
             <Route path="/fileops" element={<ImportExport />} />
             <Route path="/fooddb" element={<FoodDBAdd_Edit />} />
+            <Route path="/workouts" element={<Workouts/>} />
+            <Route path="/workouts/add/" element={<WorkoutsAdd/>} />
+            <Route path="/workouts/add/" element={<WorkoutsAddPage/>} />
             {/* <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} /> */}
           </>

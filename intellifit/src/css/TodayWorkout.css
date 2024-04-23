@@ -1,0 +1,59 @@
+.workouts-container{
+    display: flex;
+}
+
+.workout-card {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 300px;
+  }
+  
+.workout-card h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+  
+.workout-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+  
+.duration {
+    display: flex; /* Arrange sets and reps side-by-side */
+    justify-content: space-between; /* Distribute evenly */
+    margin-bottom: 15px;
+}
+  
+.duration span {
+    font-weight: bold;
+}
+  
+.sets-value,
+.reps-value {
+    color: #333; /* Darker gray for values */
+}
+  
+h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+  
+.exercise-list {
+    list-style: none; /* Remove default bullet points */
+    padding: 0;
+    margin: 0;
+}
+
+.exercise-list .list-detail{
+    display: flex;
+    justify-content: space-between;
+}
+  
+.exercise-list li {
+    margin-bottom: 5px;
+}
+  

@@ -5,6 +5,8 @@ const express = require("express");
 const cors = require("cors");
 const { Axios } = require("axios");
 const bcrypt = require("bcrypt");
+const { format } = require("path");
+const { duration } = require("@mui/material");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -534,6 +536,370 @@ app.post("/userinfo/update",(req,res)=>{
 })
 
 // User Logic End
+
+app.get("/workouts", (req, res) => {
+    const getWorkouts =`SELECT workout_id, workout_name FROM workout ORDER BY workout_name ASC;`;
+    db.query(getWorkouts, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-1", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id, 
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=1
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-2", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=2
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-3", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=3
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-4", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=4
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-5", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id, 
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=5
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-6", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=6
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-7", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id=workout_exercise_entry.exercise_id
+    AND workout.workout_id=7
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-8", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    ORDER BY exercise.exercise_name ASC;`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-8-sr", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    AND workout_exercise_entry.entry_type="Set-Rep";`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-8-srd", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    AND workout_exercise_entry.entry_type="Set-Rep-Duration";`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/exercises-Recent", (req, res) => {
+  const getExercisesRecent =  `SELECT ec.exercise_completed_id, e.exercise_name, w.completed_date, ec.completed_type 
+                              FROM exercise_completed ec 
+                              INNER JOIN exercise e ON ec.exercise_id = e.exercise_id 
+                              INNER JOIN workout_completed w ON ec.workout_completed_id = w.workout_completed_id 
+                              WHERE w.completed_date = (SELECT MAX(completed_date) FROM workout_completed);`;
+  db.query(getExercisesRecent, (err, result) => {
+    if(err){
+      console.log("could not retrieve");
+      console.log(err);
+    }
+    res.send(result);
+  })
+});
+
+app.post('/addTo_WorkoutCompleted', (req, res) => {
+    const addWorkoutDate = "INSERT INTO workout_completed(`completed_date`) VALUES(?);";
+    const date_value = req.body.date;
+    db.query(addWorkoutDate, [date_value], (err, data) => {
+      if(err){
+        console.log("Error adding entry into workout_completed:", err);
+        res.status(500).send("Failed to add entry");
+      } else {
+        console.log("workout_completed Logged");
+        res.send(data);
+      }
+    })
+})
+
+app.post('/addTo_ExerciseCompleted', (req, res) => {
+  const addExerciseCompleted = "INSERT INTO exercise_completed (`workout_completed_id`, `exercise_id`, `completed_type`) VALUES (?, ?, ?);";
+  const getWorkoutCompletedID = `SELECT workout_completed_id FROM workout_completed ORDER BY workout_completed_id DESC LIMIT 1;`;
+  // Execute the query to get the workout_completed_id
+  db.query(getWorkoutCompletedID, (err, result) => {
+      if (err) {
+          console.log("Error fetching workout_completed_id:", err);
+          res.status(500).send("Failed to fetch workout_completed_id");
+          return;
+      }
+
+      // Extract the workout_completed_id from the result
+      const workoutCompletedID = result[0].workout_completed_id;
+
+      //Function to get the workout_type
+      const exercise = req.body.exercise;
+      var getWorkoutType = '';
+      
+      if((exercise >= 1 && exercise <= 18) || (exercise >= 27 && exercise <= 34) || (exercise == 37) 
+      || (exercise >= 39 && exercise <= 42)){
+        getWorkoutType = 'set-rep-weight';
+      } else if ((exercise >= 19 && exercise <= 22)) {
+        getWorkoutType = 'distance';
+      } else {
+        getWorkoutType = 'set-rep-duration';
+      }
+
+      const exerciseValues = [
+          workoutCompletedID,
+          req.body.exercise,
+          getWorkoutType
+      ];
+
+      // Execute the insert query with the retrieved workout_completed_id
+      db.query(addExerciseCompleted, exerciseValues, (err, data) => {
+          if (err) {
+              console.log("Error adding entry into exercise_completed:", err);
+              res.status(500).send("Failed to add entry");
+          } else {
+              console.log("exercise_completed Logged");
+              res.send(data);
+          }
+      });
+  });
+});
+
+app.post('/addTo_DurationCompleted', (req, res) => {
+    const addDuration = "INSERT INTO duration_completed(`exercise_completed_id`, `duration`) VALUES (?, ?);";
+    const getExerciseCompletedID = `SELECT e.exercise_completed_id 
+                                    FROM exercise_completed e, workout_completed w 
+                                    WHERE e.workout_completed_id=w.workout_completed_id 
+                                    ORDER BY e.workout_completed_id DESC LIMIT 1;`;
+
+    db.query(getExerciseCompletedID, (err, result) => {
+      if (err) {
+          console.log("Error fetching exercise_completed_id:", err);
+          res.status(500).send("Failed to fetch exercise_completed_id");
+          return;
+      }
+
+      const exercise_completed_id = result[0].exercise_completed_id;
+
+      const tableValues = [
+          exercise_completed_id,
+          req.body.duration
+      ]
+  
+      db.query(addDuration, tableValues, (err, data) => {
+          if (err) {
+              console.log("Error adding entry into duration_completed:", err);
+              res.status(500).send("Failed to add entry");
+          } else {
+              console.log("duration_completed Logged");
+              res.send(data);
+          }
+      });
+  });
+})
+
+app.post('/addTo_OtherTables', (req, res) => {
+    const addSRW = "INSERT INTO set_rep_weight_completed(`exercise_completed_id`, `sets`, `reps`, `weight`) VALUES(?);";
+    const addSRD = "INSERT INTO set_rep_duration_completed(`exercise_completed_id`, `sets`, `reps`, `duration`) VALUES(?);";
+    const addDistance = "INSERT INTO distance_completed(`exercise_completed_id`, `distance`) VALUES (?);";
+    const getExerciseCompletedID = `SELECT e.exercise_completed_id 
+                                    FROM exercise_completed e, workout_completed w 
+                                    WHERE e.workout_completed_id=w.workout_completed_id 
+                                    ORDER BY e.workout_completed_id DESC LIMIT 1;`;
+    //`SELECT exercise_completed_id 
+    //FROM exercise_completed ORDER BY exercise_completed_id DESC LIMIT 1;`;
+
+     db.query(getExerciseCompletedID, (err, result) =>{
+      if (err) {
+        console.log("Error fetching workout_completed_id:", err);
+        res.status(500).send("Failed to fetch workout_completed_id");
+        return;
+      }
+      const exerciseCompletedID = result[0].exercise_completed_id;
+
+      var values = [];
+ 
+      const exercise = req.body.exercise;
+
+      if((exercise >= 1 && exercise <= 18) || (exercise >= 27 && exercise <= 34) || (exercise == 37) 
+      || (exercise >= 39 && exercise <= 42)){
+        values = [
+          exerciseCompletedID,
+          req.body.sets,
+          req.body.reps,
+          req.body.weight
+        ]
+        db.query(addSRW, [values], (err, data) => {
+          if(err){
+            console.log("Error adding SRW:", err);
+            res.status(500).send("Failed to add entry");
+          } else {
+            console.log("SRW Logged");
+            res.send(data);
+          }
+        })
+      } else if ((exercise >= 19 && exercise <= 22)) {
+        values = [
+          exerciseCompletedID,
+          req.body.distance
+        ]
+        db.query(addDistance, [values], (err, data) => {
+          if(err){
+            console.log("Error adding distance:", err);
+            res.status(500).send("Failed to add entry");
+          } else {
+            console.log("Distance Logged");
+            res.send(data);
+          }
+        })
+      } else {
+        values = [
+          exerciseCompletedID,
+          req.body.sets,
+          req.body.reps,
+          req.body.duration
+        ]
+        db.query(addSRD, [values], (err, data) => {
+          if(err){
+            console.log("Error adding SRD:", err);
+            res.status(500).send("Failed to add entry");
+          } else {
+            console.log("SRD Logged");
+            res.send(data);
+          }
+        })
+      }
+
+    })
+})
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
