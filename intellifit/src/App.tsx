@@ -46,7 +46,7 @@ function App() {
             <Route path="/fooddb" element={<FoodDBAdd_Edit />} />
             <Route path="/workouts" element={<Workouts/>} />
             <Route path="/workouts/add/" element={<WorkoutsAdd/>} />
-            <Route path="/workouts/add/" element={<WorkoutsAddPage/>} />
+            {/* <Route path="/workouts/add/" element={<WorkoutsAddPage/>} /> */}
             {/* <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} /> */}
           </>
