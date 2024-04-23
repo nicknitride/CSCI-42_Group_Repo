@@ -4,19 +4,29 @@ import "./Workouts.css";
 import Minigreeter from "../components/Minigreeter";
 import Calendar from '../components/Calendar';
 import TodayWorkout from "../components/TodayWorkout";
-import React, { FormEvent, ReactComponentElement, useEffect, useState, useRef } from 'react';
+import React, { FormEvent, ReactComponentElement, useEffect, useState, useRef, useContext } from 'react';
 import {useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./auth-pages/AuthContext";
 
 function Workouts(){ 
+    const {loggedInUser} = useContext(AuthContext);
     const navigate = useNavigate();
     const [recent_Exercises, setRecent] = useState<any[]>([]);
+    const [setLoggedInUser] = useState<any[]>([]);
+
     useEffect(() => {
-        fetch('http://localhost:3003/exercises-Recent')
+        axios.get(`http://localhost:3003/exercises-Recent/${loggedInUser}`)
+        .then(response => setRecent(response.data))
+        .catch(error => console.error('Error fetching workouts:', error));
+    }, [loggedInUser]);
+    
+    /*useEffect(() => {
+        fetch('http://localhost:3003/exercises-Recent/${loggedInUser}')
         .then(res => res.json())
         .then(data => setRecent(data))
         .catch(error => console.error('Error fetching workouts:', error));
-    }, []);
+    }, []);*/
 
     return(
         <> {/*  */}
@@ -32,7 +42,7 @@ function Workouts(){
                 {/* <a href="http://localhost:5173/workouts/add/"> */}
                     <button className="add_workout">
                     <Link to="/workouts/add">
-                        Add Workout
+                        <div className="button_text">Add Workout</div>
                         </Link>
                     </button>
             </div>

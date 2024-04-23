@@ -6,9 +6,16 @@
 
 .button_container .add_workout{
     background-color: black;
-    color: white;
     font-size: 1.5rem;
     padding: 1.5rem;
+}
+
+.button_container .add_workout .button_text{
+    color: white;
+}
+
+.button_container .add_workout link{
+    text-decoration: none;
 }
 
 .recentExercises{

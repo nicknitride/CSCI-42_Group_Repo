@@ -2,10 +2,10 @@ import axios from "axios";
 import "./WorkoutsAdd.css";
 import Minigreeter from "../components/Minigreeter";
 import Stopwatch from "../components/Stopwatch";
-import React, { FormEvent, ReactComponentElement, useEffect, useState, useRef } from 'react'
+import React, { FormEvent, ReactComponentElement, useEffect, useState, useRef, useContext } from 'react'
 import { breadcrumbsClasses } from "@mui/material";
 import { hoursToMilliseconds } from "date-fns";
-import { format } from "path";
+import { AuthContext } from "./auth-pages/AuthContext";
 
 type workoutFields = {
     workout: number,
@@ -20,6 +20,8 @@ type workoutFields = {
 }
 
 function WorkoutsAdd(){
+    const { loggedInUser } = useContext(AuthContext);
+    
     const [isRunning, setIsRunning] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(0);
     const intervalIdRef = useRef<NodeJS.Timeout | null>(null);
