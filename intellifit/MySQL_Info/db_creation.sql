@@ -4,6 +4,27 @@ DROP DATABASE intellifit_test;
 CREATE DATABASE intellifit_test;
 USE intellifit_test;
 
+DROP TABLE user;
+CREATE TABLE user (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) BINARY UNIQUE NOT NULL,
+    password VARCHAR(300) NOT NULL,
+    calorie_goal INT,
+    protein_goal INT,
+    weight_kg DECIMAL(5,2),
+    height_cm DECIMAL(5,2)
+);
+
+INSERT INTO user (username, password, calorie_goal, protein_goal, weight_kg, height_cm) 
+VALUES 
+    ('user1', 'password1', 2000, 100, 70.5, 170.2),
+    ('user2', 'password2', 1800, 90, 65.3, 165.5),
+    ('user3', 'password3', 2200, 110, 80.1, 175.0),
+    ('user4', 'password4', NULL, NULL, 72.0, 168.8),
+    ('Nick', '$2b$10$/KjvoZ8mnLC5HCt/Ems9DORqpp9mMyhdEDebrFXFQ9kEMweU/1se.', 1900, 135, 75, 177);
+
+-- These passwords are temporary, they have to be salted first
+
 create table food(
 food_id int auto_increment,
 food_name varchar(80) not null,
@@ -64,11 +85,11 @@ CREATE TABLE meal_food_entity(
   food_id int,
   creation_date_mealfood DATE DEFAULT (CURRENT_DATE),
   serving_size DECIMAL(6,2) not null,
-  created_by NOT NULL,
   CHECK (serving_size >= 0 AND serving_size <= 9999.99),
   PRIMARY KEY (mealfood_id),
   FOREIGN KEY (meal_id) REFERENCES meal(meal_id),
-  FOREIGN KEY (food_id) REFERENCES food(food_id)
+  FOREIGN KEY (food_id) REFERENCES food(food_id),
+  created_by VARCHAR(50) NOT NULL
 );
 -- #Insert Statements
 -- Inserting a meal_food_entity entry with specified meal_id and food_id
