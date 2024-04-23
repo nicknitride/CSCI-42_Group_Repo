@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Minigreeter from "../components/Minigreeter";
 import "./MealList.css";
@@ -8,6 +8,7 @@ import formatFloat, {
 } from "../formatting_functions/formatFloat";
 import "../css/animations_transitions.css"
 import { MealDataQueryItem } from "./Types/mealTypes";
+import { AuthContext } from "./auth-pages/AuthContext";
 
 
 function processDate(value: string) {
@@ -48,6 +49,7 @@ function fixDateforRedirect(date: string): string {
 }
 
 function MealEditPage() {
+  const {loggedInUser} = useContext(AuthContext);
   const location = useLocation();
   const initialData: MealDataQueryItem = location.state;
   const navigate = useNavigate();
@@ -92,7 +94,7 @@ function MealEditPage() {
     console.log("Date sent by handlesubmit" + dateForRedirect);
     axios
       .get(
-        `http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}`
+        `http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}/${loggedInUser}`
       )
       .then((response) => {
         console.log(response.data);
@@ -107,6 +109,8 @@ function MealEditPage() {
           JSON.stringify(editedData.creation_date_mealfood)
         )} `}
       />
+      <div className="meal-option-flex-container">
+      </div>
       {/* <p>{JSON.stringify(editedData)}</p> */}
       {/* Uncomment for debugging purposes */}
       <div className="edit-container">

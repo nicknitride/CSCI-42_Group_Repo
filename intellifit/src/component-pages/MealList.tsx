@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import Minigreeter from "../components/Minigreeter";
 import "./MealList.css";
 import formatFloat from "../formatting_functions/formatFloat";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./Meals.css";
 import { mealDataQuery } from "./Types/mealTypes";
+import { AuthContext } from "./auth-pages/AuthContext";
 
 interface Totals {
   total_calories: number;
@@ -55,6 +56,7 @@ function processDate(value: string) {
 }
 
 function MealList() {
+  const {loggedInUser} = useContext(AuthContext);
   const navigate = useNavigate();
   const [dailyTotals, setTotals] = useState<Totals[]>([]);
   const location = useLocation();
@@ -69,7 +71,7 @@ function MealList() {
   useEffect(() => {
     const dailyTotalEndpoint = `http://localhost:3003/meals/today/totalcal/${fixDateforRedirect(
       data[0].creation_date_mealfood
-    )}`;
+    )}/${loggedInUser}`;
     console.log(dailyTotalEndpoint);
     axios
       .get(dailyTotalEndpoint)
@@ -86,7 +88,13 @@ function MealList() {
           JSON.stringify(Object.values(data)[0]["creation_date_mealfood"])
         )}`}
       />
-
+      <div className="meal-option-flex-container" style={{margin:"15px"}}>
+        <button onClick={()=>{
+          console.log(data[0]["creation_date_mealfood"]);
+          navigate("/meal/add/", {state: {passedDate: data[0]["creation_date_mealfood"]}});
+        }}
+      className="meal-option" >Add an Item</button>
+      </div>
       {/* <p>{JSON.stringify(data)}</p> */}
       {dailyTotals.length > 0 && dailyTotals[0].total_calories !== null && (
         <div className="totals short-fade-in">
@@ -161,7 +169,7 @@ function MealList() {
                               .get(
                                 `http://localhost:3003/meals/day/${fixDateforRedirect(
                                   dateForRedirect
-                                )}`
+                                )}/${loggedInUser}`
                               )
                               .then((response) => {
                                 console.log(response.data);

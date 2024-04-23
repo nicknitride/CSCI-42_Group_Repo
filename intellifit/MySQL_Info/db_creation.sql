@@ -106,6 +106,7 @@ VALUES
 (1, 1, CURDATE(), 150.5, 'Nick'),  -- Adjust the food_id as needed
 (1, 2, CURDATE(), 200.25, 'Nick'), -- Adjust the food_id as needed
 (2, 3, CURDATE(), 100.75, 'Nick'), -- Adjust the food_id as needed
+(2, 3, CURDATE(), 100.75, 'Michael'), -- Adjust the food_id as needed
 -- Day 2
 (2, 4, CURDATE() + INTERVAL 1 DAY, 75.3, 'Nick'),  -- Adjust the food_id as needed
 (3, 5, CURDATE() + INTERVAL 1 DAY, 300.0, 'Nick'), -- Adjust the food_id as needed

@@ -1,13 +1,14 @@
 import axios from "axios";
 import "./Meals.css";
 import Minigreeter from "../components/Minigreeter";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MealsByDayCard from "../components/MealsByDayCard";
-import {NavigateFunction, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import TodayMeal from "../components/TodayMeal";
 import formatFloat from "../formatting_functions/formatFloat";
 import "../css/animations_transitions.css";
 import { mealDataQuery } from "./Types/mealTypes";
+import { AuthContext } from "./auth-pages/AuthContext";
 
 
 
@@ -36,38 +37,13 @@ function convertISOStringToDate(isoString: string) {
   return formattedDate;
 }
 
-function processDate(value: string) {
-  const dateToParse = value;
-  const parsedDate = dateToParse.split("", 11);
-  let processedDate: string = "";
-  const year = parsedDate.slice(1, 5).toString().replace(/[,]/g, "");
-  const month = parsedDate.slice(6, 8).toString().replace(/[,]/g, "");
-  const day = parsedDate.slice(9, 11).toString().replace(/[,]/g, "");
-  const monthsMap: { [key: string]: string } = {
-    "01": "January",
-    "02": "February",
-    "03": "March",
-    "04": "April",
-    "05": "May",
-    "06": "June",
-    "07": "July",
-    "08": "August",
-    "09": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December",
-  };
-  const monthName = monthsMap[month] || "Invalid Month";
-  processedDate = `${monthName} ${day}, ${year}`;
-  console.log(processDate);
-  return processedDate;
-}
 
 
-function deleteEntriesMatchingDate(date: string, setData: React.Dispatch<React.SetStateAction<mealDataQuery>>, creationDateAsKey : string) {
+
+function deleteEntriesMatchingDate(date: string, setData: React.Dispatch<React.SetStateAction<mealDataQuery>>, creationDateAsKey : string, loggedInUser : string | null) {
   console.log("Triggered delete handler for " + date);
   axios
-    .delete(`http://localhost:3003/meals/day/${date}`)
+    .delete(`http://localhost:3003/meals/day/${date}/${loggedInUser}`)
     .then((response) => {
       console.log(response.data);
       console.log("Deleted entry successfully"); 
@@ -84,10 +60,15 @@ function deleteEntriesMatchingDate(date: string, setData: React.Dispatch<React.S
 // !? TODO - Finish the edit handler, use for inspo: https://stackoverflow.com/questions/71777921/reat-js-navigate-with-json-object-to-another-page
 
 function Meals() {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  const currentDate = now.toISOString().split("T")[0];
+
   const navigate = useNavigate();
   const [data, setData] = useState<mealDataQuery>([]);
   const [dailyTotals, setTotals] = useState<DailyTotals[]>([]);
   const [mode, setMode] = useState("Today");
+  const {loggedInUser} = useContext(AuthContext);
 
   const clearData = () => {
     setData([]); // Set data to an empty array
@@ -108,11 +89,11 @@ function Meals() {
 
     // Get Details
     if (mode === "Today") {
-      axiosRequestEndpoint = "http://localhost:3003/meals/today";
+      axiosRequestEndpoint = `http://localhost:3003/meals/today/${loggedInUser}`;
     } else if (mode === "Daily") {
-      axiosRequestEndpoint = "http://localhost:3003/meals/day/";
+      axiosRequestEndpoint = `http://localhost:3003/meals/day/${loggedInUser}`;
     } else {
-      axiosRequestEndpoint = "http://localhost:3003/meals/day/";
+      axiosRequestEndpoint = `http://localhost:3003/meals/day/${loggedInUser}`;
     }
     console.log("Page has requested meals by day");
     axios
@@ -127,7 +108,7 @@ function Meals() {
           error
         );
       });
-    const dailyTotalEndpoint = "http://localhost:3003/meals/today/totalcal";
+    const dailyTotalEndpoint = `http://localhost:3003/meals/today/totalcal/${loggedInUser}`;
     axios
       .get(dailyTotalEndpoint)
       .then((res) => {
@@ -170,7 +151,7 @@ function Meals() {
           <div className="meal-button-crud">
             <button
               onClick={() => {
-                navigate("/meal/add/");
+                navigate("/meal/add/", {state: {passedDate: now.toISOString().split("T")[0]}});
               }}
             >
               Add a Food Entry
@@ -186,7 +167,7 @@ function Meals() {
                   const meal_day = data[0].creation_date_mealfood.slice(0, 10);
                   console.log("Edit page launched from today edit button on the following date: "+meal_day);
                   axios
-                  .get(`http://localhost:3003/meals/day/${meal_day}`)
+                  .get(`http://localhost:3003/meals/day/${meal_day}/${loggedInUser}`)
                   .then((response) => {
                     console.log(response.data);
                     navigate("/meals/editlist", { state: response.data });
@@ -276,7 +257,7 @@ function Meals() {
         <div className="meal-button-crud">
           <button
             onClick={() => {
-              navigate("/meal/add/");
+              navigate("/meal/add/", {state: {passedDate: now.toISOString().split("T")[0]}});
             }}
           >
             Add a Food Entry
@@ -296,13 +277,13 @@ function Meals() {
                   content={String(meal["Calories"])}
                   infolabel="Total Calories:"
                   deleteHandler={() => {
-                    deleteEntriesMatchingDate(String(meal["creation_date_mealfood"]),setData, String(meal["creation_date_mealfood"]));
+                    deleteEntriesMatchingDate(String(meal["creation_date_mealfood"]),setData, String(meal["creation_date_mealfood"]), loggedInUser);
                   }}
                   editHandler={(msg) => {
                     console.log(msg + " for " + String(meal["creation_date_mealfood"]));
                     const meal_day = String(meal["creation_date_mealfood"]);
                     axios
-                      .get(`http://localhost:3003/meals/day/${meal_day}`)
+                      .get(`http://localhost:3003/meals/day/${meal_day}/${loggedInUser}`)
                       .then((response) => {
                         console.log(response.data);
                         navigate("/meals/editlist", { state: response.data });

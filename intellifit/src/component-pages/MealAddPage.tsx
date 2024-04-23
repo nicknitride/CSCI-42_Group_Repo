@@ -1,13 +1,18 @@
 import Minigreeter from "../components/Minigreeter";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 import "./Meals.css";
 import axios from "axios";
 import { foodItem } from "./Types/mealTypes";
-
+import { AuthContext } from "./auth-pages/AuthContext";
 
 function AddMealPage() {
+  const { loggedInUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const {state} = useLocation();
+  const {passedDate} = state;
+  const processedDate = new Date(passedDate);
+
   const [mealId, setMealId] = useState("");
   const [mealHumanReadable, setMealHumanReadable] = useState("");
   const [foodId, setFoodId] = useState("");
@@ -24,9 +29,9 @@ function AddMealPage() {
 
   const [errorMessage, setErrorMessage] = useState("");
   const now = new Date();
-now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
   const [selectedDate, setSelectedDate] = useState<string>(
-    now.toISOString().split("T")[0] // Initialize with today's date
+    passedDate ? processedDate.toISOString().split("T")[0] : now.toISOString().split("T")[0]
   );
   //   const [active, setActive] = useState(""); /* Store active button*/
 
@@ -44,6 +49,7 @@ now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       foodID: foodId,
       servingSize: servingSize,
       selectedDate: selectedDate,
+      loggedInUser: loggedInUser,
     };
 
     axios
@@ -51,7 +57,24 @@ now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       .then((response) => {
         console.log(response.data);
         if (response.status !== 500) {
-          navigate(-1);
+          // navigate(-1);
+          setErrorMessage("Added! Navigating to Page");
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 3000);
+
+          axios
+          .get(`http://localhost:3003/meals/day/${meal_day}/${loggedInUser}`)
+          .then((response) => {
+            console.log(response.data);
+            navigate("/meals/editlist", { state: response.data });
+          }).catch((error) => {
+            console.log("Axios error:" + error);
+            setErrorMessage(error.response.data);
+            setTimeout(() => {
+              setErrorMessage("");
+            }, 3000);
+          });
         }
       })
       .catch((error) => {
@@ -61,6 +84,9 @@ now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
           setErrorMessage("");
         }, 3000);
       });
+      const meal_day = selectedDate;
+      console.log("Edit page launched from today edit button on the following date: "+meal_day);
+      console.log(`http://localhost:3003/meals/day/${meal_day}/${loggedInUser}`)
   }
   useEffect(() => {
     axios
@@ -274,7 +300,9 @@ now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                           <h4>
                             {item.food_name} | Brand: {item.food_brand}
                           </h4>
-                          <span>Calories (in 100g) {item.cal_per_gram*100}</span>
+                          <span>
+                            Calories (in 100g) {item.cal_per_gram * 100}
+                          </span>
                           <span>
                             Protein (100g) {item.protein_hundred_grams} grams
                           </span>

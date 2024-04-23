@@ -17,7 +17,8 @@ const app = express();
 const PORT = 3003;
 app.use(cors());
 app.use(express.json());
-app.get("/meals/day", (req, res) => {
+app.get("/meals/day/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
   db.query(
     `
     SELECT
@@ -29,10 +30,13 @@ app.get("/meals/day", (req, res) => {
         meal m ON mfe.meal_id = m.meal_id
     JOIN
         food f ON mfe.food_id = f.food_id
+    WHERE 
+        mfe.created_by = "${loggedInUser}"
     GROUP BY
-        mfe.creation_date_mealfood
+        mfe.creation_date_mealfood, mfe.created_by
     ORDER BY
         mfe.creation_date_mealfood;
+
     `,
     (err, result) => {
       if (err) {
@@ -45,7 +49,8 @@ app.get("/meals/day", (req, res) => {
   );
 });
 
-app.delete("/meals/day/:date", (req, res) => {
+app.delete("/meals/day/:date/:loggedInUser", (req, res) => {
+  const loggedInUser = req.params.loggedInUser;
   const dateToDelete = req.params.date;
   const parsedDate = dateToDelete.split("", 10);
   let processedDate = "";
@@ -56,6 +61,7 @@ app.delete("/meals/day/:date", (req, res) => {
   const deleteBYDateSQL = `
   DELETE FROM meal_food_entity 
   WHERE meal_food_entity.creation_date_mealfood = "${processedDate}"
+  AND meal_food_entity.created_by = "${loggedInUser}"
   ;`;
   db.query(deleteBYDateSQL, (err, result) => {
     if (err) {
@@ -71,7 +77,8 @@ app.delete("/meals/day/:date", (req, res) => {
 });
 // NodeJS MySQL Delete https://www.w3schools.com/nodejs/nodejs_mysql_delete.asp
 
-app.get("/meals/day/:date", (req, res) => {
+app.get("/meals/day/:date/:loggedInUser", (req, res) => {
+  const loggedInUser = req.params.loggedInUser;
   const dateToParse = req.params.date;
   const parsedDate = dateToParse.split("", 10);
   let processedDate = "";
@@ -85,6 +92,7 @@ app.get("/meals/day/:date", (req, res) => {
   JOIN food f ON f.food_id = mfe.food_id
   JOIN meal m ON m.meal_id = mfe.meal_id
   WHERE mfe.creation_date_mealfood = "${processedDate}"
+  AND mfe.created_by = "${loggedInUser}"
   ORDER by mfe.meal_id ASC;
   `;
   db.query(grabIndividualMealsWithMatchingDates, (err, result) => {
@@ -96,13 +104,17 @@ app.get("/meals/day/:date", (req, res) => {
   });
 });
 
-app.get("/meals/today", (req, res) => {
+app.get("/meals/today/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
   const GetMealsFromTodaySQL = `
-  SELECT mfe.mealfood_id, f.food_name, f.food_brand, m.meal_name, mfe.serving_size, f.protein_per_gram, f.cal_per_gram, f.fat_per_gram, f.carb_per_gram, mfe.creation_date_mealfood
+  SELECT mfe.mealfood_id, f.food_name, f.food_brand, m.meal_name, mfe.serving_size, f.protein_per_gram, f.cal_per_gram, f.fat_per_gram, f.carb_per_gram, mfe.creation_date_mealfood, mfe.created_by
   from meal_food_entity mfe 
   JOIN food f ON f.food_id = mfe.food_id
   JOIN meal m ON m.meal_id = mfe.meal_id
-  where DATE(mfe.creation_date_mealfood) = CURDATE() ORDER BY mfe.meal_id;
+  where DATE(mfe.creation_date_mealfood) = CURDATE() 
+  AND mfe.created_by = "${loggedInUser}"
+  ORDER BY mfe.meal_id;
+  ;
   `;
   db.query(GetMealsFromTodaySQL, (err, result) => {
     if (err) {
@@ -133,7 +145,8 @@ app.post("/meals/reset/mealfood", (req, res) => {
   });
 });
 
-app.get("/meals/today/totalcal", (req, res) => {
+app.get("/meals/today/totalcal/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
   const getTotalCallForTodaySQL = `
   SELECT 
   SUM(mfe.serving_size * f.cal_per_gram) AS total_calories,
@@ -143,7 +156,9 @@ app.get("/meals/today/totalcal", (req, res) => {
   FROM meal_food_entity mfe
   JOIN food f on f.food_id = mfe.food_id
   JOIN meal m on m.meal_id = mfe.meal_id
-  where DATE(mfe.creation_date_mealfood) = CURDATE() ORDER BY mfe.meal_id;
+  where DATE(mfe.creation_date_mealfood) = CURDATE() 
+  AND mfe.created_by = "${loggedInUser}"
+  ORDER BY mfe.meal_id;
   `;
   db.query(getTotalCallForTodaySQL, (err, result) => {
     if (err) {
@@ -154,7 +169,8 @@ app.get("/meals/today/totalcal", (req, res) => {
   });
 });
 
-app.get("/meals/today/totalcal/:date", (req, res) => {
+app.get("/meals/today/totalcal/:date/:loggedInUser", (req, res) => {
+  const loggedInUser = req.params.loggedInUser;
   const date = req.params.date;
   const getTotalCallForTodaySQL = `
   SELECT 
@@ -165,9 +181,12 @@ app.get("/meals/today/totalcal/:date", (req, res) => {
   FROM meal_food_entity mfe
   JOIN food f on f.food_id = mfe.food_id
   JOIN meal m on m.meal_id = mfe.meal_id
-  where DATE(mfe.creation_date_mealfood) = "${date}" ORDER BY mfe.meal_id;
+  where DATE(mfe.creation_date_mealfood) = "${date}"
+  AND mfe.created_by = "${loggedInUser}"
+  ORDER BY mfe.meal_id
+  ;
   `;
-  console.log(getTotalCallForTodaySQL);
+  // console.log(getTotalCallForTodaySQL);
   db.query(getTotalCallForTodaySQL, (err, result) => {
     if (err) {
       console.log(err);
@@ -221,12 +240,12 @@ app.get("/food/all", (req, res) => {
 
 app.post("/meal/addentry", (req, res) => {
   // Parse the data from the request body
-  const { mealID, foodID, servingSize, selectedDate } = req.body;
+  const { mealID, foodID, servingSize, selectedDate, loggedInUser } = req.body;
 
   // Construct the SQL query to insert a new entry into the meal_food_entity table
   const insertEntrySQL = `
-    INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size)
-    VALUES (${mealID}, ${foodID}, "${selectedDate}", ${servingSize})
+    INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size, created_by)
+    VALUES (${mealID}, ${foodID}, "${selectedDate}", ${servingSize}, "${loggedInUser}")
   `;
 
   // Execute the SQL query

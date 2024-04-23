@@ -39,4 +39,5 @@ export type MealDataQueryItem = {
     protein_per_gram: number;
     fat_per_gram: number;
     carb_per_gram: number;
+    created_by: string
   }[];
