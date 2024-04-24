@@ -1,23 +1,49 @@
+-- # Food Entity
+-- -- Draft new food entity
 DROP DATABASE intellifit_test;
 CREATE DATABASE intellifit_test;
 USE intellifit_test;
 
--- # Food Entity
--- -- Draft new food entity
-create table food(
-    food_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    food_name varchar(80) not null,
-    food_brand varchar(80) not null,
-    protein_hundred_grams decimal(5,2) not null,
-    carb_hundred_grams decimal(5,2) not null,
-    fat_hundred_grams decimal(5,2) not null,
-    protein_per_gram  decimal(6,3) AS (protein_hundred_grams/100),
-    carb_per_gram decimal(6,3) AS (carb_hundred_grams/100),
-    fat_per_gram decimal(6,3) AS (fat_hundred_grams/100),
-    cal_per_gram decimal (7,3) AS ((carb_per_gram*4)+(protein_per_gram*4)+(fat_per_gram*9)),
-    created_by VARCHAR(50) DEFAULT 'Server'
+-- DROP TABLE user;
+CREATE TABLE user (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) BINARY UNIQUE NOT NULL,
+    password VARCHAR(300) NOT NULL,
+    calorie_goal INT,
+    protein_goal INT,
+    weight_kg DECIMAL(5,2),
+    height_cm DECIMAL(5,2)
 );
 
+INSERT INTO user (username, password, calorie_goal, protein_goal, weight_kg, height_cm) 
+VALUES 
+    ('user1', 'password1', 2000, 100, 70.5, 170.2),
+    ('user2', 'password2', 1800, 90, 65.3, 165.5),
+    ('user3', 'password3', 2200, 110, 80.1, 175.0),
+    ('user4', 'password4', NULL, NULL, 72.0, 168.8),
+    ('Nick', '$2b$10$/KjvoZ8mnLC5HCt/Ems9DORqpp9mMyhdEDebrFXFQ9kEMweU/1se.', 1900, 135, 75, 177);
+
+-- These passwords are temporary, they have to be salted first
+
+create table food(
+food_id int auto_increment,
+food_name varchar(80) not null,
+food_brand varchar(80) not null,
+protein_hundred_grams decimal(5,2) not null,
+carb_hundred_grams decimal(5,2) not null,
+fat_hundred_grams decimal(5,2) not null,
+protein_per_gram  decimal(6,3) AS (protein_hundred_grams/100),
+carb_per_gram decimal(6,3) AS (carb_hundred_grams/100),
+fat_per_gram decimal(6,3) AS (fat_hundred_grams/100),
+cal_per_gram decimal (7,3) AS ((carb_per_gram*4)+(protein_per_gram*4)+(fat_per_gram*9)),
+CHECK (protein_hundred_grams >= 0),
+CHECK (carb_hundred_grams >= 0),
+CHECK (fat_hundred_grams >= 0),
+CHECK (protein_hundred_grams <= 999.99),
+CHECK (carb_hundred_grams <= 999.99),
+CHECK (fat_hundred_grams <= 999.99),
+PRIMARY KEY(food_id)
+);
 INSERT INTO food(food_name, food_brand, protein_hundred_grams, carb_hundred_grams, fat_hundred_grams)
 VALUES
 ("Grilled Chicken Breast", "FitPro", 25.5, 0.5, 3.2),
@@ -35,12 +61,11 @@ VALUES
 ("Cottage Cheese", "Dairy Delight", 11.1, 3.4, 2.3),
 ("Fresh Avocado", "Avocado King", 2.0, 8.5, 14.7),
 ("Lean Grass-Fed Beef", "Green Pastures", 26.0, 0.0, 17.0);
-
 -- # Meal Entity
 CREATE TABLE meal(
-  meal_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  meal_id int AUTO_INCREMENT,
   meal_name varchar(80) NOT NULL,
-  created_by VARCHAR(50) DEFAULT 'Server'
+  PRIMARY KEY(meal_id)
 );
 -- source: https://www.mysqltutorial.org/mysql-basics/mysql-insert-date/
 -- https://prahladyeri.github.io/blog/2022/10/mysql-setting-default-date-to-current-date.html
@@ -48,44 +73,43 @@ CREATE TABLE meal(
 INSERT INTO meal (meal_name) VALUES ('Breakfast');
 INSERT INTO meal (meal_name) VALUES ('Lunch');
 INSERT INTO meal (meal_name) VALUES ('Dinner');
-
-
-
 -- ! #Meal-Food Associative Entity
 CREATE TABLE meal_food_entity(
-  mealfood_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  mealfood_id INT AUTO_INCREMENT,
   meal_id int,
   food_id int,
   creation_date_mealfood DATE DEFAULT (CURRENT_DATE),
   serving_size DECIMAL(6,2) not null,
+  CHECK (serving_size >= 0 AND serving_size <= 9999.99),
+  PRIMARY KEY (mealfood_id),
   FOREIGN KEY (meal_id) REFERENCES meal(meal_id),
   FOREIGN KEY (food_id) REFERENCES food(food_id),
-  created_by VARCHAR(50) DEFAULT 'Server'
+  created_by VARCHAR(50) NOT NULL
 );
 -- #Insert Statements
 -- Inserting a meal_food_entity entry with specified meal_id and food_id
-INSERT INTO meal_food_entity (meal_id, food_id, serving_size) VALUES (1, 5, 150.50);
+INSERT INTO meal_food_entity (meal_id, food_id, serving_size, created_by) VALUES (1, 5, 150.50, 'Nick');
 
 -- Inserting another entry with different meal_id, food_id, and using the default serving_size
-INSERT INTO meal_food_entity (meal_id, food_id) VALUES (2, 13);
+INSERT INTO meal_food_entity (meal_id, food_id, created_by) VALUES (2, 13, 'Nick');
 
 -- Inserting an entry with specified meal_id, food_id, creation_date_mealfood, and serving_size
 -- Inserting three whole days of meals into the mealfood table
-INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size)
+INSERT INTO meal_food_entity (meal_id, food_id, creation_date_mealfood, serving_size, created_by)
 VALUES
 -- Day 1
-(1, 1, CURDATE(), 150.5),  -- Adjust the food_id as needed
-(1, 2, CURDATE(), 200.25), -- Adjust the food_id as needed
-(2, 3, CURDATE(), 100.75), -- Adjust the food_id as needed
+(1, 1, CURDATE(), 150.5, 'Nick'),  -- Adjust the food_id as needed
+(1, 2, CURDATE(), 200.25, 'Nick'), -- Adjust the food_id as needed
+(2, 3, CURDATE(), 100.75, 'Nick'), -- Adjust the food_id as needed
+(2, 3, CURDATE(), 100.75, 'Michael'), -- Adjust the food_id as needed
 -- Day 2
-(2, 4, CURDATE() + INTERVAL 1 DAY, 75.3),  -- Adjust the food_id as needed
-(3, 5, CURDATE() + INTERVAL 1 DAY, 300.0), -- Adjust the food_id as needed
-(3, 6, CURDATE() + INTERVAL 1 DAY, 50.8),  -- Adjust the food_id as needed
+(2, 4, CURDATE() + INTERVAL 1 DAY, 75.3, 'Nick'),  -- Adjust the food_id as needed
+(3, 5, CURDATE() + INTERVAL 1 DAY, 300.0, 'Nick'), -- Adjust the food_id as needed
+(3, 6, CURDATE() + INTERVAL 1 DAY, 50.8, 'Nick'),  -- Adjust the food_id as needed
 -- Day 3
-(1, 7, CURDATE() + INTERVAL 2 DAY, 180.4), -- Adjust the food_id as needed
-(2, 8, CURDATE() + INTERVAL 2 DAY, 250.1), -- Adjust the food_id as needed
-(3, 9, CURDATE() + INTERVAL 2 DAY, 120.75); -- Adjust the food_id as needed
-
+(1, 7, CURDATE() + INTERVAL 2 DAY, 180.4, 'Nick'), -- Adjust the food_id as needed
+(2, 8, CURDATE() + INTERVAL 2 DAY, 250.1, 'Nick'), -- Adjust the food_id as needed
+(3, 9, CURDATE() + INTERVAL 2 DAY, 120.75, 'Nick'); -- Adjust the food_id as needed
 
 -- # Workout Entity
 CREATE TABLE exercise (
