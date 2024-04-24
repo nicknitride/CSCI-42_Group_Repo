@@ -1,3 +1,8 @@
+.h3{
+  text-align: unset;
+  margin: unset;
+  padding: unset;
+}
 .meal-flex {
   display: flex;
   flex-wrap: wrap;
