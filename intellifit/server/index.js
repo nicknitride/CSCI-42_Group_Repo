@@ -736,10 +736,8 @@ app.get("/exercises-Recent/:loggedInUser", (req, res) => {
 });
 
 app.post('/addTo_WorkoutCompleted', (req, res) => {
-  const {loggedInUser} = req.params;
-  const date_value = req.body.date;
-  console.log(date_value)
-    const addWorkoutDate =  `INSERT INTO workout_completed(completed_date, created_by) VALUES("${date_value}", "${loggedInUser}");`;
+    const {loggedInUser, date} = req.body;
+    const addWorkoutDate =  `INSERT INTO workout_completed(completed_date, created_by) VALUES("${date}", "${loggedInUser}");`;
     db.query(addWorkoutDate, (err, data) => {
       if(err){
         console.log("Error adding entry into workout_completed:", err);
@@ -753,7 +751,6 @@ app.post('/addTo_WorkoutCompleted', (req, res) => {
 })
 
 app.post('/addTo_ExerciseCompleted', (req, res) => {
-  const {loggedInUser} = req.params;
   const addExerciseCompleted = "INSERT INTO exercise_completed (`workout_completed_id`, `exercise_id`, `completed_type`, `created_by`) VALUES (?, ?, ?, ?);";
   const getWorkoutCompletedID = `SELECT workout_completed_id FROM workout_completed ORDER BY workout_completed_id DESC LIMIT 1;`;
   
@@ -782,7 +779,7 @@ app.post('/addTo_ExerciseCompleted', (req, res) => {
           workoutCompletedID,
           req.body.exercise,
           getWorkoutType,
-          {loggedInUser}
+          req.body.loggedInUser
       ];
 
       // Execute the insert query with the retrieved workout_completed_id
@@ -799,7 +796,6 @@ app.post('/addTo_ExerciseCompleted', (req, res) => {
 });
 
 app.post('/addTo_DurationCompleted', (req, res) => {
-    const {loggedInUser} = req.params;
     const addDuration = "INSERT INTO duration_completed(`exercise_completed_id`, `duration`, `created_by`) VALUES (?, ?, ?);";
     const getExerciseCompletedID = `SELECT e.exercise_completed_id 
                                     FROM exercise_completed e, workout_completed w 
@@ -818,7 +814,7 @@ app.post('/addTo_DurationCompleted', (req, res) => {
       const tableValues = [
           exercise_completed_id,
           req.body.duration,
-          {loggedInUser}
+          req.body.loggedInUser
       ]
   
       db.query(addDuration, tableValues, (err, data) => {
@@ -834,7 +830,6 @@ app.post('/addTo_DurationCompleted', (req, res) => {
 })
 
 app.post('/addTo_OtherTables', (req, res) => {
-    const {loggedInUser} = req.params;
     const addSRW = "INSERT INTO set_rep_weight_completed(`exercise_completed_id`, `sets`, `reps`, `weight`, `created_by`) VALUES(?);";
     const addSRD = "INSERT INTO set_rep_duration_completed(`exercise_completed_id`, `sets`, `reps`, `duration`, `created_by`) VALUES(?);";
     const addDistance = "INSERT INTO distance_completed(`exercise_completed_id`, `distance`, `created_by`) VALUES (?);";
@@ -864,7 +859,7 @@ app.post('/addTo_OtherTables', (req, res) => {
           req.body.sets,
           req.body.reps,
           req.body.weight,
-          {loggedInUser}
+          req.body.loggedInUser
         ]
         db.query(addSRW, [values], (err, data) => {
           if(err){
@@ -879,7 +874,7 @@ app.post('/addTo_OtherTables', (req, res) => {
         values = [
           exerciseCompletedID,
           req.body.distance,
-          {loggedInUser}
+          req.body.loggedInUser
         ]
         db.query(addDistance, [values], (err, data) => {
           if(err){
@@ -896,7 +891,7 @@ app.post('/addTo_OtherTables', (req, res) => {
           req.body.sets,
           req.body.reps,
           req.body.duration,
-          {loggedInUser}
+          req.body.loggedInUser
         ]
         db.query(addSRD, [values], (err, data) => {
           if(err){

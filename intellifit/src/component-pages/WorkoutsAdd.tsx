@@ -17,6 +17,7 @@ type workoutFields = {
     distance: number;
     duration: String;
     workout_type: String;
+    loggedInUser: string | null;
 }
 
 function WorkoutsAdd(){
@@ -60,8 +61,6 @@ function WorkoutsAdd(){
         let hours: string = String(Math.floor(elapsedTime / (1000 * 60 * 60))).padStart(2, "0");
         let mins: string = String(Math.floor(elapsedTime / (1000 * 60) % 60)).padStart(2, "0");
         let secs: string = String(Math.floor(elapsedTime / 1000 % 60)).padStart(2, "0");
-        let ms: string = String(Math.floor((elapsedTime % 1000) / 10)).padStart(2, "0");
-
         return `${hours}:${mins}:${secs}`;
     }
     
@@ -78,6 +77,7 @@ function WorkoutsAdd(){
         distance: 0,
         duration: '',
         workout_type: '',
+        loggedInUser: loggedInUser,
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,6 +161,14 @@ function WorkoutsAdd(){
         .catch(error => console.error('Error fetching Core exercises:', error));
     }, []);
 
+    const [exercises_8, setExercises_8] = useState<any[]>([])
+    useEffect(() => {
+        fetch('http://localhost:3003/ex_entries-8')
+        .then(res => res.json())
+        .then(data => setExercises_8(data))
+        .catch(error => console.error('Error fetching Stretch exercises:', error));
+    }, []);
+
     const [selectEx1, setEx1] = useState<boolean>(false);
     const [selectEx2, setEx2] = useState<boolean>(false);
     const [selectEx3, setEx3] = useState<boolean>(false);
@@ -168,6 +176,7 @@ function WorkoutsAdd(){
     const [selectEx5, setEx5] = useState<boolean>(false);
     const [selectEx6, setEx6] = useState<boolean>(false);
     const [selectEx7, setEx7] = useState<boolean>(false);
+    const [selectEx8, setEx8] = useState<boolean>(false);
     
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const chosenWorkout = event.target.value;
@@ -180,6 +189,7 @@ function WorkoutsAdd(){
                 setEx5(false);
                 setEx6(false);
                 setEx7(false);
+                setEx8(false);
                 break;
             case "2":
                 setEx1(false);
@@ -189,6 +199,7 @@ function WorkoutsAdd(){
                 setEx5(false);
                 setEx6(false);
                 setEx7(false);
+                setEx8(false);
                 break;
             case "3":
                 setEx1(false);
@@ -198,6 +209,7 @@ function WorkoutsAdd(){
                 setEx5(false);
                 setEx6(false);
                 setEx7(false);
+                setEx8(false);
                 break;
             case "4":
                 setEx1(false);
@@ -207,6 +219,7 @@ function WorkoutsAdd(){
                 setEx5(false);
                 setEx6(false);
                 setEx7(false);
+                setEx8(false);
                 break;
             case "5":
                 setEx1(false);
@@ -216,6 +229,7 @@ function WorkoutsAdd(){
                 setEx5(true);
                 setEx6(false);
                 setEx7(false);
+                setEx8(false);
                 break;
             case "6":
                 setEx1(false);
@@ -225,6 +239,7 @@ function WorkoutsAdd(){
                 setEx5(false);
                 setEx6(true);
                 setEx7(false);
+                setEx8(false);
                 break;
             case "7":
                 setEx1(false);
@@ -234,6 +249,17 @@ function WorkoutsAdd(){
                 setEx5(false);
                 setEx6(false);
                 setEx7(true);
+                setEx8(false);
+                break;
+            case "8":
+                setEx1(false);
+                setEx2(false);
+                setEx3(false);
+                setEx4(false);
+                setEx5(false);
+                setEx6(false);
+                setEx7(false);
+                setEx8(true);
                 break;
             default:
                 setEx1(false);
@@ -243,6 +269,7 @@ function WorkoutsAdd(){
                 setEx5(false);
                 setEx6(false);
                 setEx7(false);
+                setEx8(false);
         }
     };
 
@@ -491,6 +518,41 @@ function WorkoutsAdd(){
                                 <option value="">Choose Exercise</option>
                                 {exercises_7.map(exercise_7 => (
                                     <option key={exercise_7.exercise_id} value={exercise_7.exercise_id}>{exercise_7.exercise_name}</option>
+                                ))}
+                            </select>
+                            <div className="sets">
+                                <p>Enter Sets: </p>
+                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                            </div>
+                            <div className="reps">
+                                <p>Enter Reps: </p>
+                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                            </div>
+                            <div className="weight">
+                                <p>Enter Weight: </p>
+                                <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                            </div>
+                            <div className="time">
+                                <p>Press to Start and Record Your Time: </p>
+                                <div className="stopwatch">
+                                    <div className="display">{formatTime()}</div>
+                                    <div className="controls">
+                                        <button type="button" onClick={start} className="start-button">Start</button>
+                                        <button type="button" onClick={pause} className="pause-button">pause</button>
+                                        <button type="button" onClick={reset} className="reset-button">Reset</button>
+                                        <button type="button" onClick={handleStop} className="stop-button">Stop and Record</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {selectEx8 && (
+                        <div className="exerSelect">
+                            <p>Choose Exercise: </p>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                                <option value="">Choose Exercise</option>
+                                {exercises_8.map(exercise_8 => (
+                                    <option key={exercise_8.exercise_id} value={exercise_8.exercise_id}>{exercise_8.exercise_name}</option>
                                 ))}
                             </select>
                             <div className="sets">
