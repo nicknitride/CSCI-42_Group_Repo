@@ -812,7 +812,7 @@ app.post('/addTo_DurationCompleted', (req, res) => {
       const exercise_completed_id = result[0].exercise_completed_id;
 
       const tableValues = [
-          exercise_completed_id,
+          exercise_completed_id+1,
           req.body.duration,
           req.body.loggedInUser
       ]
@@ -855,7 +855,7 @@ app.post('/addTo_OtherTables', (req, res) => {
       if((exercise >= 1 && exercise <= 18) || (exercise >= 27 && exercise <= 34) || (exercise == 37) 
       || (exercise >= 39 && exercise <= 42)){
         values = [
-          exerciseCompletedID,
+          exerciseCompletedID+1,
           req.body.sets,
           req.body.reps,
           req.body.weight,
@@ -872,7 +872,7 @@ app.post('/addTo_OtherTables', (req, res) => {
         })
       } else if ((exercise >= 19 && exercise <= 22)) {
         values = [
-          exerciseCompletedID,
+          exerciseCompletedID+1,
           req.body.distance,
           req.body.loggedInUser
         ]
@@ -887,7 +887,7 @@ app.post('/addTo_OtherTables', (req, res) => {
         })
       } else {
         values = [
-          exerciseCompletedID,
+          exerciseCompletedID+1,
           req.body.sets,
           req.body.reps,
           req.body.duration,
@@ -906,6 +906,9 @@ app.post('/addTo_OtherTables', (req, res) => {
 
     })
 })
+
+app.get()
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });

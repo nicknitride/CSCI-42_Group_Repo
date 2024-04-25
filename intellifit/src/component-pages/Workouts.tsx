@@ -20,16 +20,9 @@ function Workouts(){
         .then(response => setRecent(response.data))
         .catch(error => console.error('Error fetching workouts:', error));
     }, [loggedInUser]);
-    
-    /*useEffect(() => {
-        fetch('http://localhost:3003/exercises-Recent/${loggedInUser}')
-        .then(res => res.json())
-        .then(data => setRecent(data))
-        .catch(error => console.error('Error fetching workouts:', error));
-    }, []);*/
 
     return(
-        <> {/*  */}
+        <> 
             <Minigreeter label="Workout Dashboard: "></Minigreeter>
             <h1>Recent Workouts</h1>
             <div className="recentExercises">
