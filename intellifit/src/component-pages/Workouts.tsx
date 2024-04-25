@@ -29,7 +29,7 @@ function Workouts(){
     }, []);*/
 
     return(
-        <> {/*  */}
+        <>
             <Minigreeter label="Workout Dashboard: "></Minigreeter>
             <h1>Recent Workouts</h1>
             <div className="recentExercises">
