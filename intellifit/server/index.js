@@ -684,6 +684,40 @@ app.get("/ex_entries-8", (req, res) => {
     })
 });
 
+app.get("/ex_entries-8-sr", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    AND workout_exercise_entry.entry_type="Set-Rep";`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
+app.get("/ex_entries-8-srd", (req, res) => {
+    const getWorkoutEntries = `SELECT workout_exercise_entry.workout_id, workout.workout_name, exercise.exercise_id,
+    exercise.exercise_name, workout_exercise_entry.entry_type 
+    FROM workout, exercise, workout_exercise_entry 
+    WHERE workout.workout_id = workout_exercise_entry.workout_id 
+    AND exercise.exercise_id = workout_exercise_entry.exercise_id
+    AND workout.workout_id=8
+    AND workout_exercise_entry.entry_type="Set-Rep-Duration";`;
+    db.query(getWorkoutEntries, (err, result) => {
+      if(err){
+        console.log("could not retrieve");
+        console.log(err);
+      }
+      res.send(result);
+    })
+});
+
 app.get("/exercises-Recent/:loggedInUser", (req, res) => {
   const {loggedInUser} = req.params; 
   const getExercisesRecent =  `SELECT ec.exercise_completed_id, e.exercise_name, w.completed_date, ec.completed_type 
