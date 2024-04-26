@@ -709,12 +709,13 @@ app.get("/exercises-Recent/:loggedInUser", (req, res) => {
 app.get("/exercises-Recent/SRW/:loggedInUser", (req, res) => {
   const {loggedInUser} = req.params; 
   const getSRWRecent =  `SELECT wc.workout_completed_id, ec.exercise_completed_id, w.workout_name, e.exercise_name, 
-      srw.sets, srw.reps, srw.weight FROM workout_completed wc 
+      srw.sets, srw.reps, srw.weight, dc.duration FROM workout_completed wc 
       INNER JOIN exercise_completed ec ON wc.workout_completed_id = ec.workout_completed_id 
       INNER JOIN workout_exercise_entry wee ON ec.exercise_id = wee.exercise_id 
       INNER JOIN workout w ON wee.workout_id = w.workout_id 
       INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
       INNER JOIN set_rep_weight_completed srw ON ec.exercise_completed_id = srw.exercise_completed_id 
+      INNER JOIN duration_completed dc ON ec.exercise_completed_id=dc.exercise_completed_id
       WHERE wc.completed_date = (SELECT MAX(completed_date) FROM workout_completed) 
       AND ec.created_by = "${loggedInUser}";`
   db.query(getSRWRecent, (err, result) => {
@@ -729,12 +730,13 @@ app.get("/exercises-Recent/SRW/:loggedInUser", (req, res) => {
 app.get("/exercises-Recent/Distance/:loggedInUser", (req, res) => {
   const {loggedInUser} = req.params;
   const getDistance = `SELECT wc.workout_completed_id, ec.exercise_completed_id, w.workout_name, 
-      e.exercise_name, dc.distance FROM workout_completed wc 
+      e.exercise_name, dc.distance, du.duration FROM workout_completed wc 
       INNER JOIN exercise_completed ec ON wc.workout_completed_id = ec.workout_completed_id 
       INNER JOIN workout_exercise_entry wee ON ec.exercise_id = wee.exercise_id 
       INNER JOIN workout w ON wee.workout_id = w.workout_id 
       INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
-      INNER JOIN distance_completed dc ON ec.exercise_completed_id=dc.exercise_completed_id 
+      INNER JOIN distance_completed dc ON ec.exercise_completed_id=dc.exercise_completed_id
+      INNER JOIN duration_completed du ON ec.exercise_completed_id=du.exercise_completed_id
       WHERE wc.completed_date = (SELECT MAX(completed_date) FROM workout_completed) 
       AND ec.created_by = "${loggedInUser}";`
   db.query(getDistance, (err, result) => {
@@ -743,6 +745,26 @@ app.get("/exercises-Recent/Distance/:loggedInUser", (req, res) => {
           console.log(err);
         }
         res.send(result);
+  })
+})
+
+app.get("/exercises-Recent/SRD/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
+  const getSRDRecent = `SELECT wc.workout_completed_id, ec.exercise_completed_id, w.workout_name, e.exercise_name, 
+      srd.sets, srd.reps, srd.duration FROM workout_completed wc 
+      INNER JOIN exercise_completed ec ON wc.workout_completed_id = ec.workout_completed_id 
+      INNER JOIN workout_exercise_entry wee ON ec.exercise_id = wee.exercise_id 
+      INNER JOIN workout w ON wee.workout_id = w.workout_id 
+      INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
+      INNER JOIN set_rep_duration_completed srd ON ec.exercise_completed_id = srd.exercise_completed_id 
+      WHERE wc.completed_date = (SELECT MAX(completed_date) FROM workout_completed) 
+      AND ec.created_by = "${loggedInUser}";`
+  db.query(getSRDRecent, (err, result) => {
+      if(err){
+          console.log("could not retrieve");
+          console.log(err);
+      }
+      res.send(result);
   })
 })
 

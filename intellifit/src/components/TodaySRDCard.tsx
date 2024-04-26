@@ -1,20 +1,21 @@
 import "../component-pages/Workouts.css";
 import "../css/TodayWorkout.css";
 
-type exercise_distance = {
+type exercise_SRD = {
     workout_completed_id: number;
     exercise_completed_id: number;
     workout_name: string;
     exercise_name: string;
-    distance: number;
+    sets: number;
+    reps: number;
     duration: string;
 };
 
 interface props{
-    data: exercise_distance;
+    data: exercise_SRD;
 }
 
-function TodayDistanceCard({data}: props){
+function TodaySRDCard({data}: props){
     return(
         <>
             <div className="workouts-container">
@@ -23,11 +24,11 @@ function TodayDistanceCard({data}: props){
                     <p>{data.exercise_name}</p>
                     <ul className="exercise-list">
                         <div className="list-detail">
-                            <li>Distance:   {data.distance} m</li>
+                            <li>Sets:   {data.sets}</li>
+                            <li>Reps:   {data.reps}</li>
                         </div>
                         <div className="duration-detail">
-                            <li>Duration: {data.duration.substring(0,2)} hours {data.duration.substring(3,5)} minutes 
-                            <br/>{data.duration.substring(6,8)} seconds</li>
+                            <li>Duration: {data.duration.substring(3,5)} minutes {data.duration.substring(6,8)} seconds</li>
                         </div>
                     </ul>
                 </div>
@@ -36,4 +37,4 @@ function TodayDistanceCard({data}: props){
     )
 };
 
-export default TodayDistanceCard;
+export default TodaySRDCard;

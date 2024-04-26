@@ -9,6 +9,7 @@ type exercise_SRW = {
     sets: number;
     reps: number;
     weight: number;
+    duration: string;
 };
 
 interface props{
@@ -27,6 +28,9 @@ function TodaySRWCard({data}: props){
                             <li>Sets:   {data.sets}</li>
                             <li>Reps:   {data.reps}</li>
                             <li>Weight: {data.weight} kg</li>
+                        </div>
+                        <div className="duration-detail">
+                            <li>Duration: {data.duration.substring(3,5)} minutes {data.duration.substring(6,8)} seconds</li>
                         </div>
                     </ul>
                 </div>

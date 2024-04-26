@@ -11,6 +11,7 @@ import { AuthContext } from "./auth-pages/AuthContext";
 import { useScrollTrigger } from "@mui/material";
 import TodaySRWCard from "../components/TodaySRWCard";
 import TodayDistanceCard from "../components/TodayDistanceCard";
+import TodaySRDCard from "../components/TodaySRDCard";
 
 function Workouts(){ 
     const {loggedInUser} = useContext(AuthContext);
@@ -18,6 +19,7 @@ function Workouts(){
     const [recent_Exercises, setRecent] = useState<any[]>([]);
     const [recent_Exercises_SRW, setRecent_SRW] = useState<any[]>([]);
     const [recent_Exercises_Distance, setRecent_Distance] = useState<any[]>([]);
+    const [recent_Exercises_SRD, setRecent_SRD] = useState<any[]>([]);
     const [setLoggedInUser] = useState<any[]>([]);
 
     useEffect(() => {
@@ -38,6 +40,12 @@ function Workouts(){
         .catch(error => console.error('Error fetching Distance workouts:', error));
     }, [loggedInUser]);
 
+    useEffect(() => {
+        axios.get(`http://localhost:3003/exercises-Recent/SRD/${loggedInUser}`)
+        .then(response => setRecent_SRD(response.data))
+        .catch(error => console.error('Error fetching SRD workouts:', error));
+    }, [loggedInUser]);
+
     return(
         <>
             <Minigreeter label="Workout Dashboard: "></Minigreeter>
@@ -50,6 +58,10 @@ function Workouts(){
                 {recent_Exercises_Distance &&
                 recent_Exercises_Distance.map((item) => {
                     return <TodayDistanceCard data={item} />;
+                })}
+                {recent_Exercises_SRD && 
+                recent_Exercises_SRD.map((item) => {
+                    return <TodaySRDCard data={item} />;
                 })}
             </div>
             {/*<div className="recentExercises">
