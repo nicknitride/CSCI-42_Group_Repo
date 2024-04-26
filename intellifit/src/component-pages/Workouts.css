@@ -25,6 +25,20 @@
     color: black;
 }
 
-.recentExercises{
-    display: flex;
+@media screen and (min-width: 768px){
+    .recentExercises{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 5px;
+        row-gap: 10px;
+    }
+}
+
+@media screen and (min-width: 1020px){
+    .recentExercises{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 5px;
+        row-gap: 10px;
+    }
 }
