@@ -1,7 +1,6 @@
 import axios from "axios";
 import "./WorkoutsAdd.css";
 import Minigreeter from "../components/Minigreeter";
-import Stopwatch from "../components/Stopwatch";
 import React, { FormEvent, ReactComponentElement, useEffect, useState, useRef, useContext } from 'react'
 import { breadcrumbsClasses } from "@mui/material";
 import { hoursToMilliseconds } from "date-fns";

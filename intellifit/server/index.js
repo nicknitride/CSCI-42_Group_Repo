@@ -726,6 +726,26 @@ app.get("/exercises-Recent/SRW/:loggedInUser", (req, res) => {
   })
 });
 
+app.get("/exercises-Recent/Distance/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
+  const getDistance = `SELECT wc.workout_completed_id, ec.exercise_completed_id, w.workout_name, 
+      e.exercise_name, dc.distance FROM workout_completed wc 
+      INNER JOIN exercise_completed ec ON wc.workout_completed_id = ec.workout_completed_id 
+      INNER JOIN workout_exercise_entry wee ON ec.exercise_id = wee.exercise_id 
+      INNER JOIN workout w ON wee.workout_id = w.workout_id 
+      INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
+      INNER JOIN distance_completed dc ON ec.exercise_completed_id=dc.exercise_completed_id 
+      WHERE wc.completed_date = (SELECT MAX(completed_date) FROM workout_completed) 
+      AND ec.created_by = "${loggedInUser}";`
+  db.query(getDistance, (err, result) => {
+        if(err){
+          console.log("could not retrieve");
+          console.log(err);
+        }
+        res.send(result);
+  })
+})
+
 app.post('/addTo_WorkoutCompleted', (req, res) => {
     const {loggedInUser, date} = req.body;
     const addWorkoutDate =  `INSERT INTO workout_completed(completed_date, created_by) VALUES("${date}", "${loggedInUser}");`;
