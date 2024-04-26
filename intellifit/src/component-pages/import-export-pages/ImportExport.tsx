@@ -146,6 +146,7 @@ function ImportExport() {
         console.log("Failed to download SRD_DB", err);
       });
   }
+
   function downloadDistance_DB() {
     axios
       .get(`http://localhost:3003/workouts/export_Distance/${loggedInUser}`)
@@ -154,6 +155,17 @@ function ImportExport() {
       })
       .catch((err) => {
         console.log("Failed to download Distance_DB", err);
+      });
+  }
+
+  function downloadSRW_DB() {
+    axios
+      .get(`http://localhost:3003/workouts/export_SRW/${loggedInUser}`)
+      .then((res) => {
+        downloadFile(res.data, "SRW_DB.json");
+      })
+      .catch((err) => {
+        console.log("Failed to download SRW_DB", err);
       });
   }
 
@@ -333,6 +345,14 @@ function ImportExport() {
               }}
             >
               Download Distance Completed Entries
+            </button>
+            <button
+              className="meal-option"
+              onClick={() => {
+                downloadSRW_DB();
+              }}
+            >
+              Download Set-Rep-Weight Completed Entries
             </button>
           </div>
         </>

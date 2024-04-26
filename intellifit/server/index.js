@@ -819,7 +819,7 @@ app.get("/workouts/export_SRD/:loggedInUser", (req, res) => {
   INNER JOIN workout w ON wee.workout_id = w.workout_id 
   INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
   INNER JOIN set_rep_duration_completed srd ON ec.exercise_completed_id = srd.exercise_completed_id 
-  AND ec.created_by = "${loggedInUser}";`;
+  WHERE ec.created_by = "${loggedInUser}";`;
   console.log(downSRD)
   db.query(downSRD, (err, result) => {
     if (err) {
@@ -843,7 +843,7 @@ app.get("/workouts/export_Distance/:loggedInUser", (req, res) => {
   INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
   INNER JOIN distance_completed dc ON ec.exercise_completed_id=dc.exercise_completed_id
   INNER JOIN duration_completed du ON ec.exercise_completed_id=du.exercise_completed_id
-  AND ec.created_by = "${loggedInUser}";`;
+  WHERE ec.created_by = "${loggedInUser}";`;
   console.log(downDistanceWorkouts)
   db.query(downDistanceWorkouts, (err, result) => {
     if (err) {
@@ -851,6 +851,30 @@ app.get("/workouts/export_Distance/:loggedInUser", (req, res) => {
       res.status(500).send(err);
     } else {
       console.log("Exported all distance_completed entities");
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+
+app.get("/workouts/export_SRW/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
+  const downSRW = `SELECT wc.workout_completed_id, ec.exercise_completed_id, w.workout_name, e.exercise_name, 
+  srw.sets, srw.reps, srw.weight, dc.duration, wc.completed_date FROM workout_completed wc 
+  INNER JOIN exercise_completed ec ON wc.workout_completed_id = ec.workout_completed_id 
+  INNER JOIN workout_exercise_entry wee ON ec.exercise_id = wee.exercise_id 
+  INNER JOIN workout w ON wee.workout_id = w.workout_id 
+  INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
+  INNER JOIN set_rep_weight_completed srw ON ec.exercise_completed_id = srw.exercise_completed_id 
+  INNER JOIN duration_completed dc ON ec.exercise_completed_id=dc.exercise_completed_id
+  WHERE ec.created_by = "${loggedInUser}";`;
+  console.log(downSRW)
+  db.query(downSRW, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      console.log("Exported all set_rep_weight_completed entities");
       console.log(result);
       res.send(result);
     }
