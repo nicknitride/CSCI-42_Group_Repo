@@ -25,6 +25,17 @@ type mealfood = {
   creation_date_mealfood: string;
   serving_size: string;
 };
+
+type exercise = {
+  exercise_name: string;
+  exercise_desc: string;
+}
+
+type workout_exercise_entry = {
+  workout_id: string;
+  exercise_id: string;
+  entry_type: string;
+}
 function ImportExport() {
   const {loggedInUser} = useContext(AuthContext);
   const [dataType, setDataType] = useState("");
@@ -94,25 +105,31 @@ function ImportExport() {
   };
 
   const handleExerciseDataImport = (fileContent) => {
-    axios
-      .post("http://localhost:3003/mealfood/purge")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log("Failed to delete mealfood db", err);
-      });
-
-    const meals: mealfood[] = JSON.parse(fileContent);
+    const exercise: exercise[] = JSON.parse(fileContent);
     console.log(loggedInUser)
-    meals.forEach((item) => {
+    exercise.forEach((item) => {
       axios
-        .post(`http://localhost:3003/mealfood/import/${loggedInUser}`, item)
+        .post(`http://localhost:3003/exercise/import/${loggedInUser}`, item)
         .then((res) => {
           console.log(res);
         })
         .catch((err) => {
-          console.log("Failed to add mealfood item to database", err);
+          console.log("Failed to add Exercise item to database", err);
+        });
+    });
+  };
+
+  const handle_WEE_DataImport = (fileContent) => {
+    const WEE: WEE[] = JSON.parse(fileContent);
+    console.log(loggedInUser)
+    WEE.forEach((item) => {
+      axios
+        .post(`http://localhost:3003/workout_exercise_entry/import/${loggedInUser}`, item)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log("Failed to add Exercise item to database", err);
         });
     });
   };
@@ -136,6 +153,26 @@ function ImportExport() {
     reader.onload = (readerEvent) => {
       const content = readerEvent.target.result;
       handleFoodDataImport(content);
+    };
+  };
+
+  const handleExerciseFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = (readerEvent) => {
+      const content = readerEvent.target.result;
+      handleExerciseDataImport(content);
+    };
+  };
+
+  const handleWEEFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsText(file, "UTF-8");
+    reader.onload = (readerEvent) => {
+      const content = readerEvent.target.result;
+      handle_WEE_DataImport(content);
     };
   };
 
@@ -302,7 +339,7 @@ function ImportExport() {
               style={{ fontFamily: "Arial", fontSize: "18px" }}
               
               onChange={(e)=>{
-                handleMealFileChange(e);
+                handleExerciseFileChange(e);
               }}
               type="file"
               id="dbimportfilepicker"
@@ -314,8 +351,7 @@ function ImportExport() {
               className="meal-option"
               style={{ fontFamily: "Arial", fontSize: "18px" }}
               onChange={(e) => {
-                handleFoodFileChange(e);
-                // source: https://stackoverflow.com/questions/16215771/how-to-open-select-file-dialog-via-js
+                handleWEEFileChange(e);
               }}
               type="file"
               id="dbimportfilepickerfooddb"

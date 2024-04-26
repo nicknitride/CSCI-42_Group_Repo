@@ -883,7 +883,7 @@ app.get("/workouts/export_SRW/:loggedInUser", (req, res) => {
   });
 });
 
-app.post("/exercise/import", (req, res) => {
+app.post("/exercise/import/:loggedInUser", (req, res) => {
   const {
     exercise_name,
     exercise_desc
@@ -898,6 +898,28 @@ app.post("/exercise/import", (req, res) => {
       res.status(500).send(err);
     } else {
       console.log("Added exercise entry");
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+
+app.post("/workout_exercise_entry/import/:loggedInUser", (req, res) => {
+  const {
+    workout_id,
+    exercise_id,
+    entry_type
+  } = req.body;
+  const populateDB = `
+  INSERT INTO exercise (workout_id, exercise_id, entry_type)
+    VALUES (${workout_id}, "${exercise_id}", "${entry_type}")
+  `;
+  db.query(populateDB, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      console.log("Added workout_exercise_entry");
       console.log(result);
       res.send(result);
     }
