@@ -324,7 +324,7 @@ app.post("/food/search", (req, res) => {
 // MealFoodExport
 app.get("/mealfood/export", (req, res) => {
   const downMealFood = `
-  SELECT * FROM meal_food_entity
+  SELECT mealfood_id, meal_id, food_id, creation_date_mealfood, serving_size FROM meal_food_entity
   `;
   db.query(downMealFood, (err, result) => {
     if (err) {
@@ -349,7 +349,7 @@ function fixDateforRedirect(date) {
 }
 
 // MealFoodImport
-app.post("/mealfood/import", (req, res) => {
+app.post("/mealfood/import/:loggedInUser", (req, res) => {
   const {
     mealfood_id,
     meal_id,
@@ -357,12 +357,15 @@ app.post("/mealfood/import", (req, res) => {
     creation_date_mealfood,
     serving_size,
   } = req.body;
+  const {loggedInUser} = req.params;
   const populateDB = `
-  INSERT INTO meal_food_entity (mealfood_id, meal_id, food_id,creation_date_mealfood, serving_size)
+  INSERT INTO meal_food_entity (mealfood_id, meal_id, food_id,creation_date_mealfood, serving_size, created_by)
     VALUES (${mealfood_id}, ${meal_id}, ${food_id}, "${fixDateforRedirect(
     creation_date_mealfood
-  )}",${serving_size})
+  )}",${serving_size},"${loggedInUser}")
   `;
+  console.log(populateDB);
+  console.log(loggedInUser)
   db.query(populateDB, (err, result) => {
     if (err) {
       console.log(err);
