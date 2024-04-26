@@ -41,8 +41,8 @@ function Workouts(){
             <div className="button_container">
                 {/* <a href="http://localhost:5173/workouts/add/"> */}
                     <button className="add_workout">
-                    <Link to="/workouts/add">
-                        <div className="button_text">Add Workout</div>
+                        <Link to="/workouts/add" style={{ textDecoration: 'none' }}> 
+                            <div className="button_text">Add Workout</div>
                         </Link>
                     </button>
             </div>

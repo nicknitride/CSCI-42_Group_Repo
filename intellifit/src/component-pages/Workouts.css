@@ -5,17 +5,24 @@
 }
 
 .button_container .add_workout{
+    border: 2px solid black;
     background-color: black;
     font-size: 1.5rem;
     padding: 1.5rem;
 }
 
-.button_container .add_workout .button_text{
-    color: white;
+.button_container .add_workout:hover{
+    background-color: white
+    
 }
 
-.button_container .add_workout link{
+.button_container .add_workout .button_text{
+    color: white;
     text-decoration: none;
+}
+
+.button_container .add_workout .button_text:hover{
+    color: black;
 }
 
 .recentExercises{
