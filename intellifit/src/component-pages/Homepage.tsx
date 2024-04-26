@@ -23,7 +23,6 @@ interface DailyTotals {
 [];
 
 function Home() {
-  const navigate = useNavigate();
   const [toggleSettings, setToggleSettings] = useState(false);
   const [editSettings, setEditSettings] = useState(false);
   const [userData, setUserData] = useState<user | null>(null);
@@ -95,13 +94,17 @@ function Home() {
           Edit/View User Settings and Goals
         </button>
       </div>
-      {toggleSettings && userData && (
+      {!toggleSettings && (
         <>
-          <h1 style={{ marginLeft: "10px" }}>User Settings and Info: </h1>
           <div className="one-item-card">
             <h1>Hi, {loggedInUser}!</h1>
             <p>Welcome to IntelliFit.</p>
           </div>
+        </>
+      )}
+      {toggleSettings && userData && (
+        <>
+          <h1 style={{ marginLeft: "10px" }}>User Settings and Info: </h1>
           <div className="one-item-card">
             <h1>Goals: </h1>
             {editSettings && (
@@ -275,7 +278,7 @@ function Home() {
           <div className="one-item-card">
             <div className="user-info">
               <h1 style={{ marginLeft: "10px" }}>Nutrition Stats (Today): </h1>
-              {!editSettings && userData && totals.length>0 && (
+              {!editSettings && userData && totals.length > 0 && (
                 <>
                   <div
                     className="horizontal-flex"
@@ -287,7 +290,14 @@ function Home() {
                     }}
                   >
                     <p style={{ margin: "0px" }}>Calorie Goal: </p>{" "}
-                    <span>{(calorie &&totals[0].total_calories) ? `${(((totals[0].total_calories)/parseFloat(calorie))*100).toFixed(2)}%` : "0%"}</span>
+                    <span>
+                      {calorie && totals[0].total_calories
+                        ? `${(
+                            (totals[0].total_calories / parseFloat(calorie)) *
+                            100
+                          ).toFixed(2)}%`
+                        : "0%"}
+                    </span>
                   </div>
                   <div
                     className="horizontal-flex"
@@ -300,8 +310,14 @@ function Home() {
                   >
                     <p style={{ margin: "0px" }}>Protein Goal (grams): </p>{" "}
                     {/* <span>{protein == null ? "Add in Settings" : protein}</span> */}
-                    <span>{(protein && totals &&totals[0].total_protein) ? `${(((totals[0].total_protein)/parseFloat(protein))*100).toFixed(2)}%` : "0%"}</span>
-
+                    <span>
+                      {protein && totals && totals[0].total_protein
+                        ? `${(
+                            (totals[0].total_protein / parseFloat(protein)) *
+                            100
+                          ).toFixed(2)}%`
+                        : "0%"}
+                    </span>
                   </div>
                 </>
               )}
