@@ -2,6 +2,9 @@ import { useState } from "react";
 import Minigreeter from "../../components/Minigreeter";
 import "../Meals.css";
 import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../auth-pages/AuthContext";
+
 type foodItem = {
   food_id: string;
   food_name: string;
@@ -23,6 +26,7 @@ type mealfood = {
   serving_size: string;
 };
 function ImportExport() {
+  const {loggedInUser} = useContext(AuthContext);
   const [dataType, setDataType] = useState("");
   const [operationType, SetOperationType] = useState("");
 
@@ -52,9 +56,10 @@ function ImportExport() {
       });
 
     const meals: mealfood[] = JSON.parse(fileContent);
+    console.log(loggedInUser)
     meals.forEach((item) => {
       axios
-        .post("http://localhost:3003/mealfood/import", item)
+        .post(`http://localhost:3003/mealfood/import/${loggedInUser}`, item)
         .then((res) => {
           console.log(res);
         })
@@ -121,8 +126,9 @@ function ImportExport() {
       });
   }
   function downloadMealFoodDB() {
+    const downString = `http://localhost:3003/mealfood/export/${loggedInUser}`
     axios
-      .get("http://localhost:3003/mealfood/export")
+      .get(downString)
       .then((res) => {
         downloadFile(res.data, "Meal_Data.json");
       })
