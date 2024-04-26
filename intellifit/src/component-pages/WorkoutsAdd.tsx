@@ -315,15 +315,15 @@ function WorkoutsAdd(){
                             </select>
                             <div className="sets">
                                 <p>Enter Sets: </p>
-                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                                <input required type='number'placeholder="sets" name="sets" onChange={handleChange}/>
                             </div>
                             <div className="reps">
                                 <p>Enter Reps: </p>
-                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                                <input required type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
                             <div className="weight">
-                                <p>Enter Weight: </p>
-                                <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                                <p>Enter Weight (in kg): </p>
+                                <input required type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
                             <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
@@ -350,15 +350,15 @@ function WorkoutsAdd(){
                             </select>
                             <div className="sets">
                                 <p>Enter Sets: </p>
-                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                                <input required type='number'placeholder="sets" name="sets" onChange={handleChange}/>
                             </div>
                             <div className="reps">
                                 <p>Enter Reps: </p>
-                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                                <input required type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
                             <div className="weight">
-                                <p>Enter Weight: </p>
-                                <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                                <p>Enter Weight (in kg): </p>
+                                <input required type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
                             <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
@@ -385,15 +385,15 @@ function WorkoutsAdd(){
                             </select>
                             <div className="sets">
                                 <p>Enter Sets: </p>
-                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                                <input required type='number'placeholder="sets" name="sets" onChange={handleChange}/>
                             </div>
                             <div className="reps">
                                 <p>Enter Reps: </p>
-                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                                <input required type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
                             <div className="weight">
-                                <p>Enter Weight: </p>
-                                <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                                <p>Enter Weight (in kg): </p>
+                                <input required type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
                             <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
@@ -419,8 +419,8 @@ function WorkoutsAdd(){
                                 ))}
                             </select>
                             <div className="distance">
-                                <p>Enter Distance in meters: </p>
-                                <input type='number'placeholder="distance" name="distance" onChange={handleChange}/>
+                                <p>Enter Distance (in m): </p>
+                                <input required type='number'placeholder="distance" name="distance" onChange={handleChange}/>
                             </div>
                             <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
@@ -447,11 +447,11 @@ function WorkoutsAdd(){
                             </select>
                             <div className="sets">
                                 <p>Enter Sets: </p>
-                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                                <input required type='number'placeholder="sets" name="sets" onChange={handleChange}/>
                             </div>
                             <div className="reps">
                                 <p>Enter Reps: </p>
-                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                                <input required type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
                             <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
@@ -478,15 +478,15 @@ function WorkoutsAdd(){
                             </select>
                             <div className="sets">
                                 <p>Enter Sets: </p>
-                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                                <input required type='number'placeholder="sets" name="sets" onChange={handleChange}/>
                             </div>
                             <div className="reps">
                                 <p>Enter Reps: </p>
-                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                                <input required type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
                             <div className="weight">
-                                <p>Enter Weight: </p>
-                                <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                                <p>Enter Weight (in kg): </p>
+                                <input required type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
                             <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
@@ -513,15 +513,15 @@ function WorkoutsAdd(){
                             </select>
                             <div className="sets">
                                 <p>Enter Sets: </p>
-                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                                <input required type='number'placeholder="sets" name="sets" onChange={handleChange}/>
                             </div>
                             <div className="reps">
                                 <p>Enter Reps: </p>
-                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                                <input required type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
                             <div className="weight">
-                                <p>Enter Weight: </p>
-                                <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
+                                <p>Enter Weight (in kg): </p>
+                                <input required type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
                             <div className="time">
                                 <p>Press to Start and Record Your Time: </p>
@@ -548,14 +548,15 @@ function WorkoutsAdd(){
                             </select>
                             <div className="sets">
                                 <p>Enter Sets: </p>
-                                <input type='number'placeholder="sets" name="sets" onChange={handleChange}/>
+                                <input required type='number'placeholder="sets" name="sets" onChange={handleChange}/>
                             </div>
                             <div className="reps">
                                 <p>Enter Reps: </p>
-                                <input type='number' placeholder="reps" name="reps" onChange={handleChange}/>
+                                <input required type='number' placeholder="reps" name="reps" onChange={handleChange}/>
                             </div>
                             <div className="weight">
-                                <p>Enter Weight: </p>
+                                <p>Enter Weight (in kg): </p>
+                                <p>Input 0 if no weight needed</p>
                                 <input type='number' placeholder="weight" name="weight" onChange={handleChange}/>
                             </div>
                             <div className="time">
