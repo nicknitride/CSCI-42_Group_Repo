@@ -6,6 +6,7 @@ type dailyMeal = {
     exercise_name: string;
     completed_date: string;
     completed_type: number;
+    workout_name: string;
 };
 
 interface props{
@@ -18,7 +19,7 @@ function TodayWorkout({data}: props){
             <div className="workouts-container">
                 <div className="workout-card">
                     <h2>{data.completed_date.substring(0, 10)}</h2>
-                    <p className="workout-name">Workout</p>
+                    <p className="workout-name">{data.workout_name} Workout</p>
                     <ul className="exercise-list">
                         <div className="list-detail">
                             <li>{data.exercise_name}</li>

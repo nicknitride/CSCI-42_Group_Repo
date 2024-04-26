@@ -711,12 +711,14 @@ app.get("/ex_entries-8", (req, res) => {
 
 app.get("/exercises-Recent/:loggedInUser", (req, res) => {
   const {loggedInUser} = req.params; 
-  const getExercisesRecent =  `SELECT ec.exercise_completed_id, e.exercise_name, w.completed_date, ec.completed_type 
+  const getExercisesRecent =  `SELECT w.completed_date, ec.exercise_completed_id, e.exercise_name, ec.completed_type, wk.workout_name
                               FROM exercise_completed ec 
                               INNER JOIN exercise e ON ec.exercise_id = e.exercise_id 
                               INNER JOIN workout_completed w ON ec.workout_completed_id = w.workout_completed_id 
-                              WHERE w.completed_date = (SELECT MAX(completed_date) FROM workout_completed)
-                              AND ec.created_by = "${loggedInUser}";`;
+                              INNER JOIN workout_exercise_entry wee ON ec.exercise_id=wee.exercise_id
+                              INNER JOIN workout wk ON wee.workout_id=wk.workout_id
+                              WHERE ec.created_by = "${loggedInUser}"
+                              ORDER BY w.completed_date DESC;`;
   db.query(getExercisesRecent, (err, result) => {
     if(err){
       console.log("could not retrieve");
@@ -881,6 +883,27 @@ app.get("/workouts/export_SRW/:loggedInUser", (req, res) => {
   });
 });
 
+app.post("/exercise/import", (req, res) => {
+  const {
+    exercise_name,
+    exercise_desc
+  } = req.body;
+  const populateDB = `
+  INSERT INTO exercise (exercise_name, exercise_desc)
+    VALUES (${exercise_name}, "${exercise_desc}")
+  `;
+  db.query(populateDB, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      console.log("Added exercise entry");
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+
 app.post('/addTo_WorkoutCompleted', (req, res) => {
     const {loggedInUser, date} = req.body;
     const addWorkoutDate =  `INSERT INTO workout_completed(completed_date, created_by) VALUES("${date}", "${loggedInUser}");`;
@@ -983,8 +1006,6 @@ app.post('/addTo_OtherTables', (req, res) => {
                                     FROM exercise_completed e, workout_completed w 
                                     WHERE e.workout_completed_id=w.workout_completed_id 
                                     ORDER BY e.workout_completed_id DESC LIMIT 1;`;
-    //`SELECT exercise_completed_id 
-    //FROM exercise_completed ORDER BY exercise_completed_id DESC LIMIT 1;`;
 
      db.query(getExerciseCompletedID, (err, result) =>{
       if (err) {
@@ -1052,6 +1073,7 @@ app.post('/addTo_OtherTables', (req, res) => {
 
     })
 })
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });

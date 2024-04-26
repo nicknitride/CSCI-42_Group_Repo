@@ -16,7 +16,7 @@ import TodaySRDCard from "../components/TodaySRDCard";
 function Workouts(){ 
     const {loggedInUser} = useContext(AuthContext);
     const navigate = useNavigate();
-    const [recent_Exercises, setRecent] = useState<any[]>([]);
+    const [all_Exercises, setEX] = useState<any[]>([]);
     const [recent_Exercises_SRW, setRecent_SRW] = useState<any[]>([]);
     const [recent_Exercises_Distance, setRecent_Distance] = useState<any[]>([]);
     const [recent_Exercises_SRD, setRecent_SRD] = useState<any[]>([]);
@@ -24,7 +24,7 @@ function Workouts(){
 
     useEffect(() => {
         axios.get(`http://localhost:3003/exercises-Recent/${loggedInUser}`)
-        .then(response => setRecent(response.data))
+        .then(response => setEX(response.data))
         .catch(error => console.error('Error fetching workouts:', error));
     }, [loggedInUser]);
 
@@ -64,12 +64,7 @@ function Workouts(){
                     return <TodaySRDCard data={item} />;
                 })}
             </div>
-            {/*<div className="recentExercises">
-                {recent_Exercises &&
-                recent_Exercises.map((item) => {
-                return <TodayWorkout data={item} />;
-                })}
-            </div>*/}
+            
             <div className="button_container">
                 {/* <a href="http://localhost:5173/workouts/add/"> */}
                     <button className="add_workout">
@@ -79,7 +74,13 @@ function Workouts(){
                     </button>
             </div>
             <h1>View other Workout Dates</h1>
-            <Calendar />
+            {/*<Calendar />*/}
+            <div className="recentExercises">
+                {all_Exercises &&
+                all_Exercises.map((item) => {
+                return <TodayWorkout data={item} />;
+                })}
+            </div>
         </>
         
     );

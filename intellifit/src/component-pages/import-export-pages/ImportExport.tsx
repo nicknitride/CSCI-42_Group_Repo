@@ -93,6 +93,30 @@ function ImportExport() {
     });
   };
 
+  const handleExerciseDataImport = (fileContent) => {
+    axios
+      .post("http://localhost:3003/mealfood/purge")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("Failed to delete mealfood db", err);
+      });
+
+    const meals: mealfood[] = JSON.parse(fileContent);
+    console.log(loggedInUser)
+    meals.forEach((item) => {
+      axios
+        .post(`http://localhost:3003/mealfood/import/${loggedInUser}`, item)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log("Failed to add mealfood item to database", err);
+        });
+    });
+  };
+
   // Function to handle file change for meal data import
   const handleMealFileChange = (e) => {
     const file = e.target.files[0];
