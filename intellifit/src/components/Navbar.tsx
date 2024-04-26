@@ -23,6 +23,9 @@ function Navbar() {
           <div className="rounded-button">
             <Link to="/meals">Meal Tracking</Link>
           </div>
+          <div className="rounded-button">
+            <Link to="/fileops">Import/Export</Link>
+          </div>
         </div>
         <div className="nav-logo">
           <img src={gymlogo} alt="Gym Logo" />
@@ -37,6 +40,7 @@ function Navbar() {
               <Link to="/">Home</Link>
               <Link to= "/workouts">Workouts</Link>
               <Link to="/meals">Meal Tracking</Link>
+              <Link to="/fileops">Import/Export</Link>
             </div>
           )}
         </div>

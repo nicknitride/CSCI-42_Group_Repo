@@ -307,7 +307,7 @@ function WorkoutsAdd(){
                     {selectEx1 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_1.map(exercise_1 => (
                                     <option key={exercise_1.exercise_id} value={exercise_1.exercise_id}>{exercise_1.exercise_name}</option>
@@ -342,7 +342,7 @@ function WorkoutsAdd(){
                     {selectEx2 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_2.map(exercise_2 => (
                                     <option key={exercise_2.exercise_id} value={exercise_2.exercise_id}>{exercise_2.exercise_name}</option>
@@ -377,7 +377,7 @@ function WorkoutsAdd(){
                     {selectEx3 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_3.map(exercise_3 => (
                                     <option key={exercise_3.exercise_id} value={exercise_3.exercise_id}>{exercise_3.exercise_name}</option>
@@ -412,7 +412,7 @@ function WorkoutsAdd(){
                     {selectEx4 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_4.map(exercise_4 => (
                                     <option key={exercise_4.exercise_id} value={exercise_4.exercise_id}>{exercise_4.exercise_name}</option>
@@ -439,7 +439,7 @@ function WorkoutsAdd(){
                     {selectEx5 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_5.map(exercise_5 => (
                                     <option key={exercise_5.exercise_id} value={exercise_5.exercise_id}>{exercise_5.exercise_name}</option>
@@ -470,7 +470,7 @@ function WorkoutsAdd(){
                     {selectEx6 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_6.map(exercise_6 => (
                                     <option key={exercise_6.exercise_id} value={exercise_6.exercise_id}>{exercise_6.exercise_name}</option>
@@ -505,7 +505,7 @@ function WorkoutsAdd(){
                     {selectEx7 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_7.map(exercise_7 => (
                                     <option key={exercise_7.exercise_id} value={exercise_7.exercise_id}>{exercise_7.exercise_name}</option>
@@ -540,7 +540,7 @@ function WorkoutsAdd(){
                     {selectEx8 && (
                         <div className="exerSelect">
                             <p>Choose Exercise: </p>
-                            <select id="exercise" name="exercise" onChange={handleExerciseChange}>
+                            <select id="exercise" name="exercise" onChange={handleExerciseChange} required>
                                 <option value="">Choose Exercise</option>
                                 {exercises_8.map(exercise_8 => (
                                     <option key={exercise_8.exercise_id} value={exercise_8.exercise_id}>{exercise_8.exercise_name}</option>
