@@ -136,6 +136,26 @@ function ImportExport() {
         console.log("Failed to download MealDB", err);
       });
   }
+  function downloadSRD_DB() {
+    axios
+      .get(`http://localhost:3003/workouts/export_SRD/${loggedInUser}`)
+      .then((res) => {
+        downloadFile(res.data, "SRD_DB.json");
+      })
+      .catch((err) => {
+        console.log("Failed to download SRD_DB", err);
+      });
+  }
+  function downloadDistance_DB() {
+    axios
+      .get(`http://localhost:3003/workouts/export_Distance/${loggedInUser}`)
+      .then((res) => {
+        downloadFile(res.data, "Distance_DB.json");
+      })
+      .catch((err) => {
+        console.log("Failed to download Distance_DB", err);
+      });
+  }
 
   return (
     <>
@@ -234,6 +254,39 @@ function ImportExport() {
           </div>
         </>
       )}
+      {operationType === "Import" && dataType === "Workout" && (
+        <>
+          <h2 style={{ marginLeft: "20px" }}>
+            Click the buttons below to Import the appropriate files
+          </h2>
+          <div style={{ display: "flex", marginLeft: "20px" }}>
+            <h3>Exercise_DB:</h3>
+            <input
+              className="meal-option"
+              style={{ fontFamily: "Arial", fontSize: "18px" }}
+              
+              onChange={(e)=>{
+                handleMealFileChange(e);
+              }}
+              type="file"
+              id="dbimportfilepicker"
+            ></input>
+          </div>
+          <div style={{ display: "flex", marginLeft: "20px" }}>
+            <h3>Workout_Exercise_Entry_DB:</h3>
+            <input
+              className="meal-option"
+              style={{ fontFamily: "Arial", fontSize: "18px" }}
+              onChange={(e) => {
+                handleFoodFileChange(e);
+                // source: https://stackoverflow.com/questions/16215771/how-to-open-select-file-dialog-via-js
+              }}
+              type="file"
+              id="dbimportfilepickerfooddb"
+            ></input>
+          </div>
+        </>
+      )}
       {operationType === "Export" && dataType === "Meal" && (
         <>
           <h2 style={{ marginLeft: "20px" }}>
@@ -255,6 +308,31 @@ function ImportExport() {
               }}
             >
               Download All Meal Entries
+            </button>
+          </div>
+        </>
+      )}
+      {operationType === "Export" && dataType === "Workout" && (
+        <>
+          <h2 style={{ marginLeft: "20px" }}>
+            Click the buttons below to Download the appropriate files
+          </h2>
+          <div className="meal-option-flex-container">
+            <button
+              className="meal-option"
+              onClick={() => {
+                downloadSRD_DB();
+              }}
+            >
+              Download Set-Rep-Duration Completed Entries
+            </button>
+            <button
+              className="meal-option"
+              onClick={() => {
+                downloadDistance_DB();
+              }}
+            >
+              Download Distance Completed Entries
             </button>
           </div>
         </>

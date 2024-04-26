@@ -1,20 +1,48 @@
-import React from 'react';
-import "../css/Calendar.css";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import React, { useState, useContext, ChangeEvent } from 'react';
+import axios from 'axios';
+import { AuthContext } from "../component-pages/auth-pages/AuthContext";
 
-const Calendar = () => {
+type date_val={
+    date: string;
+}
+
+function Calendar(){
+    const [selectedDate, setSelectedDate] = useState<string>('');
+    const {loggedInUser} = useContext(AuthContext);
+    
+    const [dateVal, setDate] = useState<date_val>({
+        date: ''
+    });
+
+    const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSelectedDate(event.target.value);
+        setDate({ ...dateVal, date: selectedDate});
+    };
+
+    const fetchExercises = async () => {
+        try {
+          const response = await axios.get(`http://localhost:3003/exercises-Recent/${selectedDate}/${loggedInUser}`);
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error fetching exercises:', error);
+        }
+      };
+
     return(
         <>
-            <div className="Calendar">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar />
-                </LocalizationProvider>*
+            <div className="Date_Picker">
+                <input 
+                    type="date"
+                    id="date"
+                    name = "date"
+                    value={selectedDate} 
+                    onChange={handleDateChange} 
+                />
+                <p>Selected Date: {selectedDate}</p>
+                <button onClick={fetchExercises}>Fetch Exercises</button>
             </div>
         </>
     );
 }
-//source: https://www.youtube.com/watch?v=BN_wfeG47oQ
 
 export default Calendar;

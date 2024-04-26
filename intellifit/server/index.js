@@ -438,6 +438,25 @@ app.post("/food/import", (req, res) => {
   });
 });
 
+//workoutDownload
+app.get("/mealfood/export/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
+  const downMealFood = `
+  SELECT mealfood_id, meal_id, food_id, creation_date_mealfood, serving_size FROM meal_food_entity mfe WHERE mfe.created_by = "${loggedInUser}"
+  `;
+  console.log(downMealFood)
+  db.query(downMealFood, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      console.log("Exported all meal food entities");
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+
 // Authentication Start
 app.post("/register",async (req, res) => {
   const { username, password } = req.body;
@@ -542,6 +561,7 @@ app.post("/userinfo/update",(req,res)=>{
 
 // User Logic End
 
+//workouts
 app.get("/workouts", (req, res) => {
     const getWorkouts =`SELECT workout_id, workout_name FROM workout ORDER BY workout_name ASC;`;
     db.query(getWorkouts, (err, result) => {
@@ -767,6 +787,75 @@ app.get("/exercises-Recent/SRD/:loggedInUser", (req, res) => {
       res.send(result);
   })
 })
+
+app.get("/exercises-Recent/:selectedDate/:loggedInUser", (req, res) => {
+    const {loggedInUser} = req.params;
+    const { date } = req.body.date;
+    const getExercise = `SELECT ec.exercise_completed_id, e.exercise_name, w.completed_date, ec.completed_type 
+    FROM exercise_completed ec 
+    INNER JOIN exercise e ON ec.exercise_id = e.exercise_id 
+    INNER JOIN workout_completed w ON ec.workout_completed_id = w.workout_completed_id 
+    WHERE w.completed_date = DATE(${date})
+    AND ec.created_by = "${loggedInUser}";`
+
+    db.query((getExercise), [date], (err, results) => {
+      if (err) {
+        console.error('Error fetching exercises:', err);
+        res.status(500).json({ error: 'Internal server error' });
+        return;
+      } else {
+        console.log("data fetched");
+      }
+      res.json(results);
+    });
+});
+
+app.get("/workouts/export_SRD/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
+  const downSRD = `SELECT wc.workout_completed_id, ec.exercise_completed_id, w.workout_name, e.exercise_name, 
+  srd.sets, srd.reps, srd.duration, wc.completed_date FROM workout_completed wc 
+  INNER JOIN exercise_completed ec ON wc.workout_completed_id = ec.workout_completed_id 
+  INNER JOIN workout_exercise_entry wee ON ec.exercise_id = wee.exercise_id 
+  INNER JOIN workout w ON wee.workout_id = w.workout_id 
+  INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
+  INNER JOIN set_rep_duration_completed srd ON ec.exercise_completed_id = srd.exercise_completed_id 
+  AND ec.created_by = "${loggedInUser}";`;
+  console.log(downSRD)
+  db.query(downSRD, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      console.log("Exported all srd_completed entities");
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+
+app.get("/workouts/export_Distance/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
+  const downDistanceWorkouts = `SELECT wc.workout_completed_id, ec.exercise_completed_id, w.workout_name, 
+  e.exercise_name, dc.distance, du.duration, wc.completed_date FROM workout_completed wc 
+  INNER JOIN exercise_completed ec ON wc.workout_completed_id = ec.workout_completed_id 
+  INNER JOIN workout_exercise_entry wee ON ec.exercise_id = wee.exercise_id 
+  INNER JOIN workout w ON wee.workout_id = w.workout_id 
+  INNER JOIN exercise e ON wee.exercise_id = e.exercise_id 
+  INNER JOIN distance_completed dc ON ec.exercise_completed_id=dc.exercise_completed_id
+  INNER JOIN duration_completed du ON ec.exercise_completed_id=du.exercise_completed_id
+  AND ec.created_by = "${loggedInUser}";`;
+  console.log(downDistanceWorkouts)
+  db.query(downDistanceWorkouts, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      console.log("Exported all distance_completed entities");
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
 
 app.post('/addTo_WorkoutCompleted', (req, res) => {
     const {loggedInUser, date} = req.body;
