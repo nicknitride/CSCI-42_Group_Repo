@@ -62,7 +62,6 @@ function deleteEntriesMatchingDate(date: string, setData: React.Dispatch<React.S
 function Meals() {
   const now = new Date();
   now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-  const currentDate = now.toISOString().split("T")[0];
 
   const navigate = useNavigate();
   const [data, setData] = useState<mealDataQuery>([]);

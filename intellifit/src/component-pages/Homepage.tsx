@@ -1,5 +1,4 @@
 import Minigreeter from "../components/Minigreeter";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./auth-pages/AuthContext";
 import React, { useEffect } from "react";
 import { useState } from "react";
