@@ -322,10 +322,12 @@ app.post("/food/search", (req, res) => {
 
 // Food data export see "/food/all"
 // MealFoodExport
-app.get("/mealfood/export", (req, res) => {
+app.get("/mealfood/export/:loggedInUser", (req, res) => {
+  const {loggedInUser} = req.params;
   const downMealFood = `
-  SELECT mealfood_id, meal_id, food_id, creation_date_mealfood, serving_size FROM meal_food_entity
+  SELECT mealfood_id, meal_id, food_id, creation_date_mealfood, serving_size FROM meal_food_entity mfe WHERE mfe.created_by = "${loggedInUser}"
   `;
+  console.log(downMealFood)
   db.query(downMealFood, (err, result) => {
     if (err) {
       console.log(err);

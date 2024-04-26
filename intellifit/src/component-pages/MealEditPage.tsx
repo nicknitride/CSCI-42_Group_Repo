@@ -69,6 +69,7 @@ function MealEditPage() {
   };
   const handleSubmit = () => {
     const value = JSON.stringify(editedData);
+    console.log(value);
     axios
       .post(`http://localhost:3003/meal/edit/${value}`)
       .then((response) => {
@@ -91,7 +92,8 @@ function MealEditPage() {
 
   const redirectToPreviousPage = () => {
     const dateForRedirect = String(editedData.creation_date_mealfood);
-    console.log("Date sent by handlesubmit" + dateForRedirect);
+    console.log("Date sent by handlesubmit " + dateForRedirect);
+    console.log(fixDateforRedirect(dateForRedirect));
     axios
       .get(
         `http://localhost:3003/meals/day/${fixDateforRedirect(dateForRedirect)}/${loggedInUser}`

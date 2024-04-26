@@ -126,8 +126,9 @@ function ImportExport() {
       });
   }
   function downloadMealFoodDB() {
+    const downString = `http://localhost:3003/mealfood/export/${loggedInUser}`
     axios
-      .get("http://localhost:3003/mealfood/export")
+      .get(downString)
       .then((res) => {
         downloadFile(res.data, "Meal_Data.json");
       })
