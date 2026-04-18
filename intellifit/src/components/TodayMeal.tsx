@@ -1,22 +1,13 @@
 import "../component-pages/Meals.css"
 import formatFloat from "../formatting_functions/formatFloat" 
-type dailyMeal = {
-    mealfood_id: number;
-    food_name: string;
-    meal_name:string;
-    serving_size: number;
-    protein_per_gram: number;
-    cal_per_gram: number;
-    fat_per_gram: number;
-    carb_per_gram: number;
-    food_brand: string;
-    creation_date_mealfood: string;
-};
+import { MealDataQueryItem } from "../component-pages/Types/mealTypes";
+
 interface props{
-    data : dailyMeal;
+    data : MealDataQueryItem;
 }
 
 function TodayMeal({data} : props){
+if (!data || !data.food_name) return null;
 return(
 <>
 <div className="today-flex" key={data.mealfood_id}>

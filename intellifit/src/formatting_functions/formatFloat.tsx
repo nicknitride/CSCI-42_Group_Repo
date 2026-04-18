@@ -1,4 +1,5 @@
 function formatFloat(num : number){
+    if (typeof num !== 'number' || isNaN(num)) return 0;
     const originalVal = num;
     const formattedVal = parseFloat(originalVal.toFixed(2));
     return formattedVal;

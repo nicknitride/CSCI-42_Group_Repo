@@ -15,7 +15,6 @@ interface Totals {
   total_fat: number;
   total_carbs: number;
 }
-[];
 
 function fixDateforRedirect(date: string): string {
   const shortenedDateArray = date.split("", 10);
