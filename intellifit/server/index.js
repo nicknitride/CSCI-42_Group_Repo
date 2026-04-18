@@ -10,8 +10,9 @@ const { duration } = require("@mui/material");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "nickwuzhere",
-  database: "intellifit_test",
+  port:8100,
+  password: "temppass",
+  database: "intellifit_db",
   timezone: "utc", // set timezone to UTC
   multipleStatements: true, //Enables complex commands, such as resetting auto_increment
 });

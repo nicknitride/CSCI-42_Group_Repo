@@ -1,8 +1,8 @@
 -- # Food Entity
 -- -- Draft new food entity
-DROP DATABASE intellifit_test;
-CREATE DATABASE intellifit_test;
-USE intellifit_test;
+DROP DATABASE intellifit_db;
+CREATE DATABASE intellifit_db;
+USE intellifit_db;
 
 -- DROP TABLE user;
 CREATE TABLE user (
