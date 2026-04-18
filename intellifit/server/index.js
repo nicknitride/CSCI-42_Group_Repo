@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
-const mysql = require("mysql2");
+const mysql = require("mysql");
 const express = require("express");
 const cors = require("cors");
 const { Axios } = require("axios");

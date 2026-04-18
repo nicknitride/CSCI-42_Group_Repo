@@ -24,6 +24,7 @@ interface DailyTotals {
   total_fat: number;
   total_carbs: number;
 }
+[];
 
 function convertISOStringToDate(isoString: string) {
   const date = new Date(isoString);
@@ -63,7 +64,7 @@ function Meals() {
   now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
 
   const navigate = useNavigate();
-  const [data, setData] = useState<mealDataQuery[]>([]);
+  const [data, setData] = useState<mealDataQuery>([]);
   const [dailyTotals, setTotals] = useState<DailyTotals[]>([]);
   const [mode, setMode] = useState("Today");
   const {loggedInUser} = useContext(AuthContext);
@@ -157,8 +158,7 @@ function Meals() {
           </div>
           {!(
             dailyTotals[0] === undefined ||
-            dailyTotals[0].total_calories === null ||
-            data.length === 0
+            dailyTotals[0].total_calories === null
           ) && (
             <div className="meal-button-crud">
               <button
